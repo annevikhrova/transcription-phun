@@ -1,0 +1,5 @@
+p_hu_n_platform:
+    resource: "@PHuNPlatformBundle/Resources/config/routing.yml"
+    prefix:   /platform
+
+

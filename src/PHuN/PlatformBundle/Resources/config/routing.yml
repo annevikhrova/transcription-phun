@@ -1,0 +1,44 @@
+phun_platform_home:
+    path:      /{page}
+    defaults:
+        _controller: PHuNPlatformBundle:Advert:index
+        page:        1
+    requirements:
+        page: \d*
+
+phun_platform_view:
+    path:     /advert/{id}
+    defaults: { _controller: PHuNPlatformBundle:Advert:view }
+    requirements: 
+        id: \d+
+
+phun_platform_add:
+    path:     /add
+    defaults: { _controller: PHuNPlatformBundle:Advert:add }
+
+phun_platform_edit:
+    path:     /edit/{id}
+    defaults: { _controller: PHuNPlatformBundle:Advert:edit }
+    requirements: 
+        id: \d+
+
+phun_platform_editImage:
+    path:     /editImage/{advertId}
+    defaults: { _controller: PHuNPlatformBundle:Advert:editImage }
+    requirements: 
+        id: \d+        
+
+phun_platform_delete:
+    path:     /delete/{id}
+    defaults: { _controller: PHuNPlatformBundle:Advert:delete }
+    requirements: 
+        id: \d+            
+
+phun_platform_view_test:
+    path:     /{year}/{var}.{_format}
+    defaults:
+        _controller: PHuNPlatformBundle:Advert:viewTest
+        _format:    html
+    requirements:
+        year:    \d{4}
+        _format: html|xml

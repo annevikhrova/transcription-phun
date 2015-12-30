@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bienvenue sur ma première page avec OpenClassrooms ! </title>
+    </head>
+    <body>
+        <h1>Hello World !</h1>
+        
+        <p>
+            Bonjour {{ var1 }}
+
+			Toute l'équipe du site se joint à moi pour vous souhaiter la bienvenue sur notre site !
+
+			Revenez nous voir souvent ! 
+			y a til un debug mode ? {{ app.environment }}
+
+			{% if membre < 12 %}
+  			Il faut avoir au moins 12 ans pour ce film.
+			{% elseif membre < 18 %}
+  			OK bon film.
+			{% else %}
+  			Un peu vieux pour voir ce film non ?
+			{% endif %}
+
+			<ul>
+  			{% for membre in liste_membres %}
+    			<li>{{ membre }}</li>
+  			{% else %}
+    			<li>Pas d'utilisateur trouvé.</li>
+  			{% endfor %}
+			</ul>
+
+			<ul>
+  			{% for var in liste_var %}
+    			<li><a href="{{ path('phun_platform_view', {'id': var }) }}">Allez à la page {{ var }}</a></li>
+  			{% else %}
+    			<li>Pas d'utilisateur trouvé.</li>
+  			{% endfor %}
+			</ul>
+
+			<select>
+  				{% for valeur, membre in liste_membres %}
+   					<option value="{{ valeur }}">{{ membre }}</option>
+  				{% endfor %}
+			</select>
+        </p>
+    </body>
+</html>
+
+
+

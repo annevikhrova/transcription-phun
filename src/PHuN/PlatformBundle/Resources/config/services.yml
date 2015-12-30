@@ -1,0 +1,7 @@
+services:
+#    p_hu_n_platform.example:
+#        class: PHuN\PlatformBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+    phun_platform.antispam:
+        class: PHuN\PlatformBundle\Antispam\PHuNAntispam
+        arguments: [@mailer, %locale%, 50]

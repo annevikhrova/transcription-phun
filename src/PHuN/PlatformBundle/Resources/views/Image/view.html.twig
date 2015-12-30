@@ -1,0 +1,42 @@
+{# src/PHuN/PlatformBundle/Resources/view/Image/view.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  Lecture d'une image - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+  <h2>{{ image.url }}</h2>
+  <i>Par {{ image.id }}, le {{ image.id }}</i>
+
+  <div class="well">
+    {{ image.url }}
+  </div>
+
+    <img src="{{ image.url }}" alt="{{ image.alt }}" height=80% width=80%>
+
+
+  <p>
+    <a href="{{ path('phun_platform_home') }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retour à la liste
+    </a>
+    <a href="{{ path('phun_platform_edit', {'id': image.id}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-edit"></i>
+      Modifier la transcription
+    </a>
+    <a href="{{ path('phun_platform_delete', {'id': image.id}) }}" class="btn btn-danger">
+      <i class="glyphicon glyphicon-trash"></i>
+      Supprimer la transcription
+    </a>
+  </p>
+ 
+  
+  <a href="{{ path('phun_platform_edit', {'id': image.id}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-edit"></i>
+      Modifier la transcription
+  </a> 
+
+{% endblock %}
