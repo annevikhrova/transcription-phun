@@ -1,0 +1,6 @@
+<xsl:template match="span[@class='p*h*u*n']">
+    <p*h*u*n>
+        <xsl:apply-templates select="node()"/>
+    </p*h*u*n>
+</xsl:template>
+

@@ -1,0 +1,30 @@
+{# src/PHuN/UserBundle/Resources/views/Security/login.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+{% block body %}
+
+  {# S'il y a une erreur, on l'affiche dans un joli cadre #}
+  {% if error %}
+    <div class="alert alert-danger">{{ error.message }}</div>
+  {% endif %}
+
+  {# Le formulaire, avec URL de soumission vers la route « fos_user_security_check » comme on l'a vu #}
+  <form action="{{ path('fos_user_security_check') }}" method="post">
+    <label for="username">Login :</label>
+    <input type="text" id="username" name="_username" value="{{ last_username }}" />
+
+    <label for="password">Mot de passe :</label>
+    <input type="password" id="password" name="_password" />
+    <br/>
+    <input type="submit" value="Connexion" />
+  </form>
+
+  <div class="row">
+  <br/>
+  </div>
+  <div class="row">
+    <a href="{{ path('fos_user_registration_register') }}">Pas de login ? Redirection vers l'inscription </a>
+  </div>
+
+{% endblock %}

@@ -19,7 +19,9 @@
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "3.0.11",
         "incenteev/composer-parameter-handler": "~2.0",
-        "stfalcon/tinymce-bundle": "dev-master"
+        "stfalcon/tinymce-bundle": "dev-master",
+        "friendsofsymfony/user-bundle": "dev-master",
+        "soothsilver/dtd-parser" : "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

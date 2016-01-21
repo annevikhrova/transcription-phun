@@ -5,3 +5,9 @@ services:
     phun_platform.antispam:
         class: PHuN\PlatformBundle\Antispam\PHuNAntispam
         arguments: [@mailer, %locale%, 50]
+
+    phun_user.registration_listener:
+        class: PHuN\PlatformBundle\EventListener\RegistrationListener
+        arguments: []
+        tags:
+            - { name: kernet.event_subscriber }

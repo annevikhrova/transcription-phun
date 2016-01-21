@@ -1,24 +1,56 @@
-# To get started with security, check out the documentation:
-# http://symfony.com/doc/current/book/security.html
-security:
+# app/config/security.yml
 
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        PHuN\UserBundle\Entity\User: sha512
+
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_AUTEUR, ROLE_MODERATEUR]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
     providers:
         in_memory:
-            memory: ~
+            memory:
+                users:
+                    user:  { password: userpass, roles: [ 'ROLE_AUTEUR' ] }
+                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+        main:
+            id: fos_user.user_provider.username
+            #entity:
+             #   class:    PHuN\UserBundle\Entity\User
+              #  property: username        
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        # On crée un pare-feu uniquement pour le formulaire    
+        main_login:    
+            # Cette expression régulière permet de prendre /login (mais pas /login_check !)
+            pattern:   ^/login$
+            anonymous: true # On autorise alors les anonymes sur ces pare-feu
         main:
-            anonymous: ~
-            # activate different ways to authenticate
+            pattern:   ^/
+            anonymous: true
+            provider: main
+            form_login:
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+                #default_target_path: phun_platform_espace_user  #ligne a ajouter
+                # login success redirecting options (read further below)
+                always_use_default_target_path: false
+                default_target_path:            /platform/profile
+                target_path_parameter:          _target_path
+                use_referer:                    false
+            logout:
+                invalidate_session: false
+                path:   fos_user_security_logout
+                target: /platform
+            remember_me:
+                key:        %secret% # %secret% est un paramètre de parameters.yml    
 
-            # http_basic: ~
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+    access_control:
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/admin, roles: ROLE_ADMIN }

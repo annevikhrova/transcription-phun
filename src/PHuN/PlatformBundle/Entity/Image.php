@@ -3,6 +3,8 @@
 namespace PHuN\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Image
@@ -24,28 +26,28 @@ class Image
     /**
      * @var string
      *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="url", type="string", length=255)
      */
     private $url;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="fichier", type="string", length=255)
-     */
-    private $fichier;
+    private $file;
+  
+    public function getFile()
+    {
+        return $this->file;
+    }
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="alt", type="string", length=255)
-     */
-    private $alt;
-
-    /**
-      * @ORM\ManyToMany(targetEntity="PHuN\PlatformBundle\Entity\Transcription", cascade={"persist"})
-      */
-    private $transcription;
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+    }
 
 
     /**
@@ -56,6 +58,30 @@ class Image
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Image
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -82,93 +108,36 @@ class Image
         return $this->url;
     }
 
-    /**
-     * Set fichier
-     *
-     * @param string $fichier
-     *
-     * @return Image
-     */
-    public function setFichier($fichier)
-    {
-        $this->fichier = $fichier;
-
-        return $this;
+    public function upload()
+  {
+    // Si jamais il n'y a pas de fichier (champ facultatif), on ne fait rien
+    if (null === $this->file) {
+      return;
     }
 
-    /**
-     * Get fichier
-     *
-     * @return string
-     */
-    public function getFichier()
-    {
-        return $this->fichier;
-    }
+    // On récupère le nom original du fichier de l'internaute
+    $name = $this->file->getClientOriginalName();
 
-    /**
-     * Set alt
-     *
-     * @param string $alt
-     *
-     * @return Image
-     */
-    public function setAlt($alt)
-    {
-        $this->alt = $alt;
+    // On déplace le fichier envoyé dans le répertoire de notre choix
+    $this->file->move($this->getUploadRootDir(), $name);
 
-        return $this;
-    }
+    // On sauvegarde le nom de fichier dans notre attribut $url
+    $this->url = $this->getUploadDir() . '/' . $name;
 
-    /**
-     * Get alt
-     *
-     * @return string
-     */
-    public function getAlt()
-    {
-        return $this->alt;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->date = new \Datetime();
-        $this->transcription = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+    // On crée également le futur attribut alt de notre balise <img>
+    $this->name = $name;
+  }
 
-    /**
-     * Add transcription
-     *
-     * @param \PHuN\PlatformBundle\Entity\Transcription $transcription
-     *
-     * @return Image
-     */
-    public function addTranscription(\PHuN\PlatformBundle\Entity\Transcription $transcription)
-    {
-        $this->transcription[] = $transcription;
+  public function getUploadDir()
+  {
+    // On retourne le chemin relatif vers l'image pour un navigateur (relatif au répertoire /web donc)
+    return 'corpus/img';
+  }
 
-        return $this;
-    }
-
-    /**
-     * Remove transcription
-     *
-     * @param \PHuN\PlatformBundle\Entity\Transcription $transcription
-     */
-    public function removeTranscription(\PHuN\PlatformBundle\Entity\Transcription $transcription)
-    {
-        $this->transcription->removeElement($transcription);
-    }
-
-    /**
-     * Get transcription
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTranscription()
-    {
-        return $this->transcription;
-    }
+  protected function getUploadRootDir()
+  {
+    // On retourne le chemin relatif vers l'image pour notre code PHP
+    return __DIR__.'/../../../../web/'.$this->getUploadDir();
+  }
 }
+

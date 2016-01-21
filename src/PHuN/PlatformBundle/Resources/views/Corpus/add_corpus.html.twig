@@ -1,0 +1,90 @@
+{# src/PHuN/PlatformBundle/Resources/views/Corpus/add_corpus.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+
+{% block title %}
+  Création du projet - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+  {#<h2>{{ plugin.alt }}</h2>#}
+
+  <div class="row">
+    <div class="col-md-10">
+      <div class="well">
+        Création du projet
+      </div>
+
+            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+              {# Les erreurs générales du formulaire #}
+              {{ form_errors(form) }}
+             
+              {# {{ form_rest(form) }} #}
+
+              <div class="form-group">
+                  {{ form_label(form.name, "Nom du projet/de la collection", {'label_attr': {'class': 'col-sm-5 control-label'}})}}
+                  <div class="col-sm-7">
+                      {{ form_widget(form.name, {'attr': {'class':'form-control'}}) }}
+                  </div>  
+              </div>  
+              <div class="form-group">
+                  {{ form_label(form.description, "Description courte du projet", {'label_attr': {'class': 'col-sm-5 control-label'}})}}
+                  <div class="col-sm-7">
+                      {{ form_widget(form.description, {'attr': {'class':'form-control'}}) }}
+                  </div>  
+              </div> 
+
+              {#<div class="form-group">
+                  {{ form_label(form.image, "Image profile de la collection", {'label_attr': {'class': 'col-sm-5 control-label'}})}}
+                  <div class="col-sm-7">
+                      {{ form_widget(form.category, {'attr': {'class':'form-control'}}) }}
+                  </div>  
+              </div>#}
+
+              <div class="form-group">
+                  {{ form_label(form.category, "Category", {'label_attr': {'class': 'col-sm-5 control-label'}})}}
+                  <div class="col-sm-7">
+                      {{ form_widget(form.category, {'attr': {'class':'form-control'}}) }}
+                  </div>  
+              </div>
+
+              <div class="form-group">
+                  {{ form_label(form.startDate, "Date du début du projet", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                  <div class="input-append date">
+                    {{ form_widget(form.startDate, {attr: {'data-format': "dd/MM/yyyy"}}) }}
+                  </div>      
+              </div>
+
+              <div class="form-group">
+                  {{ form_label(form.plugins, "Plugins", {'label_attr': {'class': 'col-sm-5 control-label'}})}}
+                  <div class="col-sm-7">
+                      {{ form_widget(form.plugins, {'attr': {'class':'form-control'}}) }}
+                  </div>  
+              </div>
+
+              <div class="form-group">
+                  {{ form_label(form.image, "Ajouter une image logo de votre collection", {'label_attr': {'class': 'col-sm-5 control-label'}})}}
+                  <div class="col-sm-7">
+                      {{ form_widget(form.image) }}
+                  </div>  
+              </div>
+
+              {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
+              {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+              {{ form_rest(form) }}
+
+            {{ form_end(form) }} 
+
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{# src/PHuN/PlatformBundleResources/view/Advert/menu.html.twig #}
+
+{# Ce template n'hérite de personne .. #}
+
+<ul class="nav nav-pills nav-stacked">
+	{% for transcription in listTranscriptions %}
+		<li>
+			<a href="{{ path('phun_platform_transcription_view', {'id': transcription.id}) }}">
+				{{ transcription.page.alt }} par {{ transcription.user.username }}
+			</a>
+		</li>
+	{% endfor %}
+</ul>				

@@ -3,6 +3,7 @@
 {# Cette vue n'hérite de personne, elle sera incluse par d'autres vues qui, elles, hériteront probablement du layout. Je dis probablement #}
 
 <h3> Formulaire d'annonce </h3>
+{{ app.user.username }} veut rajouter une annonce ...
 
 {# On laisse vide la vue pour l'instant, on la comblera plus tard #}
 
@@ -146,5 +147,4 @@
   });
 </script>
 
-
-    {{ tinymce_init() }}
+{{ tinymce_init() }}

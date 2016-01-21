@@ -20,6 +20,8 @@ class AppKernel extends Kernel
             // our new bundles :
             new PHuN\PlatformBundle\PHuNPlatformBundle(),
             new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+            new PHuN\UserBundle\PHuNUserBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -36,5 +38,8 @@ class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+        //$loader->add('Namespace', 'Knp\Bundle\MenuBundle\KnpMenuBundle');
+
+        // Add the namespace for KnpMenuBundle
     }
 }

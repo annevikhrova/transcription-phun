@@ -1,0 +1,98 @@
+{# src/PHuN/PlatformBundle/Resources/views/Page/edit.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+
+{% block title %}
+  Transcription d'une page - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+  <h2>{{ page.alt }}</h2>
+
+  <div class="well">
+    {{ page.corpus.name }}
+  </div>
+
+
+  <div class="row">
+     <div class="col-md-6">
+      {% if page.urlImg is not null %}
+        <img src="{{ page.urlImg }}" id="zoom_04" alt="{{ page.alt }}" height="100%" width="100%" data-zoom-image="{{ page.urlImg }}" >
+    {% endif %} 
+    </div>
+
+     <div class="col-md-6">
+
+        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+          {# Les erreurs générales du formulaire #}
+          {{ form_errors(form) }}
+          {#  <textarea src="{{ page.urlXml }}" alt="{{ page.alt }}"height="320" width="40%"></textarea> #}
+          {# {{ form_rest(form) }} #}
+
+          <div class="form-group">
+              {#{{ form_label(form.content, "Transcription", {'label_attr': {'class': 'col-sm-3 control-label'}})}}#}
+              <div class="col-md-12">
+                  {{ form_widget(form.content, {'attr': {'class':'tinymce','rows':'20', 'data-theme':'advanced'}}) }}
+              </div>  
+          </div>  
+
+          <div class="form-group">
+            {{ form_label(form.published, "Published", {'label_attr': {'class': 'col-sm-3 checkbox'}}) }}
+            
+            {{ form_widget(form.published) }}
+                  
+          </div>
+
+
+          {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
+          {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+
+
+        {{ form_end(form) }} 
+ 
+
+    </div>
+  </div>
+
+
+
+  <p> 
+    <a href="{{ path('phun_platform_view', {'id': page.id-1}) }}" class="btn btn-default">
+          page précédente
+    </a>
+
+    <a href="{{ path('phun_platform_view', {'id': page.id+1}) }}" class="btn btn-default">
+          page suivante 
+    </a>
+  </p>
+
+  {{ include(template_from_string(tiny_conf)) }}
+
+
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js"></script>
+  <script type="text/javascript">
+    $("#zoom_04").ezPlus({
+        zoomWindowWidth: 330,
+        zoomWindowHeight: 100,
+        scrollZoom: true,
+        easing: true,
+        zoomWindowPosition: 13,
+      });
+  </script>
+
+
+ {% endblock %} 
+
+
+
+

@@ -10,4 +10,18 @@ namespace PHuN\PlatformBundle\Entity;
  */
 class TranscriptionRepository extends \Doctrine\ORM\EntityRepository
 {
+	// public function findByUser($user)
+	// {
+	//   $qb = $this->createQueryBuilder('t');
+
+	//   $qb->where('t.user = :user_id')
+	//        ->setParameter('user', $user)
+	//      ->orderBy('t.date', 'DESC')
+	//   ;
+
+	//   return $qb
+	//     ->getQuery()
+	//     ->getResult()
+	//   ;
+	// }
 }

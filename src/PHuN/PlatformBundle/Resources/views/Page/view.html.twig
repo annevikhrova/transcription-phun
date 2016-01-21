@@ -1,0 +1,80 @@
+{# src/PHuN/PlatformBundle/Resources/views/Page/view.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+
+{% block title %}
+  Affichage d'une page - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+  <h2>{{ page.alt }}</h2>
+
+  <div class="well">
+    {{ page.corpus.name }}
+  </div>
+
+
+  <div class="row">
+     <div class="col-md-6">
+      {% if page.urlImg is not null %}
+        <img src="{{ page.urlImg }}" id="zoom_04" alt="{{ page.alt }}" height="100%" width="100%" data-zoom-image="{{ page.urlImg }}" >
+    {% endif %} 
+    </div>
+
+     <div class="col-md-6">
+    {% if page.urlXml is not null %}
+      {#<iframe src="{{ page.urlXml }}" alt="{{ page.alt }}"height="320" width="40%"></iframe>#}
+      <iframe src="{{ page.urlXml }}" alt="{{ page.alt }}" height="520"></iframe>
+    {% endif %}
+    </div>
+  </div>
+ 
+
+
+
+  <p>
+
+      <a href="{{ path('phun_platform_view', {'id': page.id-1}) }}" class="btn btn-default">
+            page précédente
+      </a>
+
+      <a href="{{ path('phun_platform_view', {'id': page.id+1}) }}" class="btn btn-default">
+            page suivante 
+      </a>
+
+      {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+      <a href="{{ path('phun_platform_edit', {'id': page.id}) }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-edit"></i>
+        Transcrire la page
+      </a> 
+      {% else %}
+      <a href="{{ path('fos_user_security_login', {'id': page.id}) }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-edit"></i>
+        Transcrire la page
+      </a>
+      {% endif %}
+        <div class="col-md-4 col-md-offset-3">
+          <a href="{{ path('phun_platform_transcription_list', {'id': page.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i>
+            Liste des transcriptions pour cette page
+          </a> 
+        </div>  
+  </p>
+
+
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js"></script>
+  <script type="text/javascript">
+    $("#zoom_04").ezPlus({
+        zoomWindowWidth: 400,
+        zoomWindowHeight: 100,
+        scrollZoom: true,
+        easing: true,
+        zoomWindowPosition: 13,
+      });
+  </script>
+ {% endblock %} 

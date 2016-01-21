@@ -1,0 +1,49 @@
+{# src/PHuN/PlatformBundle/Resources/views/Page/index.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Index
+{% endblock %}
+
+{% block body %}
+	<h2> Un espace regroupant plusieurs projets de transcription de manuscrits </h2>
+
+	<div class="row">
+		{% for corpus in listCorpus %}
+			{#<style>
+		.corpus_img {
+			background: url({{ asset(corpus.titlePage) }}) no-repeat;
+		}
+
+		.corpus_img:hover .desc{
+		    opacity:0.6;
+		    text-align:justify;
+		    color:#000000;
+		    font-size:20px;
+		    font-weight:700;
+		    font-family:"Times New Roman", Times, serif;
+		    padding:30px;
+		}	
+	</style>#}
+			<div class="col-md-3">
+				<a href="{{ path('phun_platform_view_all') }}">
+				<div class="corpus_img">
+					<div class="desc">
+						{#<img src="{{ asset(corpus.image) }}"/>#}
+					
+						{{corpus.description}}
+					</div>
+				</div>
+				</a>
+				
+				{{ corpus.name }},
+				Créé le {{ corpus.startDate|date('d/m/Y') }}
+			</div>
+			<div class="col-md-1"></div>
+			
+			{% else %}
+				<li> Pas de corpus à afficher ! </li>
+			{% endfor %}
+	</div>					
+
+{% endblock %}

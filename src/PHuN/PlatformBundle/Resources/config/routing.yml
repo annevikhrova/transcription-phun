@@ -1,44 +1,111 @@
 phun_platform_home:
     path:      /{page}
     defaults:
-        _controller: PHuNPlatformBundle:Advert:index
+        _controller: PHuNPlatformBundle:Page:index
         page:        1
     requirements:
         page: \d*
 
+phun_platform_how:
+    path:      /how
+    defaults: { _controller:  PHuNPlatformBundle:Page:how  }
+
 phun_platform_view:
-    path:     /advert/{id}
-    defaults: { _controller: PHuNPlatformBundle:Advert:view }
+    path:     /page/{id}
+    defaults: { _controller: PHuNPlatformBundle:Page:view }
     requirements: 
         id: \d+
 
-phun_platform_add:
-    path:     /add
-    defaults: { _controller: PHuNPlatformBundle:Advert:add }
-
-phun_platform_edit:
-    path:     /edit/{id}
-    defaults: { _controller: PHuNPlatformBundle:Advert:edit }
+phun_platform_transcription_list:
+    path:     /transcription/list/{id}
+    defaults: { _controller: PHuNPlatformBundle:Transcription:list }
     requirements: 
-        id: \d+
+        id: \d+ 
 
-phun_platform_editImage:
-    path:     /editImage/{advertId}
-    defaults: { _controller: PHuNPlatformBundle:Advert:editImage }
+phun_platform_transcription_view:
+    path:     /transcription/{id}
+    defaults: { _controller: PHuNPlatformBundle:Transcription:view }
     requirements: 
         id: \d+        
 
-phun_platform_delete:
-    path:     /delete/{id}
-    defaults: { _controller: PHuNPlatformBundle:Advert:delete }
+phun_platform_edit:
+    path:     /edit/{id}
+    defaults: { _controller: PHuNPlatformBundle:Page:edit }
     requirements: 
-        id: \d+            
+        id: \d+ 
 
-phun_platform_view_test:
-    path:     /{year}/{var}.{_format}
-    defaults:
-        _controller: PHuNPlatformBundle:Advert:viewTest
-        _format:    html
-    requirements:
-        year:    \d{4}
-        _format: html|xml
+phun_platform_transcription_edit:
+    path:     /transcription/edit/{id}
+    defaults: { _controller: PHuNPlatformBundle:Transcription:edit }
+    requirements: 
+        id: \d+         
+
+phun_platform_view_plugins:
+    path:    /admin/view_plugins/{id}
+    defaults: { _controller: PHuNPlatformBundle:Page:view_plugins }
+
+phun_platform_view_editor:
+    path:    /admin/view_editor/{id}
+    defaults: { _controller: PHuNPlatformBundle:Page:viewEditor }
+
+phun_platform_plugin_creation:
+    path:    /admin/create_plugin/{id}
+    defaults: { _controller: PHuNPlatformBundle:Plugin:PluginCreation }
+
+phun_platform_p_plugin:
+    path:    /admin/p_plugin/{id}
+    defaults: { _controller: PHuNPlatformBundle:Page:p_plugin }
+
+phun_platform_view_all:
+    path:     /page
+    defaults: { _controller: PHuNPlatformBundle:Page:viewAll }
+
+phun_platform_add_corpus:
+    path:    /admin/add_corpus
+    defaults: { _controller: PHuNPlatformBundle:Page:addCorpus }
+
+phun_platform_add_plugin:
+    path:    /admin/add_plugin/{id}
+    defaults: { _controller: PHuNPlatformBundle:Plugin:addPlugin }
+
+phun_platform_contact:
+    path:    /contact
+    defaults: { _controller: PHuNPlatformBundle:Contact:askAdminRole }
+
+xsl_generation:
+    path:    /admin/xsl_generation
+    defaults: { _controller: PHuNPlatformBundle:Plugin:generationXSL }
+
+xsl_generation_xml2html:
+    path:    /admin/xml2html
+    defaults: { _controller: PHuNPlatformBundle:Plugin:createXSLTemplate_Xml2Html }
+
+xsl_generation_html2xml:
+    path:    /admin/html2xml
+    defaults: { _controller: PHuNPlatformBundle:Plugin:createXSLTemplate_Html2Xml }
+
+
+
+test_parser:
+    path: /admin/tparse/{idCorpus}/{filename}
+    defaults: { _controller: PHuNPlatformBundle:dtdParser:parseDtdFile }
+
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile

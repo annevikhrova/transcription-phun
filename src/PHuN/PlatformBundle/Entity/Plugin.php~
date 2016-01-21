@@ -1,0 +1,108 @@
+<?php
+
+namespace PHuN\PlatformBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Plugin
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="PHuN\PlatformBundle\Entity\PluginRepository")
+ */
+class Plugin
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
+
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="PHuN\PlatformBundle\Entity\Container", cascade={"persist"})
+     */
+    private $containers;
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Plugin
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+ 
+
+    /**
+     * Get plugins
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPlugins()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set container
+     *
+     * @param string $container
+     *
+     * @return Plugin
+     */
+    public function setContainer($container)
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+
+    /**
+     * Get container
+     *
+     * @return string
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+}

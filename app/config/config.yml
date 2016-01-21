@@ -39,8 +39,8 @@ twig:
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
-    use_controller: false
-    bundles:        [ ]
+    use_controller: "%kernel.debug%"
+    bundles:        [PHuNPlatformBundle]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -71,6 +71,11 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
+fos_user:
+    db_driver:      orm     # Le type de BD à utiliser, nous utilisons l'ORM Doctrine depuis le début
+    firewall_name:  main    # Le nom du firewall derrière lequel on utilisera ces utilisateurs
+    user_class:     PHuN\UserBundle\Entity\User     # La classe de l'entité User que nous utilisons            
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
@@ -79,6 +84,12 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+services:
+    twig.extension.stringloader:
+        class: Twig_Extension_StringLoader
+        tags:
+            - { name: twig.extension }
+
 # TinyMCEBundle Configuration
 stfalcon_tinymce:
     include_jquery: true
@@ -86,29 +97,14 @@ stfalcon_tinymce:
     selector: ".tinymce"
     # Get current language from the parameters.ini
     language: %locale%
-    # Custom buttons
-    tinymce_buttons:
-        stfalcon: # Id of the first button
-            title: "Stfalcon"
-            image: "http://stfalcon.com/favicon.ico"
     theme:
         # Simple theme: same as default theme
         simple: ~
         # Advanced theme with almost all enabled plugins
         advanced:
-             plugins:
-                 - "advlist autolink lists link image charmap print preview hr anchor pagebreak ajout biffe douteux"
-                 - "searchreplace wordcount visualblocks visualchars code fullscreen"
-                 - "insertdatetime media nonbreaking save table contextmenu directionality"
-                 - "emoticons template paste textcolor"
-             toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | ajout biffe douteux"
-             toolbar2: "print preview media | forecolor backcolor emoticons | stfalcon | example"
-             image_advtab: true
-             templates:
-                 - {title: 'Test template 1', content: 'Test 1'}
-                 - {title: 'Test template 2', content: 'Test 2'}
-        # BBCode tag compatible theme (see http://www.bbcode.org/reference.php)
-        bbcode:
-             plugins: ["bbcode, code, link, preview"]
-             menubar: false
-             toolbar1: "bold,italic,underline,undo,redo,link,unlink,removeformat,cleanup,code,preview"
+             #plugins: "biffe ajout douteux reclame interligne illisible trait italique typewriter averifier blanc comment souligne gras"
+             plugins: " "
+             toolbar: " "
+             #toolbar1: "biffe ajout douteux reclame interligne illisible"
+             #toolbar2: "trait italique typewriter averifier blanc"
+             #toolbar3: "comment souligne gras"

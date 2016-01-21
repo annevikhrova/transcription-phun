@@ -1,0 +1,35 @@
+{# src/PHuN/PlatformBundle/Resources/view/Advert/view.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  Lecture d'une annonce - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+  <h2>Consulter la collection</h2>
+
+  <div class="well">
+    Affichage
+  </div>
+
+  <ul class="nav nav-pills nav-stacked">
+    {% for page in listPages %}
+      <li>
+        <a href="{{ path('phun_platform_view', {'id': page.id}) }}">
+          {{page.alt}} - {{ page.alt }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+
+
+
+
+
+
+ 
+
+{% endblock %}
