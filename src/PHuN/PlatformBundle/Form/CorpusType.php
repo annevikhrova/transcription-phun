@@ -30,13 +30,16 @@ class CorpusType extends AbstractType
             ->add('plugins', 'entity', array(
                   'class'    => 'PHuNPlatformBundle:Plugin',
                   'property' => 'name',
-                  'multiple' => true)
+                  'multiple' => true,
+                  'required' => false)
                  )
-            ->add('pluginsMenu1', 'entity', array(
-                  'class'    => 'PHuNPlatformBundle:Plugin',
-                  'property' => 'name',
-                  'multiple' => true)
-                 )
+            ->add('dtd',      new DtdType())
+            ->add('stylesheet',      new StylesheetType())
+            //->add('pluginsMenu1', 'entity', array(
+                 //  'class'    => 'PHuNPlatformBundle:Plugin',
+                 //  'property' => 'name',
+                 //  'multiple' => true)
+                 // )
             ->add('save',       'submit')
         ;
         $builder

@@ -38,15 +38,50 @@ class Page
     /**
      * @var string
      *
+     * @ORM\Column(name="thumb", type="string", length=255)
+     */
+    private $thumb;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="alt", type="string", length=255)
      */
     private $alt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="file_name", type="string", length=255)
+     */
+    private $fileName;
 
     /**
      * @ORM\ManyToOne(targetEntity="PHuN\PlatformBundle\Entity\Corpus")
      * @ORM\JoinColumn(nullable=false)
      */
     private $corpus;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PHuN\PlatformBundle\Entity\SousDossier")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $sousdossier;
+
+    /**
+     * @var \boolean
+     *
+     * @ORM\Column(name="published", type="boolean")
+     */
+    private $published = false;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_published_transcription", type="integer")
+     */
+    private $id_published_transcription;
+
 
 
     /**
@@ -154,5 +189,126 @@ class Page
     {
         return $this->corpus;
     }
-}
 
+    /**
+     * Set sousdossier
+     *
+     * @param \PHuN\PlatformBundle\Entity\SousDossier $sousdossier
+     *
+     * @return Page
+     */
+    public function setSousdossier(\PHuN\PlatformBundle\Entity\SousDossier $sousdossier)
+    {
+        $this->sousdossier = $sousdossier;
+
+        return $this;
+    }
+
+    /**
+     * Get sousdossier
+     *
+     * @return \PHuN\PlatformBundle\Entity\SousDossier
+     */
+    public function getSousdossier()
+    {
+        return $this->sousdossier;
+    }
+
+    /**
+     * Set fileName
+     *
+     * @param string $fileName
+     *
+     * @return Page
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+
+        return $this;
+    }
+
+    /**
+     * Get fileName
+     *
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * Set thumb
+     *
+     * @param string $thumb
+     *
+     * @return Page
+     */
+    public function setThumb($thumb)
+    {
+        $this->thumb = $thumb;
+
+        return $this;
+    }
+
+    /**
+     * Get thumb
+     *
+     * @return string
+     */
+    public function getThumb()
+    {
+        return $this->thumb;
+    }
+
+    /**
+     * Set published
+     *
+     * @param boolean $published
+     *
+     * @return Page
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * Get published
+     *
+     * @return boolean
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * Set idPublishedTranscription
+     *
+     * @param integer $idPublishedTranscription
+     *
+     * @return Page
+     */
+    public function setIdPublishedTranscription($idPublishedTranscription)
+    {
+        $this->id_published_transcription = $idPublishedTranscription;
+
+        return $this;
+    }
+
+    /**
+     * Get idPublishedTranscription
+     *
+     * @return integer
+     */
+    public function getIdPublishedTranscription()
+    {
+        return $this->id_published_transcription;
+    }
+
+
+}

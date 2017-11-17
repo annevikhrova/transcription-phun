@@ -1,5 +1,6 @@
 p_hu_n_platform:
     resource: "@PHuNPlatformBundle/Resources/config/routing.yml"
-    prefix:   /platform
 
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 

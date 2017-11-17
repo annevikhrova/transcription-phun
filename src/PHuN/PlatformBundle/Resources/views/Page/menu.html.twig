@@ -1,13 +1,19 @@
-{# src/PHuN/PlatformBundleResources/view/Advert/menu.html.twig #}
+{# src/PHuN/PlatformBundleResources/view/Page/menu.html.twig #}
 
 {# Ce template n'hérite de personne .. #}
 
 <ul class="nav nav-pills nav-stacked">
+    {% if listTranscriptions is not null %}
 	{% for transcription in listTranscriptions %}
 		<li>
-			<a href="{{ path('phun_platform_transcription_view', {'id': transcription.id}) }}">
+			<a href="{{ path('phun_platform_transcription_view', {'id': transcription.id}) }}"><img id="zoom_04a" src="{{ asset(transcription.page.urlImg) }}" height="65px" data-zoom-image="{{ asset(transcription.page.urlImg) }}"/><br/>
 				{{ transcription.page.alt }} par {{ transcription.user.username }}
 			</a>
 		</li>
 	{% endfor %}
+    {% else %}
+        <h5>Connectez-vous pour voir vos dernières transcriptions</h5>
+    {% endif %}    
 </ul>				
+
+

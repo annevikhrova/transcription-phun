@@ -1,4 +1,4 @@
-{# src/PHuN/PlatformBundle/Resources/views/Page/view.html.twig #}
+{# src/PHuN/PlatformBundle/Resources/views/Transcription/view.html.twig #}
 
 {% extends "PHuNPlatformBundle::layout.html.twig" %}
 
@@ -7,28 +7,73 @@
   Affichage d'une page - {{ parent() }}
 {% endblock %}
 
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset(urlCSS) }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('bundles/framework/css/page_styles.css') }}" type="text/css" />
+{% endblock %}
+
 {% block body %}
+    <style>
+        .comment-user {
+            display: block;
+            font-weight: bold;
+        }
+        p {
+            width: 98%;
+            padding-right: 20%;
+            padding-left: 20%;
+        }
+        ajout_en_marge_droit {
+            left: 78%;
+        }
+    </style>
+    {{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}
 
-  <h2>{{ transcription.page.alt }}</h2>
+    <div class="row">
+        <div class="col-md-5">
+        {% if page.sousDossier.name is same as("unnamed")  %}
+            <h3>
+                Catalogue {{ page.sousDossier.dossier.catalogue.name}}, Dossier {{ page.sousDossier.dossier.name }}, Page {{ page.alt }}
+            </h3>
+        {% else %}
+            <h3>
+                Catalogue {{ page.sousDossier.dossier.catalogue.name}}, Dossier {{ page.sousDossier.dossier.name }}, Chemise {{ page.sousDossier.name }}, Page {{ page.alt }}
+            </h3>
+        {% endif %}
+        </div>
+        <div class="col-md-7">
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED")== true  and page.published == true %}
+            <h3> Cette page a été relue, validée et publiée. </h3>
+        {% elseif is_granted("IS_AUTHENTICATED_REMEMBERED")== false and page.published == true %}
+            <h3> Vous n'êtes pas connectés. Cette page a été relue, validée et publiée. </h3>
 
-  <div class="well">
+        {% endif %} 
+        </div>    
+    </div>
+  {#<div class="well">
     {{ page.corpus.name }}
-  </div>
-
+  </div>#}
 
   <div class="row">
-    <div class="col-md-6">
-      {% if page.urlImg is not null %}
-        <img src="{{ transcription.page.urlImg }}" id="zoom_04" alt="{{ transcription.page.alt }}" height="100%" width="100%" data-zoom-image="{{ transcription.page.urlImg }}" >
+    <div class="col-md-5">
+      {% if transcription.page.urlImg is not null %}
+        <img src="{{ asset(transcription.page.urlImg) }}" id="zoom_05" alt="{{ transcription.page.alt }}" height="100%" width="100%" data-zoom-image="{{ asset(transcription.page.urlImg) }}" >
     {% endif %} 
     </div>
+   
+    <div class="col-md-7">
+        <div class="frame" >
+            {% if transcription.urlXml is not null %}
 
-     <div class="col-md-6">
-    {% if page.urlXml is not null %}
+              {{ transcription.content|raw('html') }}
 
-      {#<iframe src="{{ page.urlXml }}" alt="{{ page.alt }}"height="320" width="40%"></iframe>#}
-      <iframe src="{{ asset(transcription.urlXml) }}" alt="{{ transcription.page.alt }}" height="520"></iframe>
-    {% endif %}
+              {#
+              <iframe id="frame" src="{{ asset(transcription.urlXml) }}" alt="{{ transcription.page.alt }}" height="520" width="100%"></iframe>
+              #}
+            {% endif %}
+        </div>
     </div>
   </div>
  
@@ -37,51 +82,144 @@
 
   <p>
       <div class="row">
-        <div class="col-md-4">
-          <a href="{{ path('phun_platform_view', {'id': transcription.page.id-1}) }}" class="btn btn-default">
+        <div class="col-md-5">
+          {#<a href="{{ path('phun_platform_view', {'id': transcription.page.id-1}) }}" class="btn btn-default">
                 page précédente
           </a>
 
           <a href="{{ path('phun_platform_view', {'id': transcription.page.id+1}) }}" class="btn btn-default">
                 page suivante 
-          </a>
+          </a>#}
         </div>
-        <div class="col-md-4 col-md-offset-2">
-          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-          <a href="{{ path('phun_platform_edit', {'id': transcription.page.id}) }}" class="btn btn-default">
-            <i class="glyphicon glyphicon-edit"></i>
-            Modifier la transcription
-          </a> 
-          {% else %}
-          <a href="{{ path('fos_user_security_login', {'id': transcription.transcription.page.id}) }}" class="btn btn-default">
-            <i class="glyphicon glyphicon-edit"></i>
-            Transcrire la page
-          </a>
-          {% endif %}
-        </div>  
-        <div class="col-md-4 col-md-offset-3">
-          <a href="{{ path('phun_platform_transcription_list', {'id': transcription.page.id}) }}" class="btn btn-default">
-            <i class="glyphicon glyphicon-edit"></i>
-            Liste des transcriptions pour cette page
-          </a> 
-        </div>  
+        <div class="col-md-7">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED")== true and page.published == false%}  
 
-        
+                <a href="{{ path('phun_platform_transcription_edit', {'id': transcription.id}) }}" class="btn btn-success">
+                  <i class="glyphicon glyphicon-edit"></i>
+                  Editer la transcription
+                </a>
+            {% elseif is_granted("IS_AUTHENTICATED_REMEMBERED")== false and page.published == false %} 
+                <a href="{{ path('fos_user_security_login', {'id': transcription.id}) }}" class="btn btn-success">
+                      <i class="glyphicon glyphicon-edit"></i>
+                      Editer la transcription
+                </a>
+            {% elseif is_granted("IS_AUTHENTICATED_REMEMBERED")== true  and page.published == true %}
+              
+            {% elseif is_granted("IS_AUTHENTICATED_REMEMBERED")== false and page.published == true %}
+                
+
+            {% endif %}   
+        </div>
+        {# Option for super user admin #}
+        {% if is_granted("ROLE_SUPER_ADMIN")%}
+            <div class="col-md-4 col-md-offset-3">
+              <a href="{{ path('phun_platform_transcription_list', {'id': transcription.page.id}) }}" class="btn btn-default">
+                <i class="glyphicon glyphicon-edit"></i>
+                Liste des transcriptions pour cette page
+              </a> 
+            </div>
+        {% else %}    
+        {% endif %} 
+           
        </div> 
   </p>
+  
+  <div class="row"> 
+            {% if listUsers is not null %}
+                <div class ="row">
+                <div class="panel panel-default">
+                <div class="panel-body">    
+                <div class="col-md-4 col-md-offset-3">
+                    <h4>Contributions de </h4>
+                </div>    
+                    
+                {% for user in listUsers %}
+                    <div class="col-md-4 col-md-offset-3">
+                        <div class="comment-user-profile">
+                            <img class="cnt-image" src="{{ asset(user.avatar.url) }}" height="50" width="50">
+                                {{ user.username }} <br/>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% if r1 is not null %}
+                <div class="col-md-4 col-md-offset-3">
+                    <h4>Relectures de </h4>
+                </div>    
+                    <div class="col-md-4 col-md-offset-3">
+                        <div class="comment-user-profile">
+                            <img class="cnt-image" src="{{ asset(r1.avatar.url) }}" height="50" width="50">
+                                {{ r1.username }} <br/>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if r2 is not null %}
+                    <div class="col-md-4 col-md-offset-3">
+                        <div class="comment-user-profile">
+                            <img class="cnt-image" src="{{ asset(r2.avatar.url) }}" height="50" width="50">
+                                {{ r2.username }} <br/>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if r3 is not null %}
+                    <div class="col-md-4 col-md-offset-3">
+                        <div class="comment-user-profile">
+                            <img class="cnt-image" src="{{ asset(r3.avatar.url) }}" height="50" width="50">
+                                {{ r3.username }} <br/>
+                        </div>
+                    </div>
+                {% endif %}
+                
+                </div>
+                </div>
+                </div>
+            {% endif %}    
+     
+  </div>    
+  {{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }}
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type = "text/javascript" src = "{{ asset('http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js') }}"></script>
+<script type="text/javascript">
+    $("#zoom_05").ezPlus({
+        zoomType: 'inner',
+        cursor: 'crosshair',
+        lensBorder : 0,
+        borderSize : 0.5,
+        zoomSize : 200,
+        scrollZoom: true,
+        easing: false,
+        responsive : true
+        
+
+      });
+</script>
+  <script>
+    $('p').each(function() {
+    var $this = $(this);
+    if($this.html().replace(/\s|&nbsp;/g, '').length == 0)
+        $this.html('&nbsp;');
+});
+  </script>
+
+{#
+  <script>
+    var cssLink = document.createElement("link");
+    cssLink.setAttribute("href", "{{ urlCSS }}");
+
+    var doc = document.getElementById("frame").contentWindow.document;
+
+    doc.head.appendChild(cssLink);
+
+    //Doc = document.getElementById("frame");
+    //Doc.head.appendChild(link);
+    doc.body.appendChild({{ transcription.content|raw('html') }});
+  </script>
+#}
+
 
 
 {% endblock %}
-{% block javascripts %}
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-  <script type="text/javascript" src="https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js"></script>
-  <script type="text/javascript">
-    $("#zoom_04").ezPlus({
-        zoomWindowWidth: 400,
-        zoomWindowHeight: 100,
-        scrollZoom: true,
-        easing: true,
-        zoomWindowPosition: 13,
-      });
-  </script>
- {% endblock %} 

@@ -7,10 +7,18 @@
 
 
 <xsl:template match="@*|node()">
-                    <xsl:copy>   
-                        <xsl:apply-templates select="@*|node()"/>
-                    </xsl:copy>
-                </xsl:template> 
+          <html>
+            <head>
+                <title></title>
+                    <link rel="stylesheet" type="text/css" href="transcription2html.css" />
+            </head>
+            <body>
+                <xsl:copy>   
+                    <xsl:apply-templates select="@*|node()"/>
+                </xsl:copy>
+            </body>
+        </html>                    
+</xsl:template> 
 
 
     <xsl:template match="paragraphe">
@@ -234,6 +242,5 @@
         <xsl:apply-templates select="node()"/>
     </span>
 </xsl:template>
-
 
 </xsl:stylesheet>

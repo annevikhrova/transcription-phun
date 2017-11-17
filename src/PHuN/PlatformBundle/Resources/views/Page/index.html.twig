@@ -5,45 +5,100 @@
 {% block title %}{{ parent() }} - Index
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+   {# Main style sheet for page browser view #}    
+    <link rel="stylesheet" href="{{ asset('bundles/framework/css/page_styles.css') }}" type="text/css" />
+{% endblock %}
+
+
 {% block body %}
+
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <div class="landing-feature-1">
+
 	<h2> Un espace regroupant plusieurs projets de transcription de manuscrits </h2>
+        {#<<h3>Consultez et editez les manuscrits des auteurs enligne.</h3>
+        p class="lead">Contribuez aux projets pour faire accroître des corpus des manuscrits pour la recherche et la conservation du patrimoine littéraire.</p>
+        <p>
+           PHuN2.0 vous permet de transcrire des manuscrits en ligne. Participez à un projet de votre choix en transcrivant ou en faisant des relectures de transcriptions pour la communauté.
+        </p>#}
+        
 
-	<div class="row">
-		{% for corpus in listCorpus %}
-			{#<style>
-		.corpus_img {
-			background: url({{ asset(corpus.titlePage) }}) no-repeat;
-		}
+	{% for corpus in listCorpus %}
+            {% if (corpus.name == "Butor") or (corpus.name == "Stendhal") %}
+            {% else %}    
+                <div class="col-md-4">
+                    
+                        <div class="grid">
 
-		.corpus_img:hover .desc{
-		    opacity:0.6;
-		    text-align:justify;
-		    color:#000000;
-		    font-size:20px;
-		    font-weight:700;
-		    font-family:"Times New Roman", Times, serif;
-		    padding:30px;
-		}	
-	</style>#}
-			<div class="col-md-3">
-				<a href="{{ path('phun_platform_view_all') }}">
-				<div class="corpus_img">
-					<div class="desc">
-						{#<img src="{{ asset(corpus.image) }}"/>#}
-					
-						{{corpus.description}}
-					</div>
-				</div>
-				</a>
-				
-				{{ corpus.name }},
-				Créé le {{ corpus.startDate|date('d/m/Y') }}
-			</div>
-			<div class="col-md-1"></div>
+                            <figure class="index-corpus-image"> {# to be changed to inherit from figure #}
+                                <a href="{{ path('page_browser_count', {'corpusId': corpus.id}) }}">
+                                    <img class="cnt-image" src="{{ asset(corpus.image.url) }}"  {#height="auto" width="400" overflow="hidden"#}/>
+
+                                    <figcaption>
+                                        <p class="status"> {# caption #}
+                                            <h3>{{ corpus.name }}, Créé le {{ corpus.startDate|date('d/m/Y') }}</h3>
+                                        </p>
+                                        {#<p class="status">{{corpus.description|raw('html')}}</span>#}
+                                    </figcaption>
+                                </a>
+                            </figure>
+                        </div>	
+                </div>
+            {% endif %}                    
 			
-			{% else %}
-				<li> Pas de corpus à afficher ! </li>
-			{% endfor %}
-	</div>					
+	{% else %}
+		<li> Pas de corpus à afficher ! </li>
+	{% endfor %}
+    </div>
+    {% else %}    
+    <div class="landing-feature-2">
+    <section class="join-actions">
+            <div class="section-inner"></div>
+            <div class="actions">
+                <a type="button" class="button btn btn-info" href="{{ path('fos_user_registration_register') }}">S'inscrire</a>
+                <a type="button" class="button btn btn-success" href="{{ path('fos_user_security_login') }}">Se connecter</a>
+            </div>
+    </section>
+    </div>
+  
+    <div class="landing-feature-1">
 
+	<h2> Un espace regroupant plusieurs projets de transcription de manuscrits </h2>
+        {#<<h3>Consultez et editez les manuscrits des auteurs enligne.</h3>
+        p class="lead">Contribuez aux projets pour faire accroître des corpus des manuscrits pour la recherche et la conservation du patrimoine littéraire.</p>
+        <p>
+           PHuN2.0 vous permet de transcrire des manuscrits en ligne. Participez à un projet de votre choix en transcrivant ou en faisant des relectures de transcriptions pour la communauté.
+        </p>#}
+        
+
+	{% for corpus in listCorpus %}
+            {% if (corpus.name == "Butor") or (corpus.name == "Stendhal") %}
+            {% else %}    
+                <div class="col-md-4">
+                    
+                        <div class="grid">
+
+                            <figure class="index-corpus-image"> {# to be changed to inherit from figure #}
+                                <a href="{{ path('page_browser_count', {'corpusId': corpus.id}) }}">
+                                    <img class="cnt-image" src="{{ asset(corpus.image.url) }}"  {#height="auto" width="400" overflow="hidden"#}/>
+
+                                    <figcaption>
+                                        <p class="status"> {# caption #}
+                                            <h3>{{ corpus.name }}, Créé le {{ corpus.startDate|date('d/m/Y') }}</h3>
+                                        </p>
+                                        {#<p class="status">{{corpus.description|raw('html')}}</span>#}
+                                    </figcaption>
+                                </a>
+                            </figure>
+                        </div>	
+                </div>
+            {% endif %}                    
+			
+	{% else %}
+		<li> Pas de corpus à afficher ! </li>
+	{% endfor %}
+    </div>
+    {% endif %}    
 {% endblock %}

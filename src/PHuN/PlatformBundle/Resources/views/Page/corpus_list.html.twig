@@ -1,0 +1,12 @@
+{# src/PHuN/PlatformBundle/Resources/views/Page/corpus_list.html.twig #}
+
+
+{% for corpus in listCorpus %}
+    {% if (corpus.name == "Butor") or (corpus.name == "Stendhal") %}
+    {% else %}  
+        <li><a href="{{ path('page_browser_count', {'corpusId': corpus.id}) }}">{{ corpus.name }}</a></li>
+        {% endif %} 
+    {% else %}
+        <li></li>
+       
+{% endfor %}

@@ -1,0 +1,43 @@
+{# src/PHuN/PlatformBundle/Resources/views/Admin/admin_view_css.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Index
+{% endblock %}
+
+
+{% block body %}
+
+    <div id="section-content" class="row">
+        <div class="panel panel-default">
+            <h3>Styles CSS</h3>
+            <div class="panel-body">
+                {#<form action="{{ path('admin_save_css') }}" method="post">
+                    <input type="textarea" style="width:80%; height:80%;" rows="20">
+                    {{ contents }}
+                    </input>
+                    <button type="submit">Sauvegarder</button>
+                </form>#}
+                <div class="row">
+                {{ form_start(form, {'attr': {'class': 'form-horizontal', 'action': '', 'method': 'post'}}) }}
+                <div class="form-group">
+                    <div class="col-md-9">
+                        {{ form_widget(form.contents, {'attr': {'class':'','rows':'20', 'cols':'100', 'data-theme':'advanced'}}) }}
+                        <br/>
+                        {# Submit #}
+                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'} }) }}
+                    </div>
+                </div>
+                {{ form_end(form) }} 
+                </div>
+                       
+            </div>
+                
+            </div>
+    </div>
+		
+	
+    </div>
+
+
+{% endblock %} 

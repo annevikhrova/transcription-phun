@@ -1,0 +1,150 @@
+{# src/PHuN/PlatformBundle/Resources/views/Admin/contributors.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+
+{% block title %}
+  Affichage d'une page - {{ parent() }}
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    
+{{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}
+  <div id="section-content" class="row">
+            
+        <div class="col-md-10">
+            {% if app.session.flashBag.has('warning') %}
+            <div class="alert alert-warning">
+                {% for msg in app.session.flashBag.get('warning') %}
+                    {{ msg }}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {#<div class="col-md-2">#}
+                <div class="btn-group" role="group" aria-label="..." style="float:left; margin: 2px; margin-left: 0;">
+                    {#<a type="button" id="delete" href="#" class="btn btn-warning"><i class="glyphicon glyphicon-trash"></i>Supprimer</a>#}
+
+                    {% if app.user.roles is same as("ROLE_SUPER_ADMIN") %}
+                    <a type="button" id="demote" href="#" class="btn btn-warning"><i class="glyphicon glyphicon-circle-arrow-down"></i>Retrograder</a> 
+                    {% else %} 
+                    {% endif %}
+
+                    <a type="button" id="suspend" href="#" class="btn btn-warning"><i class="glyphicon glyphicon-off"></i>Suspendre</a>
+                </div>
+            {#</div>#}
+            <a type="button" id="promote" href="#" class="btn btn-success" style="float:left; margin: 2px;"><i class="glyphicon glyphicon-circle-arrow-up"></i>Promouvoir</a>
+            
+            <table class="table table-striped">
+               <thead style="background-color: #5dc45a; color:#fff;">
+                <tr>
+                  <th><input type="checkbox" id="cbox_0" value="checkbox_0"></th>
+                  <th>User</th>
+                  <th>Email</th>
+                  <th>Dernière Connexion</th>
+                  <th>Roles</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+            {% for user in listUsers %}
+            <div class="col-md-9">
+                <tr>
+                    <td>
+                    {#
+                    {{ form_widget(form.selection, {'attr': {'class': 'checkbox', 'id': user.id }}) }}#}
+                    
+                    <input type="checkbox" name = "chk" class="selection-id" value="{{ user.id }}" id="{{ user.id }}"></input>
+                    </td>
+                    <td>
+                      {% if user.username is not null %}
+                         {{ user.username }}
+                      {% endif %}
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {{ user.lastLogin|date('m/d/Y') }}
+                    </td>
+                    <td>{% for role in user.roles %}
+                            {% if role is same as("ROLE_SUPER_ADMIN") %}
+                                Administrateur <br/>
+                            {% elseif role is same as("ROLE_ADMIN") %}
+                               Administrateur <br/>
+                            {% else %} 
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                            {% if user.locked == 0 %}
+                                <b style="color: #5dc45a;">Actif</b><br/>
+                            {% elseif user.locked == 1 %}
+                                <b style="color: #cd6a76;">Suspendu</b>
+                                <a type="submit" href="{{ path('admin_reactivate_user', {'id': corpus.id, 'userId': user.id }) }}" class="btn btn-success"><i class="glyphicon glyphicon-off"></i>Re-activer</a>
+                            {% endif %}
+                    </td>
+                    
+                </tr>
+            </div>  
+
+            {% endfor %}
+            </table> 
+            
+           {# </form>#}
+        </div>
+  </div>
+
+{{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }}         
+
+{% endblock %}
+
+{% block javascripts %}
+    
+    {{ parent() }}
+    
+    <script type = "text/javascript" src = "http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js"></script>
+    <script type="text/javascript">
+   
+        
+        // if user clicks suspend button
+        $(function () {
+            $('#suspend').click(function () {
+              var checkValues = $('input[name=chk]:checked').map(function() {
+                  return $(this).val();
+              }).get();
+                var url = '{{ path('admin_suspend_user', {'id': corpus.id, 'listUsers': 'list_users'}) }}';
+                url = url.replace("list_users", checkValues);
+                document.getElementById("suspend").href = url;
+                //alert(url);
+            });
+        });
+        // if user clicks promote button
+        $(function () {
+            $('#promote').click(function () {
+              var checkValues = $('input[name=chk]:checked').map(function() {
+                  return $(this).val();
+              }).get();
+                var url = '{{ path('admin_promote_user', {'id': corpus.id, 'listUsers': 'list_users'}) }}';
+                url = url.replace("list_users", checkValues);
+                document.getElementById("promote").href = url;
+                //alert(url);
+            });
+        });
+        // if user clicks demote button
+        $(function () {
+            $('#demote').click(function () {
+              var checkValues = $('input[name=chk]:checked').map(function() {
+                  return $(this).val();
+              }).get();
+                var url = '{{ path('admin_demote_user', {'id': corpus.id, 'listUsers': 'list_users'}) }}';
+                url = url.replace("list_users", checkValues);
+                document.getElementById("demote").href = url;
+                //alert(url);
+            });
+        });
+      
+    </script>
+    
+{% endblock %}

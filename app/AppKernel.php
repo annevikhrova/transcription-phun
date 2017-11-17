@@ -22,6 +22,9 @@ class AppKernel extends Kernel
             new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
             new PHuN\UserBundle\PHuNUserBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(),
+            
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

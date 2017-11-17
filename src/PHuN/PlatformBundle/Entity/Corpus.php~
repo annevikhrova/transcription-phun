@@ -71,6 +71,27 @@ class Corpus
     */
     public $category;
 
+    /**
+     * @ORM\OneToMany(targetEntity="PHuN\PlatformBundle\Entity\Catalogue", mappedBy="corpus")
+     */
+    private $catalogue;
+
+    /**
+     * @ORM\OneToOne(targetEntity="PHuN\PlatformBundle\Entity\Stylesheet", cascade={"persist"})
+     */
+    private $stylesheet;
+
+    /**
+     * @ORM\OneToOne(targetEntity="PHuN\PlatformBundle\Entity\Dtd", cascade={"persist"})
+     */
+    private $dtd;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="PHuN\UserBundle\Entity\User", mappedBy="corpora")
+     */
+    private $users;
+
+
 
     /**
      * Get id
@@ -325,5 +346,141 @@ class Corpus
     public function getPluginsMenu1()
     {
         return $this->pluginsMenu1;
+    }
+
+    /**
+     * Add catalogue
+     *
+     * @param \PHuN\PlatformBundle\Entity\Catalogue $catalogue
+     *
+     * @return Corpus
+     */
+    public function addCatalogue(\PHuN\PlatformBundle\Entity\Catalogue $catalogue)
+    {
+        $this->catalogue[] = $catalogue;
+
+        return $this;
+    }
+
+    /**
+     * Remove catalogue
+     *
+     * @param \PHuN\PlatformBundle\Entity\Catalogue $catalogue
+     */
+    public function removeCatalogue(\PHuN\PlatformBundle\Entity\Catalogue $catalogue)
+    {
+        $this->catalogue->removeElement($catalogue);
+    }
+
+    /**
+     * Get catalogue
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCatalogue()
+    {
+        return $this->catalogue;
+    }
+
+    /**
+     * Get corpus
+     *
+     * @return Corpus
+     */
+    public function getCorpus()
+    {
+        return $this;
+    }
+
+    /**
+     * Set stylesheet
+     *
+     * @param \PHuN\PlatformBundle\Entity\Stylesheet $stylesheet
+     *
+     * @return Corpus
+     */
+    public function setStylesheet(\PHuN\PlatformBundle\Entity\Stylesheet $stylesheet = null)
+    {
+        $this->stylesheet = $stylesheet;
+
+        return $this;
+    }
+
+    /**
+     * Get stylesheet
+     *
+     * @return \PHuN\PlatformBundle\Entity\Stylesheet
+     */
+    public function getStylesheet()
+    {
+        return $this->stylesheet;
+    }
+
+    /**
+     * Set dtd
+     *
+     * @param \PHuN\PlatformBundle\Entity\Dtd $dtd
+     *
+     * @return Corpus
+     */
+    public function setDtd(\PHuN\PlatformBundle\Entity\Dtd $dtd = null)
+    {
+        $this->dtd = $dtd;
+
+        return $this;
+    }
+
+    /**
+     * Get dtd
+     *
+     * @return \PHuN\PlatformBundle\Entity\Dtd
+     */
+    public function getDtd()
+    {
+        return $this->dtd;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \PHuN\UserBundle\Entity\User $user
+     *
+     * @return Corpus
+     */
+    public function addUser(\PHuN\UserBundle\Entity\User $user)
+    {
+        $this->user[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \PHuN\UserBundle\Entity\User $user
+     */
+    public function removeUser(\PHuN\UserBundle\Entity\User $user)
+    {
+        $this->user->removeElement($user);
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

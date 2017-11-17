@@ -27,14 +27,24 @@ class Plugin
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=500)
+     */
+    private $description;
+    
 
     /**
      *
      * @ORM\ManyToMany(targetEntity="PHuN\PlatformBundle\Entity\Container", cascade={"persist"})
      */
     private $containers;
+    
+    
 
-
+    
 
     /**
      * Get id
@@ -82,27 +92,46 @@ class Plugin
         return $this->name;
     }
 
+ 
     /**
-     * Set container
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->containers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add container
      *
-     * @param string $container
+     * @param \PHuN\PlatformBundle\Entity\Container $container
      *
      * @return Plugin
      */
-    public function setContainer($container)
+    public function addContainer(\PHuN\PlatformBundle\Entity\Container $container)
     {
-        $this->container = $container;
+        $this->containers[] = $container;
 
         return $this;
     }
 
     /**
-     * Get container
+     * Remove container
      *
-     * @return string
+     * @param \PHuN\PlatformBundle\Entity\Container $container
      */
-    public function getContainer()
+    public function removeContainer(\PHuN\PlatformBundle\Entity\Container $container)
     {
-        return $this->container;
+        $this->containers->removeElement($container);
+    }
+
+    /**
+     * Get containers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContainers()
+    {
+        return $this->containers;
     }
 }

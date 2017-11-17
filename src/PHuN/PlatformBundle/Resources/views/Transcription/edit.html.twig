@@ -1,4 +1,4 @@
-{# src/PHuN/PlatformBundle/Resources/views/Page/edit.html.twig #}
+{# src/PHuN/PlatformBundle/Resources/views/Transcription/edit.html.twig #}
 
 {% extends "PHuNPlatformBundle::layout.html.twig" %}
 
@@ -7,25 +7,183 @@
   Transcription d'une page - {{ parent() }}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('mb-tooltip/css/mbTooltip.css') }}" title="style1"  media="screen">
+
+{% endblock %}
+
 {% block body %}
+<style>
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 50%; /* Full width */
+    height: 100%; /* height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 
-  <h2>{{ page.alt }}</h2>
+/* Modal Content */
+.modal-content {
+    /*background-color: #CFDAE5;*/
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    height: 400px;
+    overflow-y: scroll !important;
+}
 
-  <div class="well">
-    {{ page.corpus.name }}
-  </div>
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.comment-content {
+}
+
+.comment-box {
+  padding: 15px;
+  border-bottom: 1px solid #ddd ;
+}
+.comment-user {
+  display: block;
+  font-weight: bold;
+}
+.comment-datetime {
+  display: block;
+  font-style: italic;
+  font-size: 0.8em;
+}
+.comment-text {
+  display: block;
+}
+.comment-text p {
+  width: 80%;
+  margin: 0 auto 1em auto;
+  padding-bottom: 1em;
+}
+
+.comment-time-ago {
+  display: block;
+  font-style: italic;
+  font-size: 0.9em;
+  color: #0DA3EE;
+  float: right;
+
+}
+
+.comment-form {
+}
+
+{#.comment-user-profile > img {
+    border-radius: 50% !important;
+}#}
+
+</style>
+    {{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}
+    
+    {% if page.sousDossier.name is same as("unnamed")  %}
+        <h3>
+            Catalogue {{ page.sousDossier.dossier.catalogue.name}}, Dossier {{ page.sousDossier.dossier.name }}, Page {{ page.alt }}
+        </h3>
+    {% else %}
+        <h3>
+            Catalogue {{ page.sousDossier.dossier.catalogue.name}}, Dossier {{ page.sousDossier.dossier.name }}, Chemise {{ page.sousDossier.name }}, Page {{ page.alt }}
+        </h3>
+    {% endif %}
 
 
   <div class="row">
      <div class="col-md-6">
       {% if page.urlImg is not null %}
-        <img src="{{ page.urlImg }}" id="zoom_04" alt="{{ page.alt }}" height="100%" width="100%" data-zoom-image="{{ page.urlImg }}" >
+        <img src="{{ asset(page.urlImg) }}" id="zoom_05" alt="{{ page.alt }}" height="100%" width="100%" data-zoom-image="{{ asset(page.urlImg) }}" >
     {% endif %} 
     </div>
 
      <div class="col-md-6">
+      <div class="comment">
+          <a type="button" class="btn btn-info" id="comment-button">
+          <i class="glyphicon glyphicon-comment"></i>
+              Commentaires pour cette page</a>
+      </div>
 
-        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+            {# The Modal #}
+      <div id="comment-modal" class="modal">
+
+         {# Modal content #}
+        <div class="modal-content">
+            <span class="close">×</span>
+            <div class="comment-form">
+
+              {{ form_start(form_comment, {'attr': {'class': 'form-horizontal'}}) }}
+              
+                <div class="form-group">
+                     <div class="col-md-2">
+                        <div class="comment-user-profile"> 
+                          <img src="{{ asset(app.user.avatar.url)}}" height="30"/>
+                        </div> 
+                        <div class="comment-user">{{ app.user.username }}</div>
+                     </div> 
+                     <div class="col-md-8">
+                        {{ form_widget(form_comment.text, {'attr': {'class':'form-control', 'placeholder': 'Entrez votre commentaire ici...'}}) }}
+                    </div> 
+                    <div class="col-md-2">
+                      {{ form_widget(form_comment.save, {'attr': {'class': 'btn btn-primary btn-sm'} }) }}
+                      
+                    </div>
+                  
+                </div>
+              {{ form_end(form_comment) }}
+
+            </div> 
+            {% if listComments is null %}
+            <div class="comment-box">
+              <p>Pas de commentaires pour cette page..</p>
+              <a href="{{ path('phun_new_comment', {'id': page.id}) }}">Rajouter un commentaire</a>
+            </div>
+            
+     
+            {% elseif listComments is not null %}
+            <div class="row">
+              {% for comment in listComments %}
+                <div class="comment-box">
+                    <div class="comment-user-profile"> <img src="{{ asset(comment.user.avatar.url) }}" height="30"/></div>
+                    <div class="comment-user">{{ comment.user.username }}</div>
+                    <div class="comment-datetime">{{ comment.datetime|date('d/m/Y \\à g:ia') }}</div>
+                    <div class="comment-text">{{ comment.text }}</div>
+                    <div class="comment-time-ago">{{ comment.datetime|time_ago_in_words(true, true) }}</div>
+                </div>      
+              
+              {% endfor %}
+            </div>
+
+            <div class="col-xs-12" style="height:30px;"></div>
+            {% endif %}
+            
+        </div>
+
+      </div>
+
+        {{ form_start(form, {'attr': {'class': 'form-horizontal', 'action': '/post/new', 'method': 'post'}}) }}
 
           {# Les erreurs générales du formulaire #}
           {{ form_errors(form) }}
@@ -35,31 +193,44 @@
           <div class="form-group">
               {#{{ form_label(form.content, "Transcription", {'label_attr': {'class': 'col-sm-3 control-label'}})}}#}
               <div class="col-md-12">
-                  {{ form_widget(form.content, {'attr': {'class':'tinymce','rows':'20', 'data-theme':'advanced'}}) }}
+                  {{ form_widget(form.content, {'attr': {'class':'tinymce','rows':'20', 'data-theme':'advanced', 'encoding': 'xml'}}) }} 
               </div>  
           </div>  
 
-          <div class="form-group">
+          {#<div class="form-group">
             {{ form_label(form.published, "Published", {'label_attr': {'class': 'col-sm-3 checkbox'}}) }}
             
             {{ form_widget(form.published) }}
                   
-          </div>
+          </div>#}
 
 
-          {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
-          {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+          
+          <div class="form-group">
+            <div class="col-md-12">
+              <div class="input-group">
+                  {{ form_widget(form.revision, {'attr': {'class': 'checkbox-inline'}}) }}   
+                  {{ form_label(form.revision, "Envoyer en relecture", {'label_attr': {'class': 'col-md-12 control-label-inline'}})}}
+              </div>   
+            </div>    
+          </div> 
+          {# Les boutons d'enregistrement #}
+          {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'} }) }}
+          {{ form_widget(form.save_exit, {'attr': {'class': 'btn btn-primary'} }) }}
 
-
+          {#<p><a href="{{ path('phun_platform_revision', {'id': page.id}) }}" class="btn btn-default">
+          Envoyer en relecture
+          </a></p>#}
         {{ form_end(form) }} 
- 
+        
+       {#{{ transcription.content }}#}
 
     </div>
   </div>
 
 
 
-  <p> 
+  {#<p> 
     <a href="{{ path('phun_platform_view', {'id': page.id-1}) }}" class="btn btn-default">
           page précédente
     </a>
@@ -67,10 +238,18 @@
     <a href="{{ path('phun_platform_view', {'id': page.id+1}) }}" class="btn btn-default">
           page suivante 
     </a>
-  </p>
+  </p>#}
+
 
   {{ include(template_from_string(tiny_conf)) }}
+  
 
+
+{#<div id="begin">beg: </div>
+<div id="end">end: </div>
+<div id="middle">mid: </div>#}
+
+{{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }}
 
 {% endblock %}
 
@@ -78,20 +257,77 @@
 
 
 {% block javascripts %}
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-  <script type="text/javascript" src="https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js"></script>
+{{ parent() }}
+{#<script type="text/javascript" src="{{ asset('mb-tooltip/inc/jquery.timers.js') }}"></script>
+<script type = "text/javascript" src = "{{ asset('mb-tooltip/inc/mbTooltip.js')}}"/>#}
+<script type = "text/javascript" src = "{{ asset('sisyphus/sisyphus.min.js')}}"/>
+<script type = "text/javascript" src = "{{ asset('http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js') }}"></script>
   <script type="text/javascript">
-    $("#zoom_04").ezPlus({
-        zoomWindowWidth: 330,
-        zoomWindowHeight: 100,
+    $("#zoom_05").ezPlus({
+        zoomType: 'inner',
+        cursor: 'crosshair',
+        lensBorder : 0,
+        borderSize : 0.5,
+        zoomSize : 200,
         scrollZoom: true,
-        easing: true,
-        zoomWindowPosition: 13,
+        easing: false,
+        responsive : true
+        
+
       });
   </script>
+<script>
+  $('form').sisyphus();
+</script>
 
+<script>
+  // variable declaration
+  var modal = document.getElementById('comment-modal'); 
+  var btn = document.getElementById("comment-button"); 
+  var span = document.getElementsByClassName("close")[0];
 
- {% endblock %} 
+  // Onclick button event to open the modal 
+  btn.onclick = function() {
+      modal.style.display = "block"; 
+  }
+
+  // Onclick even to close the modal
+  span.onclick = function() {
+      modal.style.display = "none";
+  }
+
+  // Clicking anywhere outside the modal will close the modal
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
+</script>
+<script>
+$(function(){
+  $("title").mbTooltip({
+    opacity : .90, // opacity
+    wait:300, //time in seconds
+    ancor:"mouse", //"parent"
+    cssClass:"default", // default = default
+    timePerWord:70, //time to show in milliseconds per word
+    hasArrow:false,
+    color:"white",
+    imgPath:"images/",
+    shadowColor:"black",
+    fade:500
+  });
+})
+</script>
+
+<script>
+    $( "#select-text" ).mouseenter(function() {
+  $( "#select-text" ).append( "<div>Cliquer pour sélectionner l'ensemble du texte</div>" );
+});
+</script>
+
+{% endblock %}
 
 
 

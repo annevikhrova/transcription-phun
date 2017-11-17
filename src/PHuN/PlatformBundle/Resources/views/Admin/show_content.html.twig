@@ -1,0 +1,58 @@
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+
+{% block body %}
+<div id="section-content" class="row">
+    
+    <div class="row">    
+	<div class="col-md-4">
+		
+	</div>
+        
+	
+		<div class="panel panel-default">
+		<div class="media">
+		  <div class="media-left">
+		    <a href="#">
+		      	<img class="media-object" src="{{ asset(avatar.url) }}" alt="..." width="120px">		
+		    </a>
+		  </div>
+		</div>
+		<a href="{{ path('phun_platform_change_avatar', {'id': user.id}) }}" class="btn btn-default" >
+        Changer photo
+        </a>
+		  <div class="panel-body">
+		    <div class="fos_user_user_show">
+			    <p> {{ user.username }}</p>
+			    <p> {{ user.email }}</p>
+			    <p> Dernière connexion : {{ user.lastLogin|date('d/m/Y') }}</p>
+			</div>
+		  </div>
+		</div>
+	
+    </div>  
+
+    <div class="row">
+
+                    <div class="panel panel-default">
+                      {#<div class="panel-heading">
+                        <h3 class="panel-title">Panel title</h3>
+                      </div>#}
+                      <div class="panel-body">
+                        <a href="{{ path('show_user_transcriptions')}}" class="btn btn-default">
+                            <i class="glyphicon glyphicon-edit"></i>
+                            Voir mes transcriptions
+                        </a> 
+                      </div>
+                    </div>
+
+
+    </div>
+</div>
+{% endblock %} 
+
+{% block javascripts %}
+    
+    {{ parent() }}
+   
+{% endblock %}  

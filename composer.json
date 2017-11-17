@@ -21,10 +21,14 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "stfalcon/tinymce-bundle": "dev-master",
         "friendsofsymfony/user-bundle": "dev-master",
-        "soothsilver/dtd-parser" : "dev-master"
+        "soothsilver/dtd-parser" : "dev-master",
+        "symfony/translation": "2.7",
+        "friendsofsymfony/jsrouting-bundle": "^1.6",
+        "egeloen/google-map-bundle": "^2.2"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "phpdocumentor/phpdocumentor": "2.*"
     },
     "scripts": {
         "post-install-cmd": [

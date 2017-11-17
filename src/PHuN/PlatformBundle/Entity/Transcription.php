@@ -49,9 +49,38 @@ class Transcription
     /**
      * @var \boolean
      *
+     * @ORM\Column(name="revision", type="boolean")
+     */
+    private $revision = false;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nb_revisions", type="integer")
+     */
+    private $nb_revisions;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="PHuN\UserBundle\Entity\User", cascade={"persist"})
+     */
+    private $user_revision_1;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PHuN\UserBundle\Entity\User", cascade={"persist"})
+     */
+    private $user_revision_2; 
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="PHuN\UserBundle\Entity\User", cascade={"persist"})
+     */
+    private $user_revision_3;
+    
+    /**
+     * @var \boolean
+     *
      * @ORM\Column(name="published", type="boolean")
      */
-    private $published = true;
+    private $published = false;
 
     /**
      * @var string
@@ -213,5 +242,126 @@ class Transcription
     public function getUrlXml()
     {
         return $this->urlXml;
+    }
+
+    /**
+     * Set revision
+     *
+     * @param boolean $revision
+     *
+     * @return Transcription
+     */
+    public function setRevision($revision)
+    {
+        $this->revision = $revision;
+
+        return $this;
+    }
+
+    /**
+     * Get revision
+     *
+     * @return boolean
+     */
+    public function getRevision()
+    {
+        return $this->revision;
+    }
+
+    /**
+     * Set nbRevisions
+     *
+     * @param integer $nbRevisions
+     *
+     * @return Transcription
+     */
+    public function setNbRevisions($nbRevisions)
+    {
+        $this->nb_revisions = $nbRevisions;
+
+        return $this;
+    }
+
+    /**
+     * Get nbRevisions
+     *
+     * @return integer
+     */
+    public function getNbRevisions()
+    {
+        return $this->nb_revisions;
+    }
+
+
+    /**
+     * Set userRevision1
+     *
+     * @param \PHuN\UserBundle\Entity\User $userRevision1
+     *
+     * @return Transcription
+     */
+    public function setUserRevision1(\PHuN\UserBundle\Entity\User $userRevision1 = null)
+    {
+        $this->user_revision_1 = $userRevision1;
+
+        return $this;
+    }
+
+    /**
+     * Get userRevision1
+     *
+     * @return \PHuN\UserBundle\Entity\User
+     */
+    public function getUserRevision1()
+    {
+        return $this->user_revision_1;
+    }
+
+    /**
+     * Set userRevision2
+     *
+     * @param \PHuN\UserBundle\Entity\User $userRevision2
+     *
+     * @return Transcription
+     */
+    public function setUserRevision2(\PHuN\UserBundle\Entity\User $userRevision2 = null)
+    {
+        $this->user_revision_2 = $userRevision2;
+
+        return $this;
+    }
+
+    /**
+     * Get userRevision2
+     *
+     * @return \PHuN\UserBundle\Entity\User
+     */
+    public function getUserRevision2()
+    {
+        return $this->user_revision_2;
+    }
+
+    /**
+     * Set userRevision3
+     *
+     * @param \PHuN\UserBundle\Entity\User $userRevision3
+     *
+     * @return Transcription
+     */
+    public function setUserRevision3(\PHuN\UserBundle\Entity\User $userRevision3 = null)
+    {
+        $this->user_revision_3 = $userRevision3;
+
+        return $this;
+    }
+
+    /**
+     * Get userRevision3
+     *
+     * @return \PHuN\UserBundle\Entity\User
+     */
+    public function getUserRevision3()
+    {
+        return $this->user_revision_3;
     }
 }

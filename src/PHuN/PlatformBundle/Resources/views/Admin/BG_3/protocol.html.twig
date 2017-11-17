@@ -1,0 +1,151 @@
+{# src/PHuN/PlatformBundle/Resources/views/Admin/protocol.html.twig #}
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+{% block title %}
+  Protocol - {{ parent() }}
+{% endblock %}
+    
+             
+{% block body %}
+    <style>
+        .carousel-control.right, .carousel-control.left {
+            background-image:none;
+        }
+        .carousel-inner {
+            width: auto;
+            min-height: 700px;
+            
+        } 
+        .carousel-indicators {
+            bottom: -50px;
+        }
+
+    </style>
+    {{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}
+    <div id="section-content" class="row">
+        
+        <h3>Comment transcrire {{ corpus.name }} ?</h3>
+        <h5>Instructions générales</h5>
+        <em>Comme pour tout projet en cours, les informations concernant le(s) protocole(s) de transcription peuvent changer. 
+            N'hésitez pas à consulter cette page régulièrement afin de vous informer sur d'éventuels changements !</em>
+        
+        <a href="{{ asset('corpus/Benoîte Groult_3/tuto_BG_phun_V2.pdf') }}" download="nouveaufichier.pdf" type="application/pdf"><i class="glyphicon glyphicon-download"></i> Télécharger le pdf</a>
+        <div class="col-md-9">
+
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+              <!-- Indicators -->
+              <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="5"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="6"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="7"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="8"></li>
+              </ol>
+
+              <!-- Wrapper for slides -->
+              <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                  <img class="protocol" src="{{asset('corpus/Benoîte Groult_3/instructions-png/Slide1.png')}}" alt="..." height="100%" >
+                  <div class="carousel-caption">
+                    
+                  </div>
+                </div>
+                <div class="item">
+                  <img class="protocol" src=" {{asset('corpus/Benoîte Groult_3/instructions-png/Slide2.png')}} " alt="..." height="100%">
+                  <div class="carousel-caption">
+                    
+                  </div>
+                </div>
+                <div class="item">
+                  <img class="protocol" src=" {{asset('corpus/Benoîte Groult_3/instructions-png/Slide3.png')}} " alt="..." height="100%">
+                  <div class="carousel-caption">
+                    
+                  </div>
+                </div>
+              <div class="item">
+                  <img class="protocol" src=" {{asset('corpus/Benoîte Groult_3/instructions-png/slide4.png')}} " alt="..." height="100%">
+                  <div class="carousel-caption">
+                    
+                  </div>
+                </div>
+                <div class="item">
+                  <img class="protocol" src=" {{asset('corpus/Benoîte Groult_3/instructions-png/Slide5.png')}} " alt="..." height="100%">
+                  <div class="carousel-caption">
+                    
+                  </div>
+                </div>
+                <div class="item">
+                  <img class="protocol" src=" {{asset('corpus/Benoîte Groult_3/instructions-png/Slide6.png')}} " alt="..." height="100%">
+                  <div class="carousel-caption">
+                    
+                  </div>
+                </div>
+                <div class="item">
+                  <img class="protocol" src=" {{asset('corpus/Benoîte Groult_3/instructions-png/Slide7.png')}} " alt="..." height="100%">
+                  <div class="carousel-caption">
+                    
+                  </div>
+                </div>
+                <div class="item">
+                  <img class="protocol" src=" {{asset('corpus/Benoîte Groult_3/instructions-png/Slide8.png')}} " alt="..." height="100%">
+                  <div class="carousel-caption">
+                    
+                  </div>
+                </div>
+                <div class="item">
+                  <img class="protocol" src=" {{asset('corpus/Benoîte Groult_3/instructions-png/Slide9.png')}} " alt="..." height="100%">
+                  <div class="carousel-caption">
+                    
+                  </div>
+                </div>  
+              </div>
+              
+              <!-- Controls -->
+              <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+            {#Fin carousel#}
+        </div>
+    </div>
+        
+    {{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }} 
+{% endblock %} 
+    
+
+
+{% block javascripts %}
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="{{ asset('bundles/framework/css/bootstrap/js/bootstrap.js') }}"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('.carousel').each(function(){
+                    $(this).carousel({
+                        interval: false
+                    });
+                });
+            });
+        </script>
+        
+        <script type='text/javascript'> {# Specific js for admin toggle menu. Same as in layout. Not to be removed #}
+         
+            $(document).ready(function() {
+                $("a[data-toggle]").click(function() {
+                  var toggle_el = $(this).data("toggle");
+                  $(toggle_el).toggleClass("open-sidebar");
+                });
+            });
+      
+        </script>
+    
+{% endblock %}  
+  

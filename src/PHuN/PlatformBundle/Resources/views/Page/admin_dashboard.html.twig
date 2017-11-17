@@ -1,0 +1,32 @@
+{# src/PHuN/PlatformBundle/Resources/views/Page/view.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+
+{% block title %}
+  
+{% endblock %}
+
+{% block body %}
+
+  <h2></h2>
+
+  <div class="well">
+    {#{{ page.corpus.name }}#}
+  </div>
+
+
+  <div class="row">
+     <div class="col-md-6">
+        <a href="{{ path('phun_platform_add_plugin') }}">Modifier mon schéma</a>  
+    </div>
+
+     <div class="col-md-6">
+   
+    </div>
+  </div>
+ 
+
+
+
+{% endblock %}

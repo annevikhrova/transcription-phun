@@ -3,28 +3,35 @@
 {% extends "PHuNPlatformBundle::layout.html.twig" %}
 
 {% block body %}
-
+<div id="section-content" class="row">
   {# S'il y a une erreur, on l'affiche dans un joli cadre #}
   {% if error %}
     <div class="alert alert-danger">{{ error.message }}</div>
   {% endif %}
+  
+    <div class="col-md-4" style="padding: 20px; left:33%; background-color:#fff; border: 1px solid #eee;">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
+            <li><a href="{{ path('fos_user_registration_register') }}">Inscription</a></li>
+            <li><a href="{{ path('fos_user_resetting_request') }}">Réinitialisation</a></li>
+        </ul>  
 
-  {# Le formulaire, avec URL de soumission vers la route « fos_user_security_check » comme on l'a vu #}
-  <form action="{{ path('fos_user_security_check') }}" method="post">
-    <label for="username">Login :</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" />
+    
+        {# Le formulaire, avec URL de soumission vers la route « fos_user_security_check » comme on l'a vu #}
+        <form action="{{ path('fos_user_security_check') }}" method="post">
+            <label for="username"></label>
+            <input class="form-control" placeholder="Login" type="text" id="username" name="_username" value="{{ last_username }}" />
 
-    <label for="password">Mot de passe :</label>
-    <input type="password" id="password" name="_password" />
-    <br/>
-    <input type="submit" value="Connexion" />
-  </form>
+            <label for="password"></label>
+            <input class="form-control" placeholder="Mot de passe" type="password" id="password" name="_password" />
+            <br/>
+            <input type="hidden" name="_target_path" value="{{ app.request.headers.get('referer') }}" />
+            <input class="btn btn-success" type="submit" value="Connexion" style="width:100%"/>
+        </form>
 
-  <div class="row">
-  <br/>
-  </div>
-  <div class="row">
-    <a href="{{ path('fos_user_registration_register') }}">Pas de login ? Redirection vers l'inscription </a>
-  </div>
+    </div>   
 
+
+  
+</div>
 {% endblock %}

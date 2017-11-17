@@ -15,15 +15,19 @@ class PluginType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',        'text')
+            ->add('name',        'text',
+                    array('label' => 'Nom du bouton'))
             ->add('containers',   'entity',
                 array(
                   'class' => 'PHuNPlatformBundle:Container',
                   'property' => 'name',
                   'multiple' => true,
+                  'label'    => 'Ranger dans un menu ou mettre directement dans le toolbar'  
 
                 )
               )
+            ->add('description',        'textarea',
+                array('label' => 'Texte de la bulle d\'aide', 'required' => false ))
             /*
             ->add('name', 'collection',
                 array(

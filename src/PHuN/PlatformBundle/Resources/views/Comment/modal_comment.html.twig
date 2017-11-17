@@ -1,0 +1,55 @@
+{# empty Twig template #}
+        <div title="Laisser un commentaire pour cette page" class="comment">
+            <a class="" id="comment-button">
+                <i class="glyphicon glyphicon-comment"></i>
+            </a>
+        </div>
+        {# The Modal #}
+        <div id="comment-modal" class="modal">
+
+            {# Modal content #}
+            <div class="modal-content">
+                <span class="close">×</span>
+                {% if listComments is not null %}
+                <div class="row">
+                  {% for comment in listComments %}
+                    {{ render(controller("PHuNPlatformBundle:Comment:showComment", {'idComment': comment.id} )) }}      
+                  {% endfor %}
+                </div>
+
+                <div class="col-xs-12" style="height:30px;"></div>
+
+                <div class="row">
+
+                  {{ form_start(form_comment, {'attr': {'class': 'form-horizontal'}}) }}
+                    <div class="form-group">
+                         <div class="col-md-2">
+                             <div class="">
+                                <img class="profile-img" width="50" src="{{ asset(profile.url) }}"/>
+                             </div>
+                         </div> 
+                         <div class="col-md-8">
+                            {{ form_widget(form_comment.text, {'attr': {'class':'form-control', 'placeholder': 'Entrez votre commentaire ici...'}}) }}
+                        </div> 
+                        <div class="col-md-2">
+                          {{ form_widget(form_comment.save, {'attr': {'class': 'btn btn-primary btn-sm'} }) }}
+                        </div>
+
+                    </div>
+                  {{ form_end(form_comment) }}
+
+                </div> 
+                {% elseif listComments is null %}
+                <div class="comment-box">
+                  <p>Pas de commentaires pour cette page..</p>
+                  <a href="{{ path('phun_new_comment', {'id': page.id}) }}">Rajouter un commentaire</a>
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+                
+    
+                
+                

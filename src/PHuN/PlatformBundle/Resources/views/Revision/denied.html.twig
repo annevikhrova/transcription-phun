@@ -1,0 +1,31 @@
+{# src/PHuN/PlatformBundle/Resources/views/Revision/denied.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Index
+{% endblock %}
+
+
+{% block body %}
+    {{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}
+{# Message de confirmation de changements au niveau d'utilisateur #}
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3> Vous avez déjà contribué à cette page. </h3>
+                <a href="{{ path('transcriptions_in_revision', {'corpusId': corpusId }) }}">Retour aux pages à relire</a>
+            </div>
+        </div>
+		
+	
+    </div>
+    <div class="row">
+        
+    </div>
+    {{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }} 
+{% endblock %} 
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %} 

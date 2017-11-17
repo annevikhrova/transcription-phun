@@ -1,0 +1,30 @@
+{# src/PHuN/PlatformBundle/Resources/views/Page/saved.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Index
+{% endblock %}
+
+
+{% block body %}
+    {{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}
+{# Message de confirmation de changements au niveau d'utilisateur #}
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3> Toutes les modifications ont été enregistrées.</h3>
+            </div>
+        </div>
+		
+	
+    </div>
+    <div class="row">
+        
+    </div>
+    {{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }} 
+{% endblock %} 
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %} 

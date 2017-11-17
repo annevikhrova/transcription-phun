@@ -1,0 +1,120 @@
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+{% block body %}
+        <div id="row" class="well">
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <ul>
+                {{
+                    render(controller(
+                        "PHuNPlatformBundle:Metrology:chooseSecondTranscription",
+                        {'id1': transcription1.id}
+                    ))
+                }}
+                </ul>
+            </div>    
+        </div>
+
+        <div id="row">
+
+            <div class="col-md-4">
+                Transcription 1
+                <div class="original"> {{ transcription1.content }} </div>
+            </div>
+            <div class="col-md-4">
+                Transcription 2
+                <div class="changed"> {{ transcription2.content }} </div>
+            </div>
+            <div class="col-md-4">
+                Comparaison
+                <div id="diff1"class="diff1"></div>
+           </div>
+    	</div>
+        <div class="row">  
+            <div class="col-md-4">
+                <table class="table table-striped">
+                    <tr id="deletion">
+                        <td></td>
+                    </tr>
+                    <tr id="insertion">
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+        <style>
+        ins {
+            background-color: #c6ffc6;
+            text-decoration: none;
+        }
+
+        del {
+            background-color: #ffc6c6;
+        }
+        </style>
+
+
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script src="http://google-diff-match-patch.googlecode.com/svn/trunk/javascript/diff_match_patch.js" type="text/javascript"></script>
+	<script src="{{ asset('js/jquery.pretty-text-diff.js') }}" type="text/javascript"></script>
+
+	<script> 
+		    $("#row").prettyTextDiff({
+		        cleanup: $("#cleanup").is(":checked"),
+		        diffContainer: ".diff1"
+		        
+		    });
+    </script>
+
+<script language="javascript">
+
+var div = document.getElementById("diff1"); // find the text container
+
+var del = div.getElementsByTagName("del"); // find all spans in text container
+var totalDel = del.length ;
+var ins = div.getElementsByTagName("ins");
+var totalIns = ins.length;
+
+// message box 
+alert("number of deletions: " + del.length + " number of insertions: " + ins.length);
+
+// var url = '{{ path('phun_platform_compare', {'id1': 'id_1', 'id2': 'id_2' }) }}';
+//         url = url.replace("id_1", id1);
+//         url = url.replace("id_2", id2);
+
+//         document.getElementById("selection").href = url;
+
+// var tdD = "total_del";
+//     tdD = tdD.replace("total_del", totalDel);
+//function diff() {
+    var parenttbl = document.getElementsByTagName("tr");
+    var newel1 = document.createElement('td');
+    var newel2 = document.createElement('td');
+    var elementid = document.getElementsByTagName("td").length
+    newel1.setAttribute('id',elementid);
+    newel2.setAttribute('id',elementid);
+    newel1.innerHTML = "Nombre de suppressions : "+totalDel;
+    newel2.innerHTML = "Nombre d'insertions : "+totalIns;
+    parenttbl[0].appendChild(newel1);
+    parenttbl[1].appendChild(newel2);
+//}
+
+
+        //tdD.write(totalDel);
+// var tdI = "<td>'ins'</td>";
+
+
+
+</script>
+
+{% endblock %}

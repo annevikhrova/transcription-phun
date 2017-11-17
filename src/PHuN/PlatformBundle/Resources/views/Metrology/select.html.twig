@@ -1,0 +1,100 @@
+{# empty Twig template #}
+
+
+{% extends "PHuNPlatformBundle:PageBrowser:browserView.html.twig" %}
+
+
+{% block body %}
+<style>
+    
+    .catalogue ul  {
+        list-style-type: none;
+    
+    } 
+   
+    .dossier ul  {
+        list-style-type: none;
+    
+    }
+   
+    .sous-dossier ul  {
+        list-style-type: none;
+    
+    } 
+  
+
+</style>
+{#{% include "PHuNPlatformBundle:Page:navigation.html.twig" %}#}
+
+
+
+    
+{{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}
+
+{#<ul class="nav nav-tabs nav-justified"> 
+    <li role="presentation" class="active" ><a href="{{ path('page_browser_count', {'corpusId': corpusId }) }}">Toutes les pages du corpus</a></li>
+
+    <li role="presentation"><a href="{{ path('transcriptions_in_revision', {'corpusId': corpusId }) }}">Pages à relire</a>
+    <li role="presentation"><a href="{{ path('phun_project_description',{'id': corpusId }) }}">Description du projet</a>
+    <li role="presentation"><a href="{{ path('phun_project_contributors',{'id': corpusId }) }}">Contributeurs</a>
+    
+</ul>#}
+    <div id="section-content" class="row">
+
+    <ul class="catalogue">
+    {% for assocDossier in associatedDossier %}
+        
+                <ul class="dossier">
+                   
+                        {#<li class="dossier"> {{ assocDossier.dossier.name }} </li>#}
+                        <div class="col-md-5">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                   <h3 class="panel-title">{{ assocDossier.dossname }}</h3>
+                                </div>
+                                <div class="panel-body" style="overflow:scroll; height:150px;">  
+                                     {% for assocFile in assocDossier.associatedFile %}
+                                {#{% for asd in assocDossier.associatedSousDossier %}
+                                    
+                                        <a href="{{ path('page_browser_select_pages', {'sousDossierId': asd.sousDossier.id }) }}">
+                                            <li> 
+                                                {% if asd.sousDossier.name is not same as('Pages') %}
+                                                
+                                                    Chemise
+                                                {% endif %}
+                                                {% if asd.nombrePages > 1 %}
+                                                    {{ asd.sousDossier.name }} ({{ asd.nombrePages }} Pages)
+                                                {% elseif asd.nombrePages == 1 %}
+                                                    {{ asd.sousDossier.name }} ({{ asd.nombrePages }} Page)
+                                                {% endif %}    
+                                            </li>
+                                        </a>
+                                    
+                                {% endfor %}#}
+                                <a href="{{ path('phun_viewxmlFile', { 'xml': assocFile.name}) }}">Voir Transcription </a><br/>
+                                {#<a href="{{ path('phun_downloadxmlFile', { 'xml': assocFile.name}) }}">Télécharger XML </a><br/>#}
+                                
+                                {% endfor %}
+                                </div>
+                                <div class="panel-footer">
+                                    {#<a href="{{ path('phun_analysexml', { 'xmls': assocDossier.associatedFile , 'doss': assocDossier.dossname , 'id': corpus.id }) }}" class="btn btn-default">
+                                        Analyser
+                                    </a>#}
+                                    <br/></div>
+                            </div>
+                        </div>
+
+                </ul>  
+            {% endfor %}
+        {#</div>#}
+    {#</div> #}   
+    </ul>
+        
+        
+</div>       
+{{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }} 
+
+         
+              
+
+{% endblock %}

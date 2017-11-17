@@ -13,20 +13,19 @@ class LoadUser implements FixtureInterface
   public function load(ObjectManager $manager)
   {
     // Les noms d'utilisateurs à créer
-    $listNames = array('ScoobyDoo', 'Snoopy', 'Pluto');
+    //$listNames = array('ScoobyDoo', 'Snoopy', 'Pluto');
+      $listUsers = $manager->getRepository('PHuNUserBundle:User')
+                          ->findAll();
 
-    foreach ($listNames as $name) {
+    foreach ($listUsers as $user) {
       // On crée l'utilisateur
-      $user = new User();
-
+      //$user = new User();
+      $location = 72;  
+      $role = $user->getRoles();
       // Le nom d'utilisateur et le mot de passe sont identiques
-      $user->setUsername($name);
-      $user->setPassword($name);
-      $user->setEmail($name.'@gmail.com');
-      // On ne se sert pas du sel pour l'instant
-      //$user->setSalt('');
-      // On définit uniquement le role ROLE_USER qui est le role de base
-      $user->addRole('ROLE_AUTEUR');
+      $user->setLocation($location);
+      $user->setRoles($role);
+      
 
       // On le persiste
       $manager->persist($user);

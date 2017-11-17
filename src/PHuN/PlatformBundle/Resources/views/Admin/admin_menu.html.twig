@@ -1,0 +1,52 @@
+{# src/PHuN/PlatformBundle/Resources/views/Admin/admin_menu.html.twig #}
+<style>
+    .highlighted {
+        background-color: #5dc45a;
+        font-weight: bold;
+        
+    }
+    .basic {
+        background-color: #333;
+        color: #fff;
+    }
+</style>
+<div id="main-admin-menu">
+    <ul class="nav nav-pills nav-stacked" style="background-color: #004365;">
+        <li class="main-admin-menu-item" style="background-color: #195d7f;"><a><i class="glyphicon glyphicon-dashboard"></i>Menu Administrateur</a></li>
+        <li><a href="{{ path('admin_profile_show') }}"><i class="glyphicon glyphicon-user"></i>Mon Profil</a></li>
+        <li><a href="{{ path('show_user_transcriptions')}}"><i class="glyphicon glyphicon-eye-open"></i>Mes Transcriptions</a></li>
+        {% for corpus in listCorpus %}
+        <li><a href="{{ path('transcriptions_in_revision', { 'corpusId': corpus.id }) }}"><i class="glyphicon glyphicon-eye-open"></i>Relectures pour {{corpus.name }}</a></li>
+        {% endfor %}
+    </ul>
+    
+
+    <ul class="nav nav-pills nav-stacked" style="background-color: #195d7f;">
+        <li class="main-admin-menu-item">
+                <a><i class="glyphicon glyphicon-chevron-down"></i>Mes Projets</a>
+        </li>
+    </ul>
+    
+    
+    <ul class="nav nav-pills nav-stacked" style="background-color: #333;">
+    {% for corpus in listCorpus %}
+        <li class="highlighted" role="presentation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a href="">{{ corpus.name }}</a>
+        </li>
+        <ul class="nav nav-pills nav-stacked" style="background-color: #195d7f;">
+            <li class="secondary-admin-menu-item"><a href="{{ path('phun_platform_add_plugin', { 'id': corpus.id })}}"><i class="glyphicon glyphicon-wrench"></i>Elements du projet</a></li>
+            <li class="secondary-admin-menu-item"><a href="{{ path('admin_view_css', {'id': corpus.id })}}"><i class="glyphicon glyphicon-edit"></i>CSS du projet</a></li>
+            <li class="secondary-admin-menu-item"><a href="{{ path('admin_edit_description', {'id': corpus.id })}}"><i class="glyphicon glyphicon-edit"></i>Description du projet</a></li>
+            <li class="secondary-admin-menu-item"><a href="{{ path('admin_add_logos', {'id': corpus.id })}}"><i class="glyphicon glyphicon-certificate"></i>Ajouter des logos</a></li>
+            <li class="secondary-admin-menu-item"><a href="{{ path('admin_view_contributors', {'id': corpus.id })}}"><i class="glyphicon glyphicon-star"></i>Contributeurs</a></li>
+            {#<li class="secondary-admin-menu-item"><a href="{{ path('admin_view_transcriptions', {'id': corpus.id })}}"><i class="glyphicon glyphicon-signal"></i>Transcriptions en cours</a></li>#}
+            {#<li role="presentation"><a href="#"><i class="glyphicon glyphicon-envelope"></i>Messages</a></li>#}
+            <li class="secondary-admin-menu-item"><a href="{{ path('admin_view_published_pages', {'id': corpus.id })}}"><i class="glyphicon glyphicon-signal"></i>Pages Publiées</a></li>
+            {% if is_granted("ROLE_SUPER_ADMIN") %}
+                <li class="secondary-admin-menu-item"><a href="{{ path('phun_selectxml', {'id': corpus.id }) }}"><i class="glyphicon glyphicon-star"></i>XML Sources</a></li>
+            {% endif %}
+        </ul> 
+    {% endfor %} 
+
+    </ul>
+</div>

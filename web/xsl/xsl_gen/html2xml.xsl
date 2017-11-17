@@ -259,10 +259,10 @@
     </vers>
 </xsl:template>
 
-<xsl:template match="span[@class='biffe']">
-    <biffe>
+<xsl:template match="span[@class='raturé']">
+    <raturé>
         <xsl:apply-templates select="node()"/>
-    </biffe>
+    </raturé>
 </xsl:template>
 
 <xsl:template match="span[@class='gras']">
@@ -271,22 +271,16 @@
     </gras>
 </xsl:template>
 
-<xsl:template match="span[@class='souligne']">
-    <souligne>
+<xsl:template match="span[@class='souligné']">
+    <souligné>
         <xsl:apply-templates select="node()"/>
-    </souligne>
+    </souligné>
 </xsl:template>
 
 <xsl:template match="span[@class='souligne_au_dessus']">
     <souligne_au_dessus>
         <xsl:apply-templates select="node()"/>
     </souligne_au_dessus>
-</xsl:template>
-
-<xsl:template match="span[@class='code']">
-    <code>
-        <xsl:apply-templates select="node()"/>
-    </code>
 </xsl:template>
 
 <xsl:template match="span[@class='exposant']">
@@ -433,10 +427,10 @@
     </marginale>
 </xsl:template>
 
-<xsl:template match="span[@class='ajout_en_marge']">
-    <ajout_en_marge>
+<xsl:template match="span[@class='marginale_gauche']">
+    <marginale_gauche>
         <xsl:apply-templates select="node()"/>
-    </ajout_en_marge>
+    </marginale_gauche>
 </xsl:template>
 
 <xsl:template match="span[@class='note_bas_page']">
@@ -463,10 +457,1180 @@
     </lateteatoto>
 </xsl:template>
 
-<xsl:template match="span[@class='Bibi']">
-    <Bibi>
+<xsl:template match="span[@class='bibi']">
+    <bibi>
         <xsl:apply-templates select="node()"/>
-    </Bibi>
+    </bibi>
+</xsl:template>
+
+<xsl:template match="span[@class='script']">
+    <script>
+        <xsl:apply-templates select="node()"/>
+    </script>
+</xsl:template>
+
+<xsl:template match="span[@class='calligraphie']">
+    <calligraphie>
+        <xsl:apply-templates select="node()"/>
+    </calligraphie>
+</xsl:template>
+
+<xsl:template match="span[@class='script']">
+    <script>
+        <xsl:apply-templates select="node()"/>
+    </script>
+</xsl:template>
+
+<xsl:template match="span[@class='calligraphie']">
+    <calligraphie>
+        <xsl:apply-templates select="node()"/>
+    </calligraphie>
+</xsl:template>
+
+<xsl:template match="span[@class='manuscrit_rouge']">
+    <manuscrit_rouge>
+        <xsl:apply-templates select="node()"/>
+    </manuscrit_rouge>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_collage']">
+    <bloc_collage>
+        <xsl:apply-templates select="node()"/>
+    </bloc_collage>
+</xsl:template>
+
+<xsl:template match="span[@class='tapuscrit']">
+    <tapuscrit>
+        <xsl:apply-templates select="node()"/>
+    </tapuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_tapuscrit']">
+    <bloc_tapuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_tapuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_manuscrit_rouge']">
+    <bloc_manuscrit_rouge>
+        <xsl:apply-templates select="node()"/>
+    </bloc_manuscrit_rouge>
+</xsl:template>
+
+<xsl:template match="span[@class='collage']">
+    <collage>
+        <xsl:apply-templates select="node()"/>
+    </collage>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_original']">
+    <correction_original>
+        <xsl:apply-templates select="node()"/>
+    </correction_original>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_corrige']">
+    <correction_corrige>
+        <xsl:apply-templates select="node()"/>
+    </correction_corrige>
+</xsl:template>
+
+<xsl:template match="span[@class='incomplet']">
+    <incomplet>
+        <xsl:apply-templates select="node()"/>
+    </incomplet>
+</xsl:template>
+
+<xsl:template match="span[@class='retour_a_la_ligne']">
+    <retour_a_la_ligne>
+        <xsl:apply-templates select="node()"/>
+    </retour_a_la_ligne>
+</xsl:template>
+
+<xsl:template match="span[@class='personne-personnage']">
+    <personne-personnage>
+        <xsl:apply-templates select="node()"/>
+    </personne-personnage>
+</xsl:template>
+
+<xsl:template match="span[@class='oeuvre']">
+    <oeuvre>
+        <xsl:apply-templates select="node()"/>
+    </oeuvre>
+</xsl:template>
+
+<xsl:template match="span[@class='commentaire']">
+    <commentaire>
+        <xsl:apply-templates select="node()"/>
+    </commentaire>
+</xsl:template>
+
+<xsl:template match="span[@class='lieu']">
+    <lieu>
+        <xsl:apply-templates select="node()"/>
+    </lieu>
+</xsl:template>
+
+<xsl:template match="span[@class='date']">
+    <date>
+        <xsl:apply-templates select="node()"/>
+    </date>
+</xsl:template>
+
+<xsl:template match="span[@class='marginale_droite']">
+    <marginale_droite>
+        <xsl:apply-templates select="node()"/>
+    </marginale_droite>
+</xsl:template>
+
+<xsl:template match="span[@class='marginale_en_haut']">
+    <marginale_en_haut>
+        <xsl:apply-templates select="node()"/>
+    </marginale_en_haut>
+</xsl:template>
+
+<xsl:template match="span[@class='marginale_en_bas']">
+    <marginale_en_bas>
+        <xsl:apply-templates select="node()"/>
+    </marginale_en_bas>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_manuscrit_noir']">
+    <bloc_manuscrit_noir>
+        <xsl:apply-templates select="node()"/>
+    </bloc_manuscrit_noir>
+</xsl:template>
+
+<xsl:template match="span[@class='mot_plus_gros']">
+    <mot_plus_gros>
+        <xsl:apply-templates select="node()"/>
+    </mot_plus_gros>
+</xsl:template>
+
+<xsl:template match="span[@class='retour_a_la_ligne']">
+    <retour_a_la_ligne>
+        <xsl:apply-templates select="node()"/>
+    </retour_a_la_ligne>
+</xsl:template>
+
+<xsl:template match="span[@class='page']">
+    <page>
+        <xsl:apply-templates select="node()"/>
+    </page>
+</xsl:template>
+
+<xsl:template match="span[@class='fruits_sec']">
+    <fruits_sec>
+        <xsl:apply-templates select="node()"/>
+    </fruits_sec>
+</xsl:template>
+
+<xsl:template match="span[@class='noix']">
+    <noix>
+        <xsl:apply-templates select="node()"/>
+    </noix>
+</xsl:template>
+
+<xsl:template match="span[@class='amande']">
+    <amande>
+        <xsl:apply-templates select="node()"/>
+    </amande>
+</xsl:template>
+
+<xsl:template match="span[@class='raisin']">
+    <raisin>
+        <xsl:apply-templates select="node()"/>
+    </raisin>
+</xsl:template>
+
+<xsl:template match="span[@class='ananas']">
+    <ananas>
+        <xsl:apply-templates select="node()"/>
+    </ananas>
+</xsl:template>
+
+<xsl:template match="span[@class='page']">
+    <page>
+        <xsl:apply-templates select="node()"/>
+    </page>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_manuscrit']">
+    <bloc_manuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_manuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_tapuscrit']">
+    <bloc_tapuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_tapuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='collage']">
+    <collage>
+        <xsl:apply-templates select="node()"/>
+    </collage>
+</xsl:template>
+
+<xsl:template match="span[@class='retour_a_la_ligne']">
+    <retour_a_la_ligne>
+        <xsl:apply-templates select="node()"/>
+    </retour_a_la_ligne>
+</xsl:template>
+
+<xsl:template match="span[@class='incomplet']">
+    <incomplet>
+        <xsl:apply-templates select="node()"/>
+    </incomplet>
+</xsl:template>
+
+<xsl:template match="span[@class='biffe']">
+    <biffe>
+        <xsl:apply-templates select="node()"/>
+    </biffe>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout']">
+    <ajout>
+        <xsl:apply-templates select="node()"/>
+    </ajout>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_marge']">
+    <ajout_en_marge>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_marge>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_original']">
+    <correction_original>
+        <xsl:apply-templates select="node()"/>
+    </correction_original>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_corrige']">
+    <correction_corrige>
+        <xsl:apply-templates select="node()"/>
+    </correction_corrige>
+</xsl:template>
+
+<xsl:template match="span[@class='illisible']">
+    <illisible>
+        <xsl:apply-templates select="node()"/>
+    </illisible>
+</xsl:template>
+
+<xsl:template match="span[@class='douteux']">
+    <douteux>
+        <xsl:apply-templates select="node()"/>
+    </douteux>
+</xsl:template>
+
+<xsl:template match="span[@class='commentaire']">
+    <commentaire>
+        <xsl:apply-templates select="node()"/>
+    </commentaire>
+</xsl:template>
+
+<xsl:template match="span[@class='page']">
+    <page>
+        <xsl:apply-templates select="node()"/>
+    </page>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_manuscrit']">
+    <bloc_manuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_manuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_tapuscrit']">
+    <bloc_tapuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_tapuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='collage']">
+    <collage>
+        <xsl:apply-templates select="node()"/>
+    </collage>
+</xsl:template>
+
+<xsl:template match="span[@class='retour_a_la_ligne']">
+    <retour_a_la_ligne>
+        <xsl:apply-templates select="node()"/>
+    </retour_a_la_ligne>
+</xsl:template>
+
+<xsl:template match="span[@class='incomplet']">
+    <incomplet>
+        <xsl:apply-templates select="node()"/>
+    </incomplet>
+</xsl:template>
+
+<xsl:template match="span[@class='biffe']">
+    <biffe>
+        <xsl:apply-templates select="node()"/>
+    </biffe>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout']">
+    <ajout>
+        <xsl:apply-templates select="node()"/>
+    </ajout>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_marge']">
+    <ajout_en_marge>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_marge>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_original']">
+    <correction_original>
+        <xsl:apply-templates select="node()"/>
+    </correction_original>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_corrige']">
+    <correction_corrige>
+        <xsl:apply-templates select="node()"/>
+    </correction_corrige>
+</xsl:template>
+
+<xsl:template match="span[@class='illisible']">
+    <illisible>
+        <xsl:apply-templates select="node()"/>
+    </illisible>
+</xsl:template>
+
+<xsl:template match="span[@class='douteux']">
+    <douteux>
+        <xsl:apply-templates select="node()"/>
+    </douteux>
+</xsl:template>
+
+<xsl:template match="span[@class='commentaire']">
+    <commentaire>
+        <xsl:apply-templates select="node()"/>
+    </commentaire>
+</xsl:template>
+
+<xsl:template match="span[@class='page']">
+    <page>
+        <xsl:apply-templates select="node()"/>
+    </page>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_manuscrit']">
+    <bloc_manuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_manuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_tapuscrit']">
+    <bloc_tapuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_tapuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='collage']">
+    <collage>
+        <xsl:apply-templates select="node()"/>
+    </collage>
+</xsl:template>
+
+<xsl:template match="span[@class='retour_a_la_ligne']">
+    <retour_a_la_ligne>
+        <xsl:apply-templates select="node()"/>
+    </retour_a_la_ligne>
+</xsl:template>
+
+<xsl:template match="span[@class='incomplet']">
+    <incomplet>
+        <xsl:apply-templates select="node()"/>
+    </incomplet>
+</xsl:template>
+
+<xsl:template match="span[@class='biffe']">
+    <biffe>
+        <xsl:apply-templates select="node()"/>
+    </biffe>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout']">
+    <ajout>
+        <xsl:apply-templates select="node()"/>
+    </ajout>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_marge']">
+    <ajout_en_marge>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_marge>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_original']">
+    <correction_original>
+        <xsl:apply-templates select="node()"/>
+    </correction_original>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_corrige']">
+    <correction_corrige>
+        <xsl:apply-templates select="node()"/>
+    </correction_corrige>
+</xsl:template>
+
+<xsl:template match="span[@class='illisible']">
+    <illisible>
+        <xsl:apply-templates select="node()"/>
+    </illisible>
+</xsl:template>
+
+<xsl:template match="span[@class='douteux']">
+    <douteux>
+        <xsl:apply-templates select="node()"/>
+    </douteux>
+</xsl:template>
+
+<xsl:template match="span[@class='commentaire']">
+    <commentaire>
+        <xsl:apply-templates select="node()"/>
+    </commentaire>
+</xsl:template>
+
+<xsl:template match="span[@class='page']">
+    <page>
+        <xsl:apply-templates select="node()"/>
+    </page>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_manuscrit']">
+    <bloc_manuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_manuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_tapuscrit']">
+    <bloc_tapuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_tapuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='collage']">
+    <collage>
+        <xsl:apply-templates select="node()"/>
+    </collage>
+</xsl:template>
+
+<xsl:template match="span[@class='retour_a_la_ligne']">
+    <retour_a_la_ligne>
+        <xsl:apply-templates select="node()"/>
+    </retour_a_la_ligne>
+</xsl:template>
+
+<xsl:template match="span[@class='incomplet']">
+    <incomplet>
+        <xsl:apply-templates select="node()"/>
+    </incomplet>
+</xsl:template>
+
+<xsl:template match="span[@class='biffe']">
+    <biffe>
+        <xsl:apply-templates select="node()"/>
+    </biffe>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout']">
+    <ajout>
+        <xsl:apply-templates select="node()"/>
+    </ajout>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_marge']">
+    <ajout_en_marge>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_marge>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_original']">
+    <correction_original>
+        <xsl:apply-templates select="node()"/>
+    </correction_original>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_corrige']">
+    <correction_corrige>
+        <xsl:apply-templates select="node()"/>
+    </correction_corrige>
+</xsl:template>
+
+<xsl:template match="span[@class='illisible']">
+    <illisible>
+        <xsl:apply-templates select="node()"/>
+    </illisible>
+</xsl:template>
+
+<xsl:template match="span[@class='douteux']">
+    <douteux>
+        <xsl:apply-templates select="node()"/>
+    </douteux>
+</xsl:template>
+
+<xsl:template match="span[@class='commentaire']">
+    <commentaire>
+        <xsl:apply-templates select="node()"/>
+    </commentaire>
+</xsl:template>
+
+<xsl:template match="span[@class='page']">
+    <page>
+        <xsl:apply-templates select="node()"/>
+    </page>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_manuscrit']">
+    <bloc_manuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_manuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_tapuscrit']">
+    <bloc_tapuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_tapuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='collage']">
+    <collage>
+        <xsl:apply-templates select="node()"/>
+    </collage>
+</xsl:template>
+
+<xsl:template match="span[@class='retour_a_la_ligne']">
+    <retour_a_la_ligne>
+        <xsl:apply-templates select="node()"/>
+    </retour_a_la_ligne>
+</xsl:template>
+
+<xsl:template match="span[@class='incomplet']">
+    <incomplet>
+        <xsl:apply-templates select="node()"/>
+    </incomplet>
+</xsl:template>
+
+<xsl:template match="span[@class='biffe']">
+    <biffe>
+        <xsl:apply-templates select="node()"/>
+    </biffe>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout']">
+    <ajout>
+        <xsl:apply-templates select="node()"/>
+    </ajout>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_marge']">
+    <ajout_en_marge>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_marge>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_original']">
+    <correction_original>
+        <xsl:apply-templates select="node()"/>
+    </correction_original>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_corrige']">
+    <correction_corrige>
+        <xsl:apply-templates select="node()"/>
+    </correction_corrige>
+</xsl:template>
+
+<xsl:template match="span[@class='illisible']">
+    <illisible>
+        <xsl:apply-templates select="node()"/>
+    </illisible>
+</xsl:template>
+
+<xsl:template match="span[@class='douteux']">
+    <douteux>
+        <xsl:apply-templates select="node()"/>
+    </douteux>
+</xsl:template>
+
+<xsl:template match="span[@class='commentaire']">
+    <commentaire>
+        <xsl:apply-templates select="node()"/>
+    </commentaire>
+</xsl:template>
+
+<xsl:template match="span[@class='page']">
+    <page>
+        <xsl:apply-templates select="node()"/>
+    </page>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_manuscrit']">
+    <bloc_manuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_manuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_tapuscrit']">
+    <bloc_tapuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_tapuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='collage']">
+    <collage>
+        <xsl:apply-templates select="node()"/>
+    </collage>
+</xsl:template>
+
+<xsl:template match="span[@class='retour_a_la_ligne']">
+    <retour_a_la_ligne>
+        <xsl:apply-templates select="node()"/>
+    </retour_a_la_ligne>
+</xsl:template>
+
+<xsl:template match="span[@class='incomplet']">
+    <incomplet>
+        <xsl:apply-templates select="node()"/>
+    </incomplet>
+</xsl:template>
+
+<xsl:template match="span[@class='biffe']">
+    <biffe>
+        <xsl:apply-templates select="node()"/>
+    </biffe>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout']">
+    <ajout>
+        <xsl:apply-templates select="node()"/>
+    </ajout>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_marge']">
+    <ajout_en_marge>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_marge>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_original']">
+    <correction_original>
+        <xsl:apply-templates select="node()"/>
+    </correction_original>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_corrige']">
+    <correction_corrige>
+        <xsl:apply-templates select="node()"/>
+    </correction_corrige>
+</xsl:template>
+
+<xsl:template match="span[@class='illisible']">
+    <illisible>
+        <xsl:apply-templates select="node()"/>
+    </illisible>
+</xsl:template>
+
+<xsl:template match="span[@class='douteux']">
+    <douteux>
+        <xsl:apply-templates select="node()"/>
+    </douteux>
+</xsl:template>
+
+<xsl:template match="span[@class='commentaire']">
+    <commentaire>
+        <xsl:apply-templates select="node()"/>
+    </commentaire>
+</xsl:template>
+
+<xsl:template match="span[@class='page']">
+    <page>
+        <xsl:apply-templates select="node()"/>
+    </page>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_manuscrit']">
+    <bloc_manuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_manuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_tapuscrit']">
+    <bloc_tapuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_tapuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='collage']">
+    <collage>
+        <xsl:apply-templates select="node()"/>
+    </collage>
+</xsl:template>
+
+<xsl:template match="span[@class='retour_a_la_ligne']">
+    <retour_a_la_ligne>
+        <xsl:apply-templates select="node()"/>
+    </retour_a_la_ligne>
+</xsl:template>
+
+<xsl:template match="span[@class='incomplet']">
+    <incomplet>
+        <xsl:apply-templates select="node()"/>
+    </incomplet>
+</xsl:template>
+
+<xsl:template match="span[@class='biffe']">
+    <biffe>
+        <xsl:apply-templates select="node()"/>
+    </biffe>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout']">
+    <ajout>
+        <xsl:apply-templates select="node()"/>
+    </ajout>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_marge']">
+    <ajout_en_marge>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_marge>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_original']">
+    <correction_original>
+        <xsl:apply-templates select="node()"/>
+    </correction_original>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_corrige']">
+    <correction_corrige>
+        <xsl:apply-templates select="node()"/>
+    </correction_corrige>
+</xsl:template>
+
+<xsl:template match="span[@class='illisible']">
+    <illisible>
+        <xsl:apply-templates select="node()"/>
+    </illisible>
+</xsl:template>
+
+<xsl:template match="span[@class='douteux']">
+    <douteux>
+        <xsl:apply-templates select="node()"/>
+    </douteux>
+</xsl:template>
+
+<xsl:template match="span[@class='commentaire']">
+    <commentaire>
+        <xsl:apply-templates select="node()"/>
+    </commentaire>
+</xsl:template>
+
+<xsl:template match="span[@class='page']">
+    <page>
+        <xsl:apply-templates select="node()"/>
+    </page>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_manuscrit']">
+    <bloc_manuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_manuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc_tapuscrit']">
+    <bloc_tapuscrit>
+        <xsl:apply-templates select="node()"/>
+    </bloc_tapuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='collage']">
+    <collage>
+        <xsl:apply-templates select="node()"/>
+    </collage>
+</xsl:template>
+
+<xsl:template match="span[@class='retour_a_la_ligne']">
+    <retour_a_la_ligne>
+        <xsl:apply-templates select="node()"/>
+    </retour_a_la_ligne>
+</xsl:template>
+
+<xsl:template match="span[@class='incomplet']">
+    <incomplet>
+        <xsl:apply-templates select="node()"/>
+    </incomplet>
+</xsl:template>
+
+<xsl:template match="span[@class='biffe']">
+    <biffe>
+        <xsl:apply-templates select="node()"/>
+    </biffe>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout']">
+    <ajout>
+        <xsl:apply-templates select="node()"/>
+    </ajout>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_marge']">
+    <ajout_en_marge>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_marge>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_original']">
+    <correction_original>
+        <xsl:apply-templates select="node()"/>
+    </correction_original>
+</xsl:template>
+
+<xsl:template match="span[@class='correction_corrige']">
+    <correction_corrige>
+        <xsl:apply-templates select="node()"/>
+    </correction_corrige>
+</xsl:template>
+
+<xsl:template match="span[@class='illisible']">
+    <illisible>
+        <xsl:apply-templates select="node()"/>
+    </illisible>
+</xsl:template>
+
+<xsl:template match="span[@class='douteux']">
+    <douteux>
+        <xsl:apply-templates select="node()"/>
+    </douteux>
+</xsl:template>
+
+<xsl:template match="span[@class='commentaire']">
+    <commentaire>
+        <xsl:apply-templates select="node()"/>
+    </commentaire>
+</xsl:template>
+
+<xsl:template match="span[@class='manuscrit']">
+    <manuscrit>
+        <xsl:apply-templates select="node()"/>
+    </manuscrit>
+</xsl:template>
+
+<xsl:template match="span[@class='imprimé']">
+    <imprimé>
+        <xsl:apply-templates select="node()"/>
+    </imprimé>
+</xsl:template>
+
+<xsl:template match="span[@class='numéro_de_page']">
+    <numéro_de_page>
+        <xsl:apply-templates select="node()"/>
+    </numéro_de_page>
+</xsl:template>
+
+<xsl:template match="span[@class='titre']">
+    <titre>
+        <xsl:apply-templates select="node()"/>
+    </titre>
+</xsl:template>
+
+<xsl:template match="span[@class='texte_principal']">
+    <texte_principal>
+        <xsl:apply-templates select="node()"/>
+    </texte_principal>
+</xsl:template>
+
+<xsl:template match="span[@class='note_bas_page']">
+    <note_bas_page>
+        <xsl:apply-templates select="node()"/>
+    </note_bas_page>
+</xsl:template>
+
+<xsl:template match="span[@class='gauche']">
+    <gauche>
+        <xsl:apply-templates select="node()"/>
+    </gauche>
+</xsl:template>
+
+<xsl:template match="span[@class='centré']">
+    <centré>
+        <xsl:apply-templates select="node()"/>
+    </centré>
+</xsl:template>
+
+<xsl:template match="span[@class='droit']">
+    <droit>
+        <xsl:apply-templates select="node()"/>
+    </droit>
+</xsl:template>
+
+<xsl:template match="span[@class='stylo_bleu']">
+    <stylo_bleu>
+        <xsl:apply-templates select="node()"/>
+    </stylo_bleu>
+</xsl:template>
+
+<xsl:template match="span[@class='feutre_bleu']">
+    <feutre_bleu>
+        <xsl:apply-templates select="node()"/>
+    </feutre_bleu>
+</xsl:template>
+
+<xsl:template match="span[@class='crayon']">
+    <crayon>
+        <xsl:apply-templates select="node()"/>
+    </crayon>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_interligne']">
+    <ajout_en_interligne>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_interligne>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_ligne']">
+    <ajout_en_ligne>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_ligne>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_marge']">
+    <ajout_en_marge>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_marge>
+</xsl:template>
+
+<xsl:template match="span[@class='alinéa']">
+    <alinéa>
+        <xsl:apply-templates select="node()"/>
+    </alinéa>
+</xsl:template>
+
+<xsl:template match="span[@class='appel_de_note']">
+    <appel_de_note>
+        <xsl:apply-templates select="node()"/>
+    </appel_de_note>
+</xsl:template>
+
+<xsl:template match="span[@class='italique']">
+    <italique>
+        <xsl:apply-templates select="node()"/>
+    </italique>
+</xsl:template>
+
+<xsl:template match="span[@class='gras']">
+    <gras>
+        <xsl:apply-templates select="node()"/>
+    </gras>
+</xsl:template>
+
+<xsl:template match="span[@class='raturé']">
+    <raturé>
+        <xsl:apply-templates select="node()"/>
+    </raturé>
+</xsl:template>
+
+<xsl:template match="span[@class='souligné']">
+    <souligné>
+        <xsl:apply-templates select="node()"/>
+    </souligné>
+</xsl:template>
+
+<xsl:template match="span[@class='exposant']">
+    <exposant>
+        <xsl:apply-templates select="node()"/>
+    </exposant>
+</xsl:template>
+
+<xsl:template match="span[@class='douteux']">
+    <douteux>
+        <xsl:apply-templates select="node()"/>
+    </douteux>
+</xsl:template>
+
+<xsl:template match="span[@class='illisible']">
+    <illisible>
+        <xsl:apply-templates select="node()"/>
+    </illisible>
+</xsl:template>
+
+<xsl:template match="span[@class='passage_barré']">
+    <passage_barré>
+        <xsl:apply-templates select="node()"/>
+    </passage_barré>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_marge_gauche']">
+    <ajout_en_marge_gauche>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_marge_gauche>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_marge_droit']">
+    <ajout_en_marge_droit>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_marge_droit>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout_en_marge_haut']">
+    <ajout_en_marge_haut>
+        <xsl:apply-templates select="node()"/>
+    </ajout_en_marge_haut>
+</xsl:template>
+
+<xsl:template match="span[@class='']">
+    <>
+        <xsl:apply-templates select="node()"/>
+    </>
+</xsl:template>
+
+<xsl:template match="span[@class='descriptif']">
+    <descriptif>
+        <xsl:apply-templates select="node()"/>
+    </descriptif>
+</xsl:template>
+
+<xsl:template match="span[@class='fichier_image']">
+    <fichier_image>
+        <xsl:apply-templates select="node()"/>
+    </fichier_image>
+</xsl:template>
+
+<xsl:template match="span[@class='']">
+    <>
+        <xsl:apply-templates select="node()"/>
+    </>
+</xsl:template>
+
+<xsl:template match="span[@class='']">
+    <>
+        <xsl:apply-templates select="node()"/>
+    </>
+</xsl:template>
+
+<xsl:template match="span[@class='foliotation_d_inventaire']">
+    <foliotation_d_inventaire>
+        <xsl:apply-templates select="node()"/>
+    </foliotation_d_inventaire>
+</xsl:template>
+
+<xsl:template match="span[@class='classement']">
+    <classement>
+        <xsl:apply-templates select="node()"/>
+    </classement>
+</xsl:template>
+
+<xsl:template match="span[@class='']">
+    <>
+        <xsl:apply-templates select="node()"/>
+    </>
+</xsl:template>
+
+<xsl:template match="span[@class='contenu']">
+    <contenu>
+        <xsl:apply-templates select="node()"/>
+    </contenu>
+</xsl:template>
+
+<xsl:template match="span[@class='fin_de_page']">
+    <fin_de_page>
+        <xsl:apply-templates select="node()"/>
+    </fin_de_page>
+</xsl:template>
+
+<xsl:template match="span[@class='bloc']">
+    <bloc>
+        <xsl:apply-templates select="node()"/>
+    </bloc>
+</xsl:template>
+
+<xsl:template match="span[@class='espace']">
+    <espace>
+        <xsl:apply-templates select="node()"/>
+    </espace>
+</xsl:template>
+
+<xsl:template match="span[@class='paragraphe']">
+    <paragraphe>
+        <xsl:apply-templates select="node()"/>
+    </paragraphe>
+</xsl:template>
+
+<xsl:template match="span[@class='nouvelle_ligne']">
+    <nouvelle_ligne>
+        <xsl:apply-templates select="node()"/>
+    </nouvelle_ligne>
+</xsl:template>
+
+<xsl:template match="span[@class='rature']">
+    <rature>
+        <xsl:apply-templates select="node()"/>
+    </rature>
+</xsl:template>
+
+<xsl:template match="span[@class='passage_barre']">
+    <passage_barre>
+        <xsl:apply-templates select="node()"/>
+    </passage_barre>
+</xsl:template>
+
+<xsl:template match="span[@class='rature_machine']">
+    <rature_machine>
+        <xsl:apply-templates select="node()"/>
+    </rature_machine>
+</xsl:template>
+
+<xsl:template match="span[@class='correction']">
+    <correction>
+        <xsl:apply-templates select="node()"/>
+    </correction>
+</xsl:template>
+
+<xsl:template match="span[@class='marque_de_deplacement']">
+    <marque_de_deplacement>
+        <xsl:apply-templates select="node()"/>
+    </marque_de_deplacement>
+</xsl:template>
+
+<xsl:template match="span[@class='ajout']">
+    <ajout>
+        <xsl:apply-templates select="node()"/>
+    </ajout>
+</xsl:template>
+
+<xsl:template match="span[@class='illisible']">
+    <illisible>
+        <xsl:apply-templates select="node()"/>
+    </illisible>
+</xsl:template>
+
+<xsl:template match="span[@class='presence']">
+    <presence>
+        <xsl:apply-templates select="node()"/>
+    </presence>
+</xsl:template>
+
+<xsl:template match="span[@class='variante']">
+    <variante>
+        <xsl:apply-templates select="node()"/>
+    </variante>
+</xsl:template>
+
+<xsl:template match="span[@class='stylo_noir']">
+    <stylo_noir>
+        <xsl:apply-templates select="node()"/>
+    </stylo_noir>
 </xsl:template>
 
 </xsl:stylesheet>

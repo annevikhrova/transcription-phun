@@ -1,0 +1,13 @@
+{# src/PHuN/PlatformBundle/Resources/views/Comment/show_comment.html.twig #}
+
+ <div class="comment-box">
+	 {% if profile is not null %}
+	    <div class="comment-user-profile"><img src="{{ asset(profile.url) }}"/></div>
+	 {%else %}
+	    <div class="comment-user-profile"><img src="{{ asset('corpus/img/profile.png') }}"/></div>
+	 {% endif %}   
+    <div class="comment-user">{{comment.user}}</div>
+    <div class="comment-datetime">{{comment.datetime|date('d/m/Y \\à g:ia')}}</div>
+    <div class="comment-text">{{comment.text}}</div>
+    <div class="comment-time-ago">{{ comment.datetime|time_ago_in_words(true, true) }}</div>
+</div>      

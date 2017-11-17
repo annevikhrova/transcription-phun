@@ -1,0 +1,240 @@
+{# src/PHuN/PlatformBundle/Resources/views/Revision/listRevisions.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+
+{% block title %}
+  Affichage d'une page - {{ parent() }}
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+   {# <link rel="stylesheet" href="{{ asset(urlCSS) }}" type="text/css" />#}
+{% endblock %}
+
+{% block body %}
+
+{#{{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}#}
+
+{% block navigation %}
+    <style>
+        
+        .page-header-canvas {
+            background-color:#333;
+            height: 261px;
+            margin: 0;
+            
+        }
+       
+        .page-header {
+            background-image: url({{ asset('header/img/manuscript-2.jpg') }});
+            font: normal 230% 'Futura', Times, sans-serif;
+            letter-spacing: 0.1em;
+            margin: 0;
+            padding: 15px 10px 15px 60px;
+            opacity: 1;
+            filter: alpha(opacity=50); /* For IE8 and earlier */
+        }
+        
+        {#.page-header:hover {
+            opacity: 0.8;
+        }#}
+       
+        h1 {
+            font-size: 72px;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+        }
+        .project-img {
+            height: 230px;
+            width: 230px;
+            background-image: url( {{ asset(corpus.image.url) }} );
+            background-position:center;
+            {#opacity: 0.6;#}
+            box-shadow:  -15px 15px 5px #333;
+            
+           
+        }
+        
+        .project-img-canvas {
+            {#border: 3px solid white;#}
+            background-color:#FFF;
+            width: 230px;
+            height: 230px;
+            
+        }
+        
+        .navbar navbar-default {
+            padding-top: 0;
+        }
+    </style>
+         
+        <div class="page-header-canvas">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-md-8 col-sm-offset-0">
+                        <h1>{{ corpus.name }}</h1>
+                    </div>
+                    <div class="project-img-canvas col-sm-offset-9">
+                    <div class="project-img">
+
+                    </div>
+                    </div>
+
+                </div>        
+
+            </div>
+                   
+        </div>{#
+        <div class="col-md-12">  #}          
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <ul class="nav navbar-nav"><li><a href=""/></li></ul>
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="{{ path('phun_project_description',{'id': corpus.id }) }}">{{ corpus.name }}</a>
+                    </div>
+                    <ul class="nav navbar-nav">{#
+                        <li class="active"><a href="#">Home</a></li>#}
+                        <li>
+                                <a href="{{ app.request.headers.get('referer') }}" class="btn btn-small disabled">
+                                <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>     
+                                    Retour
+                                </a>
+                            
+                              
+                        </li>
+                       {# <li>
+                            <a href="" id="random" class="">
+                                <i class="glyphicon glyphicon-random"></i>
+                                    Page au hasard
+                            </a>
+                        </li>#}
+                        <li>
+                            <a href="{{ path('phun_protocol',{'id': corpus.id })}}" id="" class="">
+                                <i class=""></i>
+                                    Comment transcrire ?
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </nav>
+        {#</div>#}        
+                
+    <br/>    
+    <br/>
+{% endblock %}
+
+
+  <div class="row">
+    <table class="table table-striped">
+       <thead>
+        <tr>
+          <th>Page</th>
+          <th>Contributeur</th>
+          <th>Date</th>
+          <th>Nombre de Relectures</th>
+        </tr>
+      </thead>
+
+    <div class="col-md-9">
+      <tr>
+      <td>
+      
+        {% if transcription.page.urlImg is not null %}
+          <img src="{{ asset(transcription.page.urlImg) }}" id="zoom_04" alt="{{ transcription.page.alt }}" height="65" data-zoom-image="{{ asset(transcription.page.urlImg) }}" >
+        {% endif %}
+      </td>
+      <td> 
+      {% if transcription.user.username is not null %}
+        {{ transcription.user.username }} 
+      {% endif %} 
+      </td>
+      <td>
+      {% if transcription.date is not null %}
+         {{ transcription.date|date('Y-m-d') }}
+      {% endif %} 
+      </td>
+      <td>
+      {% if transcription.nbRevisions is not null %}
+         {{ transcription.nbRevisions }}
+          {% if transcription.nbRevisions == -1 %}
+            <div class="progress">
+              <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="0"
+              aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                <span class="">0% Complète</span>
+              </div>
+            </div>
+          {% elseif transcription.nbRevisions == 0 %}
+            <div class="progress">
+              <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="25"
+              aria-valuemin="0" aria-valuemax="100" style="width:25%">
+                <span class="">25% Complète</span>
+              </div>
+            </div>
+
+          {% elseif transcription.nbRevisions == 1 %}
+            <div class="progress">
+              <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
+              aria-valuemin="0" aria-valuemax="100" style="width:50%">
+                <span class="">50% Complète</span>
+              </div>
+            </div>
+
+          {% elseif transcription.nbRevisions == 2 %}
+            <div class="progress">
+              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="75"
+              aria-valuemin="0" aria-valuemax="100" style="width:75%">
+                <span class="">75% Complète</span>
+              </div>
+            </div>
+
+          {% elseif transcription.nbRevisions == 3 %}
+            <div class="progress">
+              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100"
+              aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                <span class="">100% Complète</span>
+              </div>
+            </div>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <a href="{{ path('phun_platform_view', {'id': transcription.page.id}) }}" class="btn btn-default">
+                      <i class="glyphicon glyphicon-eye-open"></i>
+                      Voir la page publiée
+                    </a>
+                    {% else %}
+                    <a href="{{ path('fos_user_security_login', {'id': transcription.page.id}) }}" class="btn btn-default">
+                      <i class="glyphicon glyphicon-eye-open"></i>
+                      Login pour voir la page publiée
+                    </a>
+                {% endif %}
+        
+            
+          {% endif %}
+        
+      {% endif %} 
+        </td>
+      
+      
+      <td>
+      
+      <a href="{{ path('transcriptions_in_revision', {'corpusId': corpusId, 'userId': transcription.user.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-list"></i>
+            Revenir à la liste de relectures
+      </a> 
+
+      </td>
+      </tr>
+    </div>  
+  
+
+  </table> 
+
+{{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

@@ -1,0 +1,64 @@
+{# src/PHuN/PlatformBundle/Resources/views/Admin/admin_logos.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Admin
+{% endblock %}
+
+
+{% block body %}
+
+{{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}
+
+    <div id="section-content" class="row">
+        <div class="panel panel-default">
+            {% if listLogos is not null %}
+                
+                <div class="col-md-12">
+                {% for logo in listLogos %}
+                    <div class="col-md-2">
+                        <img src="{{ asset( logo.url ) }}" width="100"/>
+                    </div>
+                {% endfor %}
+                </div>
+                <div class="landing-feature-1"></div>
+            {% else %}
+                <h2>Pas de logos à afficher.</h2>
+            {% endif %}
+            <br/>
+            <div class="panel-body">
+                
+                <h3>Ajouter des logos</h3>
+                <div class="row">
+                {{ form_start(form, {'attr': {'class': 'form-horizontal', 'action': '', 'method': 'post'}}) }}
+                <div class="form-group">
+                    <div class="col-md-9">
+                        <div class="col-md-3">
+                        {{ form_widget(form.file) }}
+                        </div>
+                        <br/>
+                        <br/>
+                        {# Submit #}
+                        <div class="col-md-3">
+                            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary', 'style': 'width:100%'} }) }}
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form) }} 
+                </div>
+                       
+            </div>
+                
+            </div>
+    </div>
+
+{{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }}                 
+
+
+{% endblock %} 
+
+{% block javascripts %}
+    
+    {{ parent() }}
+
+{% endblock %}    

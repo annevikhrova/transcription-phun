@@ -9,28 +9,79 @@
   Définition du schéma - {{ parent() }}
 {% endblock %}
 
+
 {% block body %}
+    
+{# Custom local styles #}
+<style>
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 20px !important;
+        font-weight: 700;
+        padding-right: 10px !important;
+        padding-top: 15px !important;
+        
+       
+}
 
-      <div class="well">
-        Création de plugin
-      </div>
-      <div class="well">
-            {{ form(form) }} 
-      </div>
+    label .required {
+        border-bottom: 1px solid gray !important;
+       
+}
 
+    
+
+</style>
+{# End custom local styles #}
+
+{{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}
+<div id="section-content" class="row">
+    <div class="col-md-9">
+        <div class="well">
+            Création de boutons d'éditeur
+        </div>
+        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+        
+        {{ form_label(form.plugins) }}
+        <div class="form-group">
+            
+            <div class="col-sm-7" style="border-bottom: 1px">
+                {{ form_widget(form.plugins, {'attr': {'class': 'form-horizontal' }} )}}
+            </div>
+            
+        </div> 
+        <div class="col-sm-7">
+            {{ form_rest(form) }}
+        </div>
+            
+        <div class="col-sm-7">    
+            {{ form_end(form) }} 
+        
+        <br/>
+        </div>
+    </div>
+</div>
+            
+{{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }}              
 {% endblock %}
 
 
 {% block javascripts %}
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    
+{#<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>#}
+
+    {{ parent() }}
 
   <script type="text/javascript">
-    $(document).ready(function() {
+    jQuery(function($) {
       // On récupère la balise <div> qui contient l'attribut « data-prototype » qui nous intéresse.
       var $container = $('div#phun_platformbundle_corpus_plugins');
+      
+      $container.css({ 'border': '1px', 'padding-bottom': '20px' });
 
       // On ajoute un lien pour ajouter une nouvelle catégorie
-      var $addLink = $('<a href="#" id="add_plugin" class="btn btn-default">Ajouter un élément</a>');
+      var $addLink = $('<a href="#" id="add_plugin" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i>Ajouter un élément</a><br/>');
       $container.append($addLink);
 
       // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
@@ -74,8 +125,9 @@
       // La fonction qui ajoute un lien de suppression d'une catégorie
       function addDeleteLink($prototype) {
         // Création du lien
-        $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
-
+        $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a><br/>');
+        
+        {#$deleteLink.css({'border-bottom': '1px solid gray' });#}
         // Ajout du lien
         $prototype.append($deleteLink);
 
@@ -88,4 +140,6 @@
       }
     });
   </script>
+    
+    
 {% endblock %}

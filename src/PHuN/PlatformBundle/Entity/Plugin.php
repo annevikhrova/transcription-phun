@@ -27,14 +27,22 @@ class Plugin
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=500, nullable=true)
+     */
+    private $description;
+    
 
     /**
      *
      * @ORM\ManyToMany(targetEntity="PHuN\PlatformBundle\Entity\Container", cascade={"persist"})
      */
     private $containers;
-
-
+    
+ 
 
     /**
      * Get id
@@ -123,5 +131,29 @@ class Plugin
     public function getContainers()
     {
         return $this->containers;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Plugin
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }

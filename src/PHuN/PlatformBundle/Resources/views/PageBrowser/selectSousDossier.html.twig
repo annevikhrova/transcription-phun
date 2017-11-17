@@ -1,0 +1,84 @@
+{% extends "PHuNPlatformBundle:PageBrowser:browserView.html.twig" %}
+
+{% block body %}
+
+<div class="col-md-4">
+	<div class="panel panel-default">
+            <div class="panel-heading">
+	       <h3 class="panel-title">Choisir un catalogue</h3>
+	    </div>
+	    <div class="panel-body"> 
+		<div class="row"> 		
+		</div> 
+                <div class="row"> 
+                        {{ form_start(formCatalogue, {'attr': {'class': 'form-horizontal'}}) }}
+
+                    <div class="form-group">
+                        {{ form_label(formCatalogue.name, "Catalogue", {'label_attr': {'class': 'col-sm-5 control-label'}})}}
+                            <div class="col-sm-7">
+                                {{ form_widget(formCatalogue.name) }}
+                            </div>  
+                    </div>
+                    <div class="col-md-2">        
+                        {{ form_widget(formCatalogue.select, {'attr': {'class': 'btn btn-primary'}}) }}
+                    </div>    
+                    {{ form_end(formCatalogue) }} 
+                </div>
+            </div>
+	</div>
+</div> 
+
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+           <h3 class="panel-title">Choisir un dossier</h3>
+        </div>
+        <div class="panel-body">
+	<div class="row"> 
+		
+	</div> 
+	<div class="row"> 
+		{{ form_start(formDossier, {'attr': {'class': 'form-horizontal'}}) }}
+		<div class="form-group">
+	      {{ form_label(formDossier.name, "Dossier", {'label_attr': {'class': 'col-sm-5 control-label'}})}}
+	      <div class="col-sm-7">
+	          {{ form_widget(formDossier.name) }}
+	      </div>  
+    	</div>
+        <div class="col-md-2">
+    	{{ form_widget(formDossier.select, {'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+	{{ form_end(formDossier) }} 
+	</div>
+        </div>
+    </div>    
+</div> 
+
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+           <h3 class="panel-title">Choisir une page</h3>
+        </div>
+        <div class="panel-body">
+	<div class="row"> 
+		
+	</div> 
+	<div class="row"> 
+		{{ form_start(formSousDossier, {'attr': {'class': 'form-horizontal'}}) }}
+		<div class="form-group">
+	      {{ form_label(formSousDossier.name, "Dossier", {'label_attr': {'class': 'col-sm-5 control-label'}})}}
+	      <div class="col-sm-7">
+	          {{ form_widget(formSousDossier.name) }}
+	      </div>  
+    	</div>
+        <div class="col-md-2">
+    	{{ form_widget(formSousDossier.select, {'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+	{{ form_end(formSousDossier) }} 
+	</div> 
+        </div>
+    </div>    
+</div> 
+
+{% endblock %}
+

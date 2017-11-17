@@ -1,0 +1,136 @@
+{# src/PHuN/PlatformBundle/Resources/views/Page/view.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+
+{% block title %}
+  Affichage d'une page - {{ parent() }}
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+   {# <link rel="stylesheet" href="{{ asset(urlCSS) }}" type="text/css" />#}
+{% endblock %}
+
+{% block body %}
+
+  {#<h2>{{ transcription.page.alt }}</h2>#}
+
+  {#<div class="well">
+    {{ page.corpus.name }}
+  </div>#}
+
+
+        
+
+  <div class="row">
+    <table class="table table-striped">
+       <thead>
+        <tr>
+          {#<th>Date</th>#}
+          <th>Page Source</th>
+          <th>Page Id</th>
+          <th>User</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+    {% for transcription in listTranscriptions %}
+    <div class="col-md-9">
+      <tr>
+      <td>
+      
+        {% if transcription.page.urlImg is not null %}
+          <img src="{{ asset(transcription.page.urlImg) }}" id="zoom_04" alt="{{ transcription.page.alt }}" height="65" data-zoom-image="{{ asset(transcription.page.urlImg) }}" >
+      {% endif %}
+      </td>
+      <td>
+        {{ transcription.id }}
+      </td>
+      <td> 
+      {% if transcription.user.username is not null %}
+        {{ transcription.user.username }} 
+      {% endif %} 
+      </td>
+      <td>
+      {% if transcription.date is not null %}
+         {{ transcription.date|date('Y-m-d') }}
+      {% endif %} 
+      </td>
+      <td>
+      {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+          <a href="{{ path('phun_platform_transcription_view', {'id': transcription.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i>
+            Voir la transcription
+          </a> 
+          {% else %}
+          <a href="{{ path('fos_user_security_login', {'id': transcription.page.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i>
+            Login pour voir la transcription
+          </a>
+          {% endif %}
+      </td>
+      </tr>
+    </div>  
+  
+ {% endfor %}
+  </table> 
+
+
+
+  {#<p>
+      <div class="row">
+        <div class="col-md-4">
+          <a href="{{ path('phun_platform_view', {'id': transcription.page.id-1}) }}" class="btn btn-default">
+                page précédente
+          </a>
+
+          <a href="{{ path('phun_platform_view', {'id': transcription.page.id+1}) }}" class="btn btn-default">
+                page suivante 
+          </a>
+        </div>
+        <div class="col-md-4 col-md-offset-2">
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+          <a href="{{ path('phun_platform_transcription_edit', {'id': transcription.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i>
+            Editer la transcription
+          </a> 
+          {% else %}
+          <a href="{{ path('fos_user_security_login', {'id': transcription.page.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i>
+            Transcrire la page
+          </a>
+          {% endif %}
+        </div>  
+        <div class="col-md-4 col-md-offset-3">
+          <a href="{{ path('phun_platform_transcription_list', {'id': transcription.page.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i>
+            Liste des transcriptions pour cette page
+          </a> 
+        </div>  
+        
+       </div> 
+  </p>#}
+
+{% endblock %}
+
+{% block javascripts %}
+
+{#
+  <script>
+    var cssLink = document.createElement("link");
+    cssLink.setAttribute("href", "{{ urlCSS }}");
+
+    var doc = document.getElementById("frame").contentWindow.document;
+
+    doc.head.appendChild(cssLink);
+
+    //Doc = document.getElementById("frame");
+    //Doc.head.appendChild(link);
+    doc.body.appendChild({{ transcription.content|raw('html') }});
+  </script>
+#}
+
+
+
+{% endblock %}

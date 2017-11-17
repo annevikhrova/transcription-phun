@@ -1,0 +1,38 @@
+{# src/PHuN/PlatformBundleResources/view/Search/menu.html.twig #}
+
+
+<div id="searchArea">
+-	{#<input type="text" class="input" size="10" id="searchBar" value="Recherche..." />
+-	<button type="button" class="glyphicon glyphicon-search" id="searchBt" value="Submit"/>#}
+	<form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input id="searchBar" type="text" class="form-control" placeholder="Rechercher ..." value="">
+        </div>
+          <button id="searchBt" type="button" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+      </form>
+</div>
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+<script>
+	$(document).ready(function() {
+		// Search input div
+		var searchDiv =  $(document.getElementById('searchBar'));
+
+		// Search button has been clicked
+		$('#searchBt').click(function() {
+			var searchStr =  $(searchDiv).val();
+			//$('#searchArea').append('<div class=row>' + Routing.generate('phun_search', { searchStr: searchStr }) +'</div>');
+                        
+                        var result   = '<a href="' + Routing.generate('phun_search', { searchStr: searchStr });
+                        result      += '">Clique sur le résultat et mange un bonbon !</a>';
+			$('#searchArea').append('<div class=row>' + result +'</div>');
+        
+		});
+	});
+</script>

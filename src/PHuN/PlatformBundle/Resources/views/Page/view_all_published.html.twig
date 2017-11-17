@@ -1,0 +1,167 @@
+{# src/PHuN/PlatformBundle/Resources/views/Page/view_all_published.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+
+{% block title %}
+  Affichage des pages publiée - {{ parent() }}
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+   {# <link rel="stylesheet" href="{{ asset(urlCSS) }}" type="text/css" />#}
+{% endblock %}
+
+{% block body %}
+
+{#{{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}#}
+
+{% block navigation %}
+    <style>
+        
+        .page-header-canvas {
+            background-color:#333;
+            height: 261px;
+            margin: 0;
+            
+        }
+       
+        .page-header {
+            background-image: url({{ asset('header/img/manuscript-2.jpg') }});
+            font: normal 230% 'Futura', Times, sans-serif;
+            letter-spacing: 0.1em;
+            margin: 0;
+            padding: 15px 10px 15px 60px;
+            opacity: 1;
+            filter: alpha(opacity=50); /* For IE8 and earlier */
+        }
+        
+        {#.page-header:hover {
+            opacity: 0.8;
+        }#}
+       
+        h1 {
+            font-size: 72px;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+        }
+        .project-img {
+            height: 230px;
+            width: 230px;
+            background-image: url( {{ asset(corpus.image.url) }} );
+            background-position:center;
+            {#opacity: 0.6;#}
+            box-shadow:  -15px 15px 5px #333;
+            
+           
+        }
+        
+        .project-img-canvas {
+            {#border: 3px solid white;#}
+            background-color:#FFF;
+            width: 230px;
+            height: 230px;
+            
+        }
+        
+        .navbar navbar-default {
+            padding-top: 0;
+        }
+    </style>
+         
+        <div class="page-title-bar">
+            <div class="container">
+                <h1>{{ corpus.name }}</h1>
+            </div>
+        </div>
+                    
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <ul class="nav navbar-nav"><li><a href=""/></li></ul>
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="{{ path('phun_project_description',{'id': corpus.id }) }}">{{ corpus.name }}</a>
+                    </div>
+                    <ul class="nav navbar-nav">{#
+                        <li class="active"><a href="#">Home</a></li>#}
+                        <li>
+                                <a href="{{ app.request.headers.get('referer') }}" class="btn btn-small">
+                                <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>     
+                                    Retour
+                                </a>
+                            
+                              
+                        </li>
+                        <li>
+                            <a href="{{ path('phun_protocol',{'id': corpus.id })}}" id="" class="">
+                                <i class=""></i>
+                                    Comment transcrire ?
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </nav>       
+                
+    <br/>    
+    <br/>
+{% endblock %}
+
+
+    <div class="landing-feature-1">
+        
+      
+        {% if listPages is not null %}
+            {% for page in listPages %}
+            <div class="row" style="border-bottom: 1px solid #eee">    
+            <div class="col-md-3" style="padding: 5px;">  
+                <a href="{{ path('phun_platform_view', {'id': page.id}) }}"><img id="zoom_04" src="{{ asset(page.urlImg) }}" height="65px" data-zoom-image="{{ page.urlImg }}"/>  <input hidden type="checkbox" name = "chk" class="transcription-selection-id" value="{{ page.id }}" id="{{ page.id }}"/>
+                  {{page.alt}}
+                </a>
+                <br/>
+            </div>  
+            <div class="col-md-3">    
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <a href="{{ path('phun_platform_view', {'id': page.id}) }}" class="btn btn-default">
+                          <i class="glyphicon glyphicon-eye-open"></i>
+                          Voir la page publiée
+                        </a>
+                {% else %}
+                        <a href="{{ path('fos_user_security_login', {'id': page.id}) }}" class="btn btn-default">
+                          <i class="glyphicon glyphicon-eye-open"></i>
+                          Login pour voir la page publiée
+                        </a>
+                {% endif %}
+
+            </div>
+      
+        
+      
+            <div class="col-md-3">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <a href="{{ path('admin_unpublish_page', {'id': page.id}) }}" class="btn btn-default">
+                        <i class="glyphicon glyphicon-thumbs-down"></i>
+                        Dévalider la page
+                    </a>
+                {% else  %}
+
+                {% endif %}
+
+            </div>
+            </div> 
+               
+            {% endfor %}
+        {% endif %}
+      
+    
+    </div>  
+  
+
+{{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

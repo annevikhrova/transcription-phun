@@ -6,12 +6,52 @@
 {% endblock %}
 
 {% block body %}
-	<h2> Comment ça marche ... </h2>
 
-	<div class="row">
-		<div class="col-sm-4"><div class="col-sm-4""></div></div>
-		<div class="col-sm-4"><img src="{{ asset('etape_2.png') }}"/><div class="col-sm-4""></div></div>
-		<div class="col-sm-4"><div class="col-sm-4""></div></div>
-	</div>					
+	<h2> Comment ça marche ... </h2>
+	<p>
+        Participez au projet collaboratif de transcription de manuscrits. Créez votre projet !
+      </p>
+    <div class="panel panel-default">
+	  	<div class="panel-body">  
+		    <div class="row">
+				<div class="col-sm-4">
+					<img src="{{ asset('etape_2.png') }}" width="150px" class="thumbnail"/>
+				</div>
+				<div class="row">
+					<div class="col-sm-7"><img src="{{ asset('number_1.png') }}"/>
+							<h4>Transcrivez une page manuscrite</h4>
+					</div>
+				</div>
+			</div>	 
+		</div>
+	</div>
+	<div class="panel panel-default">
+	  	<div class="panel-body">   
+		  	<div class="row">
+				<div class="col-sm-4">
+					<img src="{{ asset('etape_relire.png') }}" width="150px" class="thumbnail"/>
+				</div>
+				<div class="row">
+					<div class="col-sm-7"><img src="{{ asset('number_2.png') }}"/>
+							<h4>Faites-vous relire et compléter par d'autres</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+	  	<div class="panel-body">   
+		  	<div class="row">
+				<div class="col-sm-4">
+					<img src="{{ asset('etape_share.png') }}" width="150px" class="thumbnail"/>
+				</div>
+				<div class="row">
+					<div class="col-sm-7"><img src="{{ asset('number_3.png') }}"/>
+							<h4>Publiez et partagez vos transcriptions</h4>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>				
 
 {% endblock %}

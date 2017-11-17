@@ -1,0 +1,16 @@
+{{ form_start(form_comment, {'attr': {'class': 'form-horizontal'}}) }}
+
+<div class="form-group">
+     <div class="col-md-2">
+     </div> 
+     <div class="col-md-8">
+        {{ form_widget(form_comment.text, {'attr': {'class':'form-control'}}) }}
+    </div> 
+    <div class="col-md-2">
+   		{{ form_widget(form_comment.save, {'attr': {'class': 'btn btn-primary'} }) }}
+    </div>
+</div>
+
+
+
+{{ form_end(form_comment) }}

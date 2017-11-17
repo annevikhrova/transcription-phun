@@ -1,0 +1,791 @@
+page    {
+	display: block;
+}
+
+descriptif:before    {
+	display: block;
+	font-size: 20;
+	font-family: sans-serif;
+	text-decoration: underline;
+	text-align: center;
+	padding: 20px;
+	content: "Descriptif de la page et du document :";
+}
+
+descriptif    {
+	display: block;
+	text-align: left;
+	padding: 10px;
+	font-family: sans-serif;
+	font-size: 14;
+	border: solid;
+	border-width: 1px;
+	margin: 10px;
+}
+
+fichier_image:before    {
+	display: block;
+	content: "Fichier image correspondant : " attr("nom_fichier");
+}
+
+fichier_image {
+	display : block;
+}
+
+fichier_image:after    {
+	display: block;
+}
+
+transcripteur:before    {
+	display: block;
+	content: "Transcrit par " attr(nom_transcripteur) " le " attr(date_transcription);
+}
+
+cote_volume:before    {
+	display: block;
+	content: "Identification : cote " attr(cote) "- volume " attr(volume) ", " attr(numero_page) " " attr(type_page) ", Numero d'ordre dans le registre : " attr(numero_ordre_dans_registre) " et numero d'ordre logique si different : " attr(numero_ordre_logique) ;
+}
+
+proprietes_physiques:before    {
+	display: block;
+	content: "PropriÃ©tÃ©s physiques :  hauteur : " attr(hauteur) "mm, largeur : " attr(largeur) "mm, papier : " attr(papier) ", Support : " attr(support) ;
+}
+
+domaine:before {
+    display : block;
+    content : "Domaine : " attr(domaine) "-" attr(domaine_bis) "-" attr(domaine_ter);
+    }
+
+corpus:before {
+    display : block;
+    content : "Corpus : " attr(corpus) "-" attr(corpus_bis) "-" attr(corpus_ter);
+    }
+
+document:before {
+    display : block;
+    content : "Document : " attr(document) "-" attr(document_bis) "-" attr(document_ter);
+}
+
+nature_document:before {
+    display : block;
+    content : "Nature du document : " attr(nature);
+}
+
+
+
+date_redaction:before    {
+	display: block;
+	content: "Document rÃ©digÃ© entre le " attr(date_debut) ", (" attr(critere_debut) " " attr(indice_debut) ", Ã©quivalent Ã  " attr(equivalent_debut) ") et le " attr(date_fin) ", (" attr(critere_fin) " " attr(indice_fin) ", Ã©quivalent Ã  " attr(equivalent_fin) ")";
+}
+
+date_redaction_page:before    {
+	display: block;
+	content: "Page rÃ©digÃ©e entre le " attr(date_debut) ", (" attr(critere_debut) " " attr(indice_debut) ", Ã©quivalent Ã  " attr(equivalent_debut) ") et le " attr(date_fin) ", (" attr(critere_fin) " " attr(indice_fin) ", Ã©quivalent Ã  " attr(equivalent_fin) ")";
+}
+
+lieu_redaction:before    {
+	display: block;
+	content: "Lieu de rÃ©daction du document : " attr(lieu_indique) ", (" attr(critere) " " attr(indice) ", " attr(equivalent) ")";
+}
+
+lieu_redaction_page:before    {
+	display: block;
+	content: "Lieu de rÃ©daction de la page : " attr(lieu_indique) ", (" attr(critere) " " attr(indice) ", " attr(equivalent) ")";
+}
+
+commentaire_page:before    {
+	display: block;
+	text-align: left;
+	font-weight: bold;
+	content: "Commentaire du transcripteur (" attr(transcripteur) ")";
+}
+
+commentaire_page    {
+	display: block;
+	border-top: solid;
+	border-bottom: solid;
+	border-width: 1px;
+	margin: 5px;
+}
+
+
+
+
+contenu    {
+	display: block;
+	border-width: thick;
+	border-color: black;
+	border-style: solid;
+	height: 600px;
+	padding: 10px;
+	margin: 10px;
+	font-family: serif;
+	font-size: 14;
+}
+
+tableau {
+    display : table;
+}
+
+ligne_de_tableau {
+    display : table-row;
+}
+
+cellule_de_tableau {
+    display : table-cell;
+}
+
+*[bordure="aucune"] {
+    border : none;
+}
+
+*[bordure="simple"] {
+    border : solid;
+}
+
+*[bordure="double"] {
+    border : double;
+}
+
+*[bordure="frise"] {
+    border : groove;
+}
+
+figure:before    {
+	content: "Description de l'objet graphique : " attr(description);
+	display: block;
+	font-style: bold;
+	padding: 10px;
+	margin: 10px;
+}
+
+figure    {
+	position: absolute;
+	display: block;
+	margin: 10pt;
+	border-width: 1pt;
+	border-style: groove;
+	border-color: aqua;
+}
+
+pagination:before    {
+	content: "Pagination de " attr(scripteur);
+	display: block;
+	font-style: bold;
+	padding: 10px;
+	margin: 10px;
+}
+
+pagination    {
+	position: absolute;
+	display: block;
+	margin: 10pt;
+	padding: 10px;
+	border-width: 1pt;
+	border-style: groove;
+	border-color: aqua;
+}
+
+foliotation:before    {
+	content: "Foliotation de " attr(scripteur);
+	display: block;
+	font-style: bold;
+	padding: 10px;
+	margin: 10px;
+}
+
+foliotation    {
+	position: absolute;
+	display: block;
+	margin: 10pt;
+	padding: 10px;
+	border-width: 1pt;
+	border-style: groove;
+	border-color: aqua;
+}
+
+trait_de_separation:before {
+    display : block;
+    content : "<-- trait de sÃ©paration (" attr(position) ", " attr(type) ", " attr(largeur) ") -->";
+}
+
+liste {
+    display : block;
+	border-width: 0.5pt;
+	border-style: dotted;
+	border-color: black;
+}
+
+
+
+
+texte    {
+	display: block;
+	text-align: left;
+	font-size: 14;
+	font-family: serif;
+}
+
+bloc_en_interligne {
+	display : block;
+	text-align : left;
+	font-size : 12;
+	font-family : serif;	
+	margin : 20px;
+	}
+
+
+
+titre    {
+	display: block;
+	text-align: center;
+	font-size: 28;
+}
+
+titre[taille="tres_petit"]{
+    font-size : 12;
+}
+titre[taille="petit"]{
+    font-size : 20;
+}
+titre[taille="normal"]{
+    font-size : 28;
+}
+titre[taille="gros"]{
+    font-size : 32;
+}
+titre[taille="tres_gros"]{
+    font-size : 36;
+}
+
+sous_titre    {
+	display: block;
+	text-align: center;
+	font-size: 24;
+}
+
+sous_titre[taille="tres_petit"]{
+    font-size : 14;
+}
+sous_titre[taille="petit"]{
+    font-size : 18;
+}
+sous_titre[taille="normal"]{
+    font-size : 24;
+}
+sous_titre[taille="gros"]{
+    font-size : 30;
+}
+sous_titre[taille="tres_gros"]{
+    font-size : 34;
+}
+
+titre_courant    {
+	display: block;
+	text-align: center;
+	font-size: 24;
+}
+
+titre_courant[taille="tres_petit"]{
+    font-size : 14;
+}
+titre_courant[taille="petit"]{
+    font-size : 18;
+}
+titre_courant[taille="normal"]{
+    font-size : 24;
+}
+titre_courant[taille="gros"]{
+    font-size : 30;
+}
+titre_courant[taille="tres_gros"]{
+    font-size : 34;
+}
+
+multimedia:before{content : "Bloc multimedia " attr(fichier);}
+multimedia    {
+	display: block;
+	margin-left: 50px;
+}
+
+multimedia:after{content : "Fin du bloc multimedia";}
+
+
+paragraphe    {
+	display: block;
+	margin-top: 10px;
+}
+
+bloc_de_citation    {
+	display: block;
+	font-style : italic;
+	margin-top: 10px;
+}
+
+*[alinea="aucun"]{
+    text-indent : 0px;
+}
+
+*[alinea="petit"]{
+    text-indent : 20px;
+}
+
+*[alinea="moyen"]{
+    text-indent : 40px;
+}
+
+*[alinea="grand"]{
+    text-indent : 80px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.vers	{
+	display : block;
+}
+
+span.ligne    {
+	display: block;
+}
+
+span.ligne:after    {
+	content: " ||";
+	font-size: 8;
+	vertical-align: sub;
+}
+
+span.interligne[plus_gros="oui"]
+    {
+    font-size : 16;
+    }
+    
+span.interligne    {
+	display: block;
+	font-size: 12;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+span.interligne:after    {
+	content: " ||";
+	font-size: 6;
+	vertical-align: sub;
+}
+
+span.biffe    {
+	display: inline;
+	text-decoration: line-through;
+}
+
+code:after    {
+	display: inline;
+	font-family: courier;
+	content: "|" attr(equivalent) "| ";
+	font-size: 12;
+}
+
+.exposant    {
+	display: inline;
+	vertical-align: top;
+}
+
+.indice    {
+	display: inline;
+	vertical-align: sub;
+}
+
+.ajout[plus_gros="oui"]
+    {
+    font-size : 16;
+    }
+.ajout    {
+	display: inline;
+	font-size: 12;
+	vertical-align : top;
+}
+
+.douteux:before    {
+	display: inline;
+	content: "<";
+	color: red;
+}
+
+.douteux:after    {
+	display: inline;
+	content: ">";
+	color: red;
+}
+
+.gras    {
+	font-weight: bold;
+}
+
+script {
+    letter-spacing : 0.5em;
+	font-family: cursive;
+}
+
+.calligraphie {
+    letter-spacing : 0.5em;
+	font-family: fantasy;
+}
+
+.illisible:before    {
+	display: inline;
+	content: "*...";
+}
+
+.illisible:after    {
+	display: inline;
+	content: "*";
+}
+
+.illisible[long="vrai"]:after    {
+	display: inline;
+	content: " ...*";
+}
+
+.surcharge:after    {
+	display: inline;
+	content: " |" attr(ecrit) "| ";
+}
+
+.surcharge[illisible="oui"]:after    {
+	display: inline;
+	content: " |Ill.| ";
+}
+
+.date:after    {
+	display: inline;
+	content: "(eq. " attr(equivalent) ")";
+	font-size: 12;
+	font-family: courier;
+}
+
+.lieu:after    {
+	display: inline;
+	content: "(eq. " attr(equivalent) ")";
+	font-size: 12;
+	font-family: courier;
+}
+
+.personnalite {
+	background : #E8E8E8;
+}
+
+.personnage {
+	background : #B8B8B8;
+}
+
+.oeuvre {
+	background : #A0A0A0;
+}
+
+
+.averifier    {
+	background: #FF0000;
+}
+
+.averifier[verifie="oui"]    {
+	background: #00C000;
+}
+
+.surligne    {
+	background: #f5f81f;
+}
+
+.souligne{
+    border-bottom : 1px solid;
+}
+
+.souligne[outil_ecriture="encre_noire"]    {
+	border-bottom-color : black;
+}
+
+.souligne[outil_ecriture="encre_rouge"]    {
+    color : black;
+	border-bottom-color : red;
+}
+
+.souligne[outil_ecriture="crayon"]    {
+    color : black;
+	border-bottom-color : #D3D3D3;
+}
+
+.souligne[type_soulignement="double"] {
+    text-decoration : none;
+    border-bottom : 2px double;
+    }
+
+.souligne[type_soulignement="pointille"] {
+    text-decoration : none;
+    border-bottom : 2px dotted;
+    }
+
+.souligne[type_soulignement="tirets"] {
+    text-decoration : none;
+    border-bottom : 2px dashed;
+    }
+
+.souligne_au_dessus    {
+	text-decoration: none;
+	border-top : 2px;
+}
+
+.souligne_au_dessus[type_soulignement="double"] {
+    text-decoration : none;
+    border-bottom : 2px double;
+    }
+
+.souligne_au_dessus[type_soulignement="pointille"] {
+    text-decoration : none;
+    border-bottom : 2px dotted;
+    }
+
+.souligne_au_dessus[type_soulignement="tirets"] {
+    text-decoration : none;
+    border-bottom : 2px dashed;
+    }
+
+
+.souligne_au_dessus[type_soulignement="frise"] {
+    text-decoration : none;
+    border-bottom : 2px groove;
+    }
+
+.marginale:before    {
+	content: "Marginale de " attr(scripteur);
+	display: block;
+	font-style: bold;
+	padding: 10px;
+	margin: 10px;
+}
+
+.ajout_en_marge:before    {
+	content: "Ajout en marge de " attr(scripteur);
+	display: block;
+	font-style: bold;
+	padding: 10px;
+	margin: 10px;
+}
+
+.note_bas_page:before    {
+	content: "Note de bas de page de " attr(scripteur);
+	display: block;
+	font-style: bold;
+	padding: 10px;
+	margin: 10px;
+}
+
+.marginale    {
+	position: absolute;
+	display: block;
+	margin: 10pt;
+	border-width: 1pt;
+	border-style: dotted;
+	border-color: red;
+}
+
+.ajout_en_marge    {
+	position: absolute;
+	display: block;
+	margin: 10pt;
+	border-width: 1pt;
+	border-style: dotted;
+	border-color: red;
+}
+
+.note_bas_page    {
+	position: absolute;
+	display: block;
+	margin: 10pt;
+	border-width: 1pt;
+	border-style: dotted;
+	border-color: red;
+}
+
+.mot_plus_gros {
+    font-size : 16;
+}
+
+.mot_plus_petit {
+    font-size : 12;
+}
+
+.ligne_de_liste {
+    display : list-item;
+    list-style-type : none;
+    list-style-position: inside;
+    padding-left : 25px;
+}
+
+.italique {
+    font-style: italic; 
+}
+
+*[position_horizontale="centre"]    {
+	left: 25%;
+	right: 25%;
+}
+
+*[position_horizontale="droite"]    {
+	right: 0%;
+}
+
+*[position_horizontale="gauche"]    {
+	left: 0%;
+}
+
+*[position_verticale="milieu"]    {
+	top: 50%;
+	bottom: 25%;
+}
+
+*[position_verticale="bas"]    {
+	bottom: 0%;
+}
+
+*[position_verticale="haut"]    {
+	top: 0%;
+}
+
+*[outil_ecriture="encre_noire"]    {
+	color: black;
+}
+
+*[outil_ecriture="encre_rouge"]    {
+	color: red;
+}
+
+*[outil_ecriture="crayon"]    {
+	color: gray;
+}
+
+*[type_ecriture="Normal"]    {
+	font-family: serif;
+}
+
+*[type_ecriture="Script"]    {
+	font-family: cursive;
+	letter-spacing : 0.5em;
+}
+
+*[type_ecriture="Calligraphie"]    {
+	font-family: fantasy;
+}
+
+*[commentaire]:after  {
+    display : inline;
+    vertical-align: sub;
+    font-style: italic; 
+    content : "//commentaire Ã©quipe//";
+}
+
+*[commentaire_public]:after   {
+    display : inline;
+    vertical-align: sub;
+    font-style: italic; 
+    content : "//commentaire public//";
+}
+
+*[commentaire_scientifique]:after {
+    display : inline;
+    vertical-align: sub;
+    font-style: italic; 
+    content : "//commentaire scientifique//";
+}
+
+*[espace_apres="petit"]{
+    margin-bottom : 20px;
+}
+
+*[espace_apres="moyen"]{
+    margin-bottom : 40px;
+}
+
+*[espace_apres="grand"]{
+    margin-bottom : 80px;
+}
+
+*[barre_de_suppression]{
+	background : #6D7B8D;
+}
+*[barre_de_suppression]:after{
+	content : "-- Element barrÃ© : " attr(barre_de_suppression) "--";
+	font-style : italic;
+}
+
+*[alignement="gauche"]{
+	text-align : left;
+	}
+
+*[alignement="droite"]{
+	text-align : right;
+	}
+
+*[alignement="centre"]{
+	text-align : center;
+	}
+
+.traduction:after {
+    display : inline;
+  	vertical-align: sub;
+    font-style: italic; 
+    content : "//traduction//";
+}
+
+
+.blanc[taille="petit"]:after {
+	content : "__";
+}
+
+.blanc[taille="moyen"]:after {
+	content : "____";
+}
+
+.blanc[taille="grand"]:after {
+	content : "______";
+}
+
+.trait[taille="petit"]:after {
+	content : "---";
+}
+
+.trait[taille="moyen"]:after {
+	content : "-----";
+}
+
+.trait[taille="grand"]:after {
+	content : "----------";
+}
+
+.caractere_special:after {
+	content : "-" attr(caractere) "-" ;
+	font-style : italic;
+}
+.caractere_special[caractere="_autre"]:after {
+	content : "-" attr(description) "-"; 
+	font-style : italic;
+}
+
+.guillemet_de_suite_de_citation:before {
+	content : "''";
+}
+
+.reclame:after{
+    vertical-align: sub;
+    content : "-reclame-";
+}
+
+contre_reclame:after{
+    vertical-align: sub;
+    content : "-contre-reclame-";
+}

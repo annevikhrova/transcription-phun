@@ -1,0 +1,27 @@
+{# src/PHuN/PlatformBundle/Resources/views/Page/edit.html.twig #}
+
+{% extends "PHuNPlatformBundle::noMenuLayout.html.twig" %}
+
+{% block title %}
+  Transcription d'une page - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('mb-tooltip/css/mbTooltip.css') }}" title="style1"  media="screen">
+
+{% endblock %}
+
+{%block body %}
+
+<h2>{{ page.alt }}</h2>
+
+  <div class="well">
+    {{ page.corpus.name }}
+  </div>
+
+  {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+	{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+  {{ form_end(form) }}
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{# src/PHuN/PlatformBundle/Resources/views/Admin/admin_dashboard.html.twig #}
+
+{% extends "PHuNPlatformBundle:Admin:admin_layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Index
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+   {# Main style sheet for page browser view #}    
+    <link rel="stylesheet" href="{{ asset('bundles/framework/css/page_styles.css') }}" type="text/css" />
+{% endblock %}
+
+
+{% block body %}
+    <style>
+
+
+	.desc{
+	    width:350px;
+	    background:#FFF;
+	    opacity:0;
+	}
+
+	.thumbnail:hover .desc
+	{
+	    opacity:0.6;
+	    text-align:justify;
+	    color:#000000;
+	    font-size:16px;
+	    font-weight:500;
+	    font-family:"Times New Roman", Times, serif;
+	    padding:10px;
+	}
+        
+        .image {
+            width: 350px;
+            height: auto;
+            overflow: hidden;
+            margin: auto; 
+
+        }
+        
+        .crop-image > img {
+            
+            overflow: hidden;
+            margin: 10px;
+            position: relative;
+            width: 350px;
+            height: auto;
+        }
+        
+  
+        </style>
+
+	<h2> Un espace regroupant plusieurs projets de transcription de manuscrits </h2>
+        
+        <div id="section-content" class="row">
+	{% for corpus in listCorpus %}
+                <div class="col-md-4">
+                    
+                        <div class="grid">
+
+                            <figure class="index-corpus-image"> {# to be changed to inherit from figure #}
+                                <a href="{{ path('page_browser_count', {'corpusId': corpus.id}) }}">
+                                <img class="cnt-image" src="{{ asset(corpus.image.url) }}"  {#height="auto" width="400" overflow="hidden"#}/>
+
+                                <figcaption>
+                                    <p class="status"> {# caption #}
+                                        <h3>{{ corpus.name }}, Créé le {{ corpus.startDate|date('d/m/Y') }}</h3>
+                                    </p>
+                                    {#<p class="status">{{corpus.description|raw('html')}}</span>#}
+                                </figcaption>
+                                </a>
+                            </figure>
+
+                            
+
+                        </div>	
+                    	
+                </div>            
+			
+	{% else %}
+		<li> Pas de corpus à afficher ! </li>
+	{% endfor %}
+        </div>
+
+{% endblock %} 

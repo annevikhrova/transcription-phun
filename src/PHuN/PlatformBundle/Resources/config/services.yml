@@ -11,3 +11,14 @@ services:
         arguments: []
         tags:
             - { name: kernet.event_subscriber }
+    
+    phun_editor.config:
+        class: PHuN\PlatformBundle\Editor\EditorConfig
+        #arguments: [@listPlugins, @stylesheet]
+        
+    phun_diff.match:
+        class: diffMatchPatch\src\DiffMatchPatch
+        
+    comment_service: 
+        class: PHuN\PlatformBundle\Controller\CommentController
+#        arguments: ["@doctrine.orm.entity_manager"]

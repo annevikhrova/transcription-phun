@@ -24,4 +24,16 @@ class TranscriptionRepository extends \Doctrine\ORM\EntityRepository
 	//     ->getResult()
 	//   ;
 	// }
+    
+    public function getMostRecentTranscriptionForPage($pageId)
+    {
+        return $this
+            ->createQueryBuilder('t')
+            ->where('t.page == :page')
+            ->setParameter('page', $pageId)    
+            ->orderBy('t.date', 'DESC')
+            ->getQuery()
+            ->getArrayResult()
+        ;
+    }
 }

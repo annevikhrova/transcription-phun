@@ -1,0 +1,154 @@
+{# src/PHuN/PlatformBundle/Resources/views/Transcription/listRevisions.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+
+{% block title %}
+  Affichage d'une page - {{ parent() }}
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+   {# <link rel="stylesheet" href="{{ asset(urlCSS) }}" type="text/css" />#}
+   {# Main style sheet for page browser view #}    
+    <link rel="stylesheet" href="{{ asset('bundles/framework/css/page_styles.css') }}" type="text/css" />
+{% endblock %}
+
+{% block body %}
+    
+{{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}
+
+{#{{ render(controller("PHuNPlatformBundle:Corpus:NavTabs", { 'id': corpus.id } )) }}#}
+<ul class="nav nav-tabs nav-justified"> 
+    <li role="presentation"><a href="{{ path('page_browser_count', {'corpusId': corpusId }) }}">Toutes les pages du corpus</a></li>
+{#    <li role="presentation"><a href="{{ path('transcription_browser', {'id': corpusId }) }}">Transcriptions en cours</a>#}
+    <li role="presentation" class="active"><a href="{{ path('transcriptions_in_revision', {'corpusId': corpusId }) }}">Pages à relire</a>
+    <li role="presentation"><a href="{{ path('phun_project_description',{'id': corpusId }) }}">Description du projet</a>    
+    <li role="presentation"><a href="{{ path('phun_project_contributors',{'id': corpusId }) }}">Ont Contribué</a>
+</ul>
+    
+<div id="section-content" class="row">    
+
+    {#<table class="table table-striped">
+       <thead>
+        <tr>
+          <th>Page Source</th>
+          <th>Page Id</th>
+          <th>User</th>
+          <th>Date</th>
+          <th>Nombre de Révisions</th>
+        </tr>
+      </thead>#}
+    <div class="col-md-12">
+    
+    {% if listRevisions == null %}
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <div class="panel-title">Attention
+                </div>
+            </div> 
+            <div class="panel-body">
+                <h3>Il n'y a pas de pages en relecture.</h3><br/>
+                <a href="{{ path('page_browser_count', {'corpusId': corpusId}) }}">Revenir au catalogue.</a>
+            </div>
+        </div>
+        {% else %}
+        <h2>Pages à relire </h2>
+        {% for revision in listRevisions %}
+        <div class="col-md-3">
+                <div class="grid">
+                    <figure class="transcription">
+                         {#<h4> {{ ("now"|date('H:i:s')*3600) - (revision.date|date('H:i:s')*3600) }}</h4>#}
+                                
+                        <a href="{{ path('phun_platform_revision_view', {'id': revision.id}) }}">
+                            {% if revision.page.urlImg is not null %}
+                                <img src="{{ asset(revision.page.urlImg) }}" id="zoom_04" alt="{{ revision.page.alt }}" height="280" data-zoom-image="{{ asset(revision.page.urlImg) }}" >
+                            {% endif %}
+                            {#{% if revision.page.urlXml is not null %}
+                                <img src="{{ asset(revision.urlXml) }}" id="zoom_04" alt="{{ revision.page.alt }}" height="280" data-zoom-image="{{ asset(revision.urlXml) }}" >
+                            {% endif %}#}
+                            <figcaption>
+                                <h5>{{revision.page.alt}}</h5>
+                                <p class="status">Dernière intervention : {{ revision.user.username }}</p>
+                                <p class="status">{{revision.date|date('d/m/y')}}</p>
+                                <p class="status">Cette page est en relecture. </p>
+                                {% if revision.nbRevisions is not null %}
+                                    <p>
+                                     
+                                     {% if revision.nbRevisions == -1 %}
+                                       Cette page ne devrait pas être ici.  
+                                       <div class="progress">
+                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="0"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                                           <span class="">0% Complète</span>
+                                         </div>
+                                       </div>
+                                     {% elseif revision.nbRevisions == 0 %}
+                                        {{ revision.nbRevisions }} Relectures
+                                       <div class="progress">
+                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="25"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:25%">
+                                           {#<span class="">25% Complète</span>#}
+                                         </div>
+                                       </div>
+
+                                     {% elseif revision.nbRevisions == 1 %}
+                                        {{ revision.nbRevisions }} Relecture
+                                       <div class="progress">
+                                         <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:50%">
+                                           {#<span class="">50% Complète</span>#}
+                                         </div>
+                                       </div>
+
+                                     {% elseif revision.nbRevisions == 2 %}
+                                        {{ revision.nbRevisions }} Relectures
+                                       <div class="progress">
+                                         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="75"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:75%">
+                                           {#<span class="">75% Complète</span>#}
+                                         </div>
+                                       </div>
+
+                                     {% elseif revision.nbRevisions == 3 %}
+                                        {{ revision.nbRevisions }} Relectures
+                                       <div class="progress">
+                                         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                                           {#<span class="">100% Complète</span>#}
+                                         </div>
+                                       </div>
+
+                                    {% endif %}
+                                    </p>
+                                {% endif %}
+                                {#{% if transcription.page.published == false %}
+                                <p class="status">Transcrivez cette page et mangez un bonbon !</p>
+                                {% else %}
+                                <p class="status">Cette page a été transcrite, relue et validée</p>
+                                {% endif %}#}
+                            </figcaption>
+                        </a>   
+                        {# fin lien #}
+                        
+                    </figure>
+              </div>  
+            </div>
+          
+        {% endfor %}
+       
+      
+    {% endif %}
+</div>
+</div>     
+{{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }} 
+
+
+{% endblock %}
+
+{% block javascripts %}
+    
+    {{ parent() }}
+    
+{% endblock %}

@@ -1,0 +1,14 @@
+{# src/PHuN/PlatformBundle/Resources/views/Corpus/corpus_footer.html.twig #}
+{% block navigation %}
+
+    <div class="page-footer">
+        {% if listLogos is not null %}
+            {% for logo in listLogos %}
+                <div class="col-md-2">
+                    <img src="{{ asset(logo.url) }}" width="90px"/>
+                </div>
+            {% endfor %}
+        {% endif %}    
+    </div>
+    
+{% endblock %}

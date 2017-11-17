@@ -1,5 +1,10 @@
 <?php
 
+//  Réalisation du site  dans le cadre d'un projet de thèse    //
+//  soutenu par l'ARC 5 2014 (Région Rhône-Alpes)			   //
+//  pour le projet PHuN - Patrimoines et Humanités Numériques  //
+//  Author : Anne Vikhrova, Decembre 2015					   //
+
 namespace PHuN\PlatformBundle\Controller;
 
 use PHuN\PlatformBundle\Form\PluginType;
@@ -11,6 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse; //important use à déclarer pour l'utilisation de RedirectResponse
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use Doctrine\ORM\EntityManager;
 
 class element
 {
@@ -28,6 +35,14 @@ class element
 
 class dtdParserController extends Controller
 {
+	// Entity manager
+	private $em;
+
+	public function __construct(EntityManager $em)
+	{
+		$this->em = $em;
+	}
+
 	// Filename of the dtd
 	public $fn_dtd;
 
@@ -41,12 +56,65 @@ class dtdParserController extends Controller
 	public function detectElements($idCorpus)
 	{
 
+		// /***************************************************************************/
+		// /***	Find "contenu_de_ligne" element and look for every associated  *****/
+		// /***	 subelement. Create also the associated plugin 				   *****/
+		// /***************************************************************************/
+
+		// $str2match = "<!ELEMENT";
+		// $str2match_lgth = strlen($str2match);
+
+		// // All lines are treated
+		// $em = $this->getDoctrine()->getManager();
+		// $corpus = $em->getRepository('PHuNPlatformBundle:Corpus')->find($idCorpus);
+		// foreach ($this->listLines as $line) {
+
+		// 	$eltPos = strpos($line, $str2match);
+		// 	if($eltPos === false){
+		// 		// Do nothing as nothing has been detected/
+		// 	}
+		// 	else{
+		// 		$elt = new element;
+		// 		$plugin = new Plugin();
+
+		// 		// An ELEMENT HAS BEEN DETECTED
+		// 		// Position of the element name
+		// 		$eltName_startPos = $eltPos + $str2match_lgth + 1;
+		// 		$cut_line = substr($line, $eltName_startPos);
+		// 		$eltName_size = strpos($cut_line, " ");
+		// 		$eltName = substr($line, $eltName_startPos, $eltName_size);
+				
+		// 		$elt->setName($eltName);
+		// 		$this->listElements[] = $elt; // QUELQUE CHOSE DOIT ETRE REGLE
+		// 		echo $elt->name . ' | ' ;
+
+		// 		$plugin->setName($elt->name);
+
+		// 		$em->persist($plugin);
+				
+		// 		$corpus->addPlugin($plugin);
+	 //    		//$em->flush();
+	 //    		$em->flush();
+
+		// 		$em->persist($corpus);
+		// 		//$response = $this->forward('PHuNPlatformBundle:Plugin:createPlugin_fromStr', array('pluginName' => $eltName));
+		// 		$this->createPlugin_fromStr($elt->name);
+		// 	}
+		// }
+		// /************************************************************************/
+
+
+		/***************************************************************************/
+		/***	Find all element in the DTD and create the associated plugin      **/
+		/***************************************************************************/
+
 		$str2match = "<!ELEMENT";
 		$str2match_lgth = strlen($str2match);
 
 		// All lines are treated
-		$em = $this->getDoctrine()->getManager();
+		$em = $this->em;
 		$corpus = $em->getRepository('PHuNPlatformBundle:Corpus')->find($idCorpus);
+
 		foreach ($this->listLines as $line) {
 
 			$eltPos = strpos($line, $str2match);
@@ -81,8 +149,7 @@ class dtdParserController extends Controller
 				$this->createPlugin_fromStr($elt->name);
 			}
 		}
-		//$em->flush();
-		//$em->persist($corpus);
+		/************************************************************************/
 
 		$this->generationXSLAction();
 	}
@@ -114,7 +181,7 @@ class dtdParserController extends Controller
 		$pluginName_upper = ucfirst($pluginName_lower);	
 
 		// Find of m*** and M*** and replace with lower and upper plugin name
-	    $search = array( "m***", "M***");
+                $search = array( "m***", "M***");
 		$replace = array($pluginName_lower, $pluginName_upper);
 		$plugin_content = str_replace($search, $replace, $templatePlugin_content);
 
@@ -129,6 +196,8 @@ class dtdParserController extends Controller
 		file_put_contents($plugin_fileName, $plugin_content);
 	}
 
+
+
 	public function generationXSLAction()
 	{
 		$this->createXSLTemplate_Html2XmlAction();
@@ -141,10 +210,7 @@ class dtdParserController extends Controller
 		$fileName_result = "xsl/xsl_gen/html2xml.xsl";
 
 		// Repository de la table page
-		 $repository = $this->getDoctrine()
-		 	->getManager()
-		 	->getRepository('PHuNPlatformBundle:Plugin')
-		 ;
+		 $repository = $this->em->getRepository('PHuNPlatformBundle:Plugin');
 
 		$xsl_header = "xsl/html2xml_header.phun";
 		$xsl_stylesheet = file_get_contents($xsl_header);
@@ -175,10 +241,7 @@ class dtdParserController extends Controller
 		$fileName_result = "xsl/xsl_gen/xml2html.xsl";
 
 		// Repository de la table page
-		 $repository = $this->getDoctrine()
-		 	->getManager()
-		 	->getRepository('PHuNPlatformBundle:Plugin')
-		 ;
+		 $repository = $this->em->getRepository('PHuNPlatformBundle:Plugin');
 
 		$xsl_header = "xsl/xml2html_header.phun";
 		$xsl_stylesheet = file_get_contents($xsl_header);
@@ -209,9 +272,9 @@ class dtdParserController extends Controller
 
 
 
-	public function parseDtdFileAction($filename, $idCorpus)
+	public function parseDtdFileAction($dtdFile, $idCorpus)
 	{
-		$this->fn_dtd = $filename;
+		$this->fn_dtd = $dtdFile;
 
 		$list = $this->splitFile();
 		$list = $this->detectElements($idCorpus);

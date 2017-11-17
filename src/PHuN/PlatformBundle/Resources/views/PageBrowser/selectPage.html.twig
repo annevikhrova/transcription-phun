@@ -1,0 +1,232 @@
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+   {# <link rel="stylesheet" href="{{ asset(urlCSS) }}" type="text/css" />#}
+   {# Main style sheet for page browser view #}    
+    <link rel="stylesheet" href="{{ asset('bundles/framework/css/page_styles.css') }}" type="text/css" />
+{% endblock %}
+
+
+{% block body %}
+         
+{{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}
+   
+<ul class="nav nav-tabs nav-justified"> 
+    <li role="presentation" class="active"><a href="{{ path('page_browser_count', {'corpusId': corpusId }) }}">Toutes les pages du corpus</a></li>
+    {#<li role="presentation"><a href="{{ path('transcription_browser', {'id': corpusId }) }}">Transcriptions en cours</a>#}
+    <li role="presentation"><a href="{{ path('transcriptions_in_revision', {'corpusId': corpusId }) }}">Pages à relire</a>
+    <li role="presentation"><a href="{{ path('phun_project_description',{'id': corpusId }) }}">Description du projet</a>    
+    <li role="presentation"><a href="{{ path('phun_project_contributors',{'id': corpusId }) }}">Ont Contribué</a>
+</ul>    
+
+{#<div class="row">
+      {% if is_granted('ROLE_RELECTEUR') %}
+        <a href="{{ path('admin_all_transcriptions', { 'userId': app.user.id,'corpusId': corpusId }) }}" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i>Voir les transcriptions du projet</a>        
+      {% else %}
+        <div></div>
+      {% endif %}
+</div>
+<br/> 
+<div class="row">
+      {% if is_granted('ROLE_AUTEUR') %}
+        <a href="{{ path('transcriptions_in_revision', { 'userId': app.user.id,'corpusId': corpusId }) }}" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i>Voir les transcriptions en relecture</a>        
+      {% else %}
+        <div></div>
+      {% endif %}
+</div>#}
+<br/> 
+<div id= "section-content" class="row">
+
+    {#{% for page in listPages %}#}
+    <div class="col-md-12">
+    
+    {% if listLatestTranscriptions is not null %}
+    <h2>Pages récemment transcrites </h2>
+    {% for transcription in listLatestTranscriptions %}
+        {% if transcription.revision == true %}
+            <div class="col-md-3">
+                <div class="grid">
+                    <figure class="transcription"> {# ici, page #}
+                        <a href="{{ path('phun_platform_revision_view', {'id': transcription.id}) }}">
+                            <img id="zoom_04" src="{{ asset(transcription.page.urlImg) }}" height="280px" data-zoom-image="{{ transcription.page.urlImg }}"/>  
+                            <input hidden type="checkbox" name = "chk" class="transcription-selection-id" value="{{ transcription.page.id }}" id="{{ transcription.page.id }}"/>
+
+                            <figcaption>
+                                <h5>{{transcription.page.alt}}</h5>
+                                <p class="status">Dernière intervention: {{ transcription.user.username }}</p>
+                                <p class="status">Cette page est en relecture. </p>
+                                {% if transcription.nbRevisions is not null %}
+                                    <p>    
+           
+                                     {% if transcription.nbRevisions == -1 %}
+                                       {{ transcription.nbRevisions +1 }} Relectures
+                                       <div class="progress">
+                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="0"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                                           <span class="">0% Complète</span>
+                                         </div>
+                                       </div>
+                                     {% elseif transcription.nbRevisions == 0 %}
+                                        {{ transcription.nbRevisions }} Relectures
+                                       <div class="progress">
+                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="25"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:25%">
+                                           {#<span class="">25% Complète</span>#}
+                                         </div>
+                                       </div>
+
+                                     {% elseif transcription.nbRevisions == 1 %}
+                                        {{ transcription.nbRevisions }} Relecture
+                                       <div class="progress">
+                                         <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:50%">
+                                           {#<span class="">50% Complète</span>#}
+                                         </div>
+                                       </div>
+
+                                     {% elseif transcription.nbRevisions == 2 %}
+                                       {{ transcription.nbRevisions }} Relectures
+                                       <div class="progress">
+                                         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="75"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:75%">
+                                           {#<span class="">75% Complète</span>#}
+                                         </div>
+                                       </div>
+
+                                     {% elseif transcription.nbRevisions == 3 %}
+                                        {{ transcription.nbRevisions }} Relectures
+                                       <div class="progress">
+                                         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                                           {#<span class="">100% Complète</span>#}
+                                         </div>
+                                       </div>
+
+                                    {% endif %}
+                                    </p>
+                                {% endif %}
+                                {#{% if transcription.page.published == false %}
+                                <p class="status">Transcrivez cette page et mangez un bonbon !</p>
+                                {% else %}
+                                <p class="status">Cette page a été transcrite, relue et validée</p>
+                                {% endif %}#}
+                            </figcaption>
+                        </a>
+                    </figure>
+              </div>  
+            </div>
+        {% else %}
+            <div class="col-md-3">
+                    <div class="grid">
+                            <figure class="transcription"> {# transcription #}
+                                <a href="{{ path('phun_platform_transcription_view', {'id': transcription.id}) }}">
+                                    <img id="zoom_04" src="{{ asset(transcription.page.urlImg) }}" height="280px" data-zoom-image="{{ transcription.page.urlImg }}"/>  
+                                    <input hidden type="checkbox" name = "chk" class="transcription-selection-id" value="{{ transcription.page.id }}" id="{{ transcription.page.id }}"/>
+
+                                    <figcaption>
+                                        <h5>{{transcription.page.alt}}</h5>
+                                        <p class="status">Contribution de {{ transcription.user.username }}</p>
+                                        
+                                        {% if transcription.nbRevisions == -1 %}
+                                            <p class="status">Cette transcription peut être modifiée. </p>
+                                            <p>
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="0"
+                                                    aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                                                      {#<span class="">0% Complète</span>#}
+                                                    </div>
+                                                </div>
+                                            </p>   
+                                        {% elseif transcription.nbRevisions >= 3 %}
+                                            <p class="status">Cette transcription a été validée. </p>
+                                            <p>
+                                                <div class="progress">
+                                                 <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100"
+                                                 aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                                                   {#<span class="">100% Complète</span>#}
+                                                 </div>
+                                                </div>
+                                            </p>     
+                                        {% endif %}
+                                    </figcaption> 
+                                </a>
+
+                            </figure>
+                    </div>
+                </div>                    
+        {% endif %}
+    {% endfor %}
+    {% else %}
+    {% endif %}
+    </div>
+    <div class="col-md-12">
+    <h2>Pages non-transcrites </h2>
+    <ul class="nav nav-tabs nav-justified">
+        <li>
+            <a href="" id="random" class="">
+                <h5>Obtenir une page au hasard</h5>
+            </a>
+        </li>    
+    </ul>    
+    {% if listPages is not null %}
+    {% for page in listPages %}
+        <div class="col-md-3">
+            <div class="grid">
+                <figure class="transcription"> {# ici, page #}
+                    <a href="{{ path('phun_platform_view', {'id': page.id}) }}">
+                        <img id="zoom_04" src="{{ asset(page.urlImg) }}" height="280px" data-zoom-image="{{ page.urlImg }}"/>  
+                        <input hidden type="checkbox" name = "chk" class="transcription-selection-id" value="{{ page.id }}" id="{{ page.id }}"/>
+
+                        <figcaption>
+                            <h5>{{page.alt}}</h5>
+                            <p class="status">Transcrire la page</p>
+                        </figcaption>
+                    </a>
+
+                </figure>
+            </div>
+        </div>    
+    {% endfor %}
+    {% endif %}
+    </div>
+
+</div>       
+    {{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }} 
+ 
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script type = "text/javascript" src = "http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js"></script>
+  <script type="text/javascript" src="https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js"></script>
+  <script type="text/javascript">
+    $("#zoom_04").ezPlus({
+        zoomWindowWidth: 400,
+        zoomWindowHeight: 300,
+        scrollZoom: true,
+        easing: false,
+        zoomWindowPosition: 13,
+      });
+  </script>
+
+  <script type="text/javascript">
+        var listPages = [];
+        $("input:checkbox[name=chk]").each(function () {
+            
+            listPages.push($(this).attr('id'));
+        });
+          $("#random").live("click", function () {
+              //var listPages = document.getElementsByTagName("p").id;
+              //var myarray= new Array("item1","item2","item3");
+              var random = listPages[Math.floor(Math.random() * listPages.length)];
+              //alert(random);
+              var url = '{{ path('phun_platform_view', {'id': 'page_id'}) }}';
+              url = url.replace("page_id", random);
+              document.getElementById("random").href = url;
+        });
+</script>
+ {% endblock %} 

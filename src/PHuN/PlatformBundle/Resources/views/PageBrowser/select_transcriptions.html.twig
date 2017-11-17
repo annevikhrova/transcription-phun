@@ -1,0 +1,81 @@
+{# empty Twig template #}
+
+{% extends "PHuNPlatformBundle:PageBrowser:browserView.html.twig" %}
+
+{% block body %}
+<style>
+    
+    .catalogue ul  {
+        list-style-type: none;
+    
+    } 
+   
+    .dossier ul  {
+        list-style-type: none;
+    
+    }
+   
+    .sous-dossier ul  {
+        list-style-type: none;
+    
+    } 
+  
+
+</style>
+
+
+
+<div class="row">
+{{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}
+<ul class="nav nav-tabs nav-justified"> 
+    <li role="presentation"><a href="{{ path('page_browser_count', {'corpusId': corpusId }) }}">Toutes les pages du corpus</a></li>
+   {# <li role="presentation" class="active"><a href="{{ path('transcription_browser', {'id': corpusId }) }}">Transcriptions en cours</a>#}
+    <li role="presentation"><a href="{{ path('transcriptions_in_revision', {'corpusId': corpusId }) }}">Pages à relire</a>
+    <li role="presentation"><a href="{{ path('phun_project_description',{'id': corpusId }) }}">Description du projet</a>    
+    <li role="presentation"><a href="{{ path('phun_project_contributors',{'id': corpusId }) }}">Ont Contribué</a>
+</ul>
+    
+<div id="section-content" class="row">    
+
+    <ul class="catalogue">
+    {% for assocCatalogue in associatedCatalogue %}
+    
+                <ul class="dossier">
+                    {% for assocDossier in assocCatalogue.associatedDossier %}
+                        {#<li class="dossier"> {{ assocDossier.dossier.name }} </li>#}
+                    <div class="col-md-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                               <h3 class="panel-title">Dossier {{ assocDossier.dossier.name }}</h3>
+                            </div>
+                            <div class="panel-body" style="overflow:scroll; height:150px;">    
+                                {% for asd in assocDossier.associatedSousDossier %}
+                                    
+                                    <a href="{{ path('transcription_browser_select_transcriptions', {'sousDossierId': asd.sousDossier.id }) }}">
+                                        <li> 
+                                            {% if asd.sousDossier.name is not same as('Pages') %}
+                                            {#{% else %}#}
+                                                Chemise
+                                            {% endif %}
+                                            {{ asd.sousDossier.name }} ({{ asd.nombrePages }} Pages)
+                                        </li>
+                                    </a>
+                                    
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                </ul>  
+    {% endfor %}
+          
+    </ul>
+</div>     
+        
+{{ render(controller("PHuNPlatformBundle:Corpus:Footer", { 'id': corpus.id } )) }} 
+               
+</div>
+       
+    
+{% endblock %}

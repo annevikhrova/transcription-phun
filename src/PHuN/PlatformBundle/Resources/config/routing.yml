@@ -1,11 +1,68 @@
 phun_platform_home:
-    path:      /{page}
+    path:      /
     defaults:
         _controller: PHuNPlatformBundle:Page:index
-        page:        1
-    requirements:
-        page: \d*
+phun_project_description:
+    path:    /corpus/description/{id}
+    defaults: { _controller: PHuNPlatformBundle:Corpus:viewDescription }
+phun_project_contributors:
+    path:    /corpus/contributors/{id}
+    defaults: { _controller: PHuNPlatformBundle:Corpus:viewContributors }
+phun_protocol:
+    path:    /corpus/{id}/description/protocol/
+    defaults: { _controller: PHuNPlatformBundle:PageBrowser:showProtocol }
+phun_platform_translation:
+    path:    /traduction/{name}
+    defaults: { _controller: PHuNPlatformBundle:Page:translation }
+page_browser_count:
+    path:    /browser/{corpusId}
+    defaults: { _controller: PHuNPlatformBundle:PageBrowser:count}
 
+page_browser_small_corpus:
+    path:    /browser/test/{corpusId}
+    defaults: { _controller: PHuNPlatformBundle:PageBrowser:viewAllPages}
+
+page_browser_select_catalogue:
+    path:    /browser/corpus/{corpusId}
+    defaults: { _controller: PHuNPlatformBundle:PageBrowser:selectCatalogue}
+
+page_browser_select_dossier:
+    path:    /browser/catalogue/{catalogueId}
+    defaults: { _controller: PHuNPlatformBundle:PageBrowser:selectDossier}
+
+page_browser_select_sous_dossier:
+    path:    /browser/catalogue/{catalogueId}/dossier_{dossierId}
+    defaults: { _controller: PHuNPlatformBundle:PageBrowser:selectSousDossier}
+phun_platform_select:
+    path:    /select/{id1}/{id2}
+    defaults: { _controller: PHuNPlatformBundle:Transcription:select}
+transcription_browser:
+    path:    /browser/select/transcriptions-en-cours/{id}
+    defaults: { _controller: PHuNPlatformBundle:PageBrowser:transcriptionBrowser}
+transcription_browser_select_transcriptions:
+    path:    /browser/select/transcriptions-en-cours/view/{sousDossierId}
+    defaults: { _controller: PHuNPlatformBundle:PageBrowser:selectTranscriptions}
+page_browser_select_pages:
+    path:    /browser/sousDossier/{sousDossierId}
+    defaults: { _controller: PHuNPlatformBundle:PageBrowser:selectPages}
+
+page_browser_select_full:
+    path:    /browser/{corpusId}/{catalogueId}/{dossierId}/{sousDossierId}
+    defaults: { _controller: PHuNPlatformBundle:PageBrowser:selectFull}
+
+phun_platform_change_avatar:
+    path:    /profile/change/{id}
+    defaults: { _controller: PHuNPlatformBundle:User:changeAvatar}
+
+phun_platform_compare:
+    path:    /compare/{id1}/{id2}
+    defaults: { _controller: PHuNPlatformBundle:Metrology:compare}
+    
+phun_search:
+    path:   /recherche/{searchStr}
+    defaults: { _controller: PHuNPlatformBundle:Search:run}
+    options:
+        expose: true
 phun_platform_how:
     path:      /how
     defaults: { _controller:  PHuNPlatformBundle:Page:how  }
@@ -13,8 +70,6 @@ phun_platform_how:
 phun_platform_view:
     path:     /page/{id}
     defaults: { _controller: PHuNPlatformBundle:Page:view }
-    requirements: 
-        id: \d+
 
 phun_platform_transcription_list:
     path:     /transcription/list/{id}
@@ -28,18 +83,54 @@ phun_platform_transcription_view:
     requirements: 
         id: \d+        
 
+admin_all_transcriptions:
+    path:    /admin/transcription/all/{corpusId}/{userId}
+    defaults: { _controller: PHuNPlatformBundle:Transcription:listAllTranscriptions}
+
+transcriptions_in_revision:
+    path:    /revision/{corpusId}/
+    defaults: { _controller: PHuNPlatformBundle:Transcription:listAllRevisions}
+
+phun_platform_revision_view:
+    path:     /revision/view/{id}
+    defaults: { _controller: PHuNPlatformBundle:Revision:viewRevision }
+    requirements: 
+        id: \d+ 
+
 phun_platform_edit:
     path:     /edit/{id}
     defaults: { _controller: PHuNPlatformBundle:Page:edit }
     requirements: 
-        id: \d+ 
+        id: \d+
+phun_new_comment:
+    path:     /edit/comment/{id}
+    defaults: { _controller: PHuNPlatformBundle:Page:newComment }
+    requirements: 
+        id: \d+
 
 phun_platform_transcription_edit:
     path:     /transcription/edit/{id}
     defaults: { _controller: PHuNPlatformBundle:Transcription:edit }
     requirements: 
         id: \d+         
-
+phun_platform_revision_edit:
+    path:     /revision/edit/{id}
+    defaults: { _controller: PHuNPlatformBundle:Revision:edit }
+    requirements: 
+        id: \d+
+transcription_confirm:
+    path:     /revision/confirm/{id}/{corpusId}
+    defaults: { _controller: PHuNPlatformBundle:Revision:confirm }
+    requirements: 
+        id: \d+
+phun_verify_user:
+    path:     /revision/verify/{confirm}/{corpusId}/{id}
+    defaults: { _controller: PHuNPlatformBundle:Revision:notSameUser }
+phun_revision_status:
+    path:    /revision/status/{id}
+    defaults: { _controller: PHuNPlatformBundle:Revision:status }
+    requirements: 
+        id: \d+
 phun_platform_view_plugins:
     path:    /admin/view_plugins/{id}
     defaults: { _controller: PHuNPlatformBundle:Page:view_plugins }
@@ -56,13 +147,13 @@ phun_platform_p_plugin:
     path:    /admin/p_plugin/{id}
     defaults: { _controller: PHuNPlatformBundle:Page:p_plugin }
 
-phun_platform_view_all:
-    path:     /page
-    defaults: { _controller: PHuNPlatformBundle:Page:viewAll }
+phun_platform_saved:
+    path:    /admin/saved
+    defaults: { _controller: PHuNPlatformBundle:User:p_plugin }
 
 phun_platform_add_corpus:
     path:    /admin/add_corpus
-    defaults: { _controller: PHuNPlatformBundle:Page:addCorpus }
+    defaults: { _controller: PHuNPlatformBundle:Corpus:addCorpus }
 
 phun_platform_add_plugin:
     path:    /admin/add_plugin/{id}
@@ -72,6 +163,51 @@ phun_platform_contact:
     path:    /contact
     defaults: { _controller: PHuNPlatformBundle:Contact:askAdminRole }
 
+phun_platform_admin:
+    path:    /admin/
+    defaults: { _controller: PHuNPlatformBundle:User:adminDashboard }
+admin_profile_show:
+    path:     /admin/profile/
+    defaults: { _controller: PHuNPlatformBundle:User:adminShow }    
+admin_view_css:
+    path:    /admin/css/{id}
+    defaults: { _controller: PHuNPlatformBundle:User:adminViewCSS }
+admin_edit_description:
+    path:    /admin/description/{id}
+    defaults: { _controller: PHuNPlatformBundle:User:adminEditDescription }
+admin_add_logos:
+    path:    /admin/logos/{id}
+    defaults: { _controller: PHuNPlatformBundle:User:adminAddLogos }
+admin_view_contributors:
+    path:    /admin/contributors/{id}
+    defaults: { _controller: PHuNPlatformBundle:User:adminViewContributors }
+admin_delete_user:
+    path:   /admin/contributors/{id}/{listUsers}
+    defaults: { _controller: PHuNPlatformBundle:User:deleteUser }
+admin_demote_user:
+    path:   /admin/contributors/{id}/demote/{listUsers}
+    defaults: { _controller: PHuNPlatformBundle:User:demoteUser }
+admin_suspend_user:
+    path:   /admin/contributors/{id}/suspend/{listUsers}
+    defaults: { _controller: PHuNPlatformBundle:User:suspendUser }
+admin_promote_user:
+    path:   /admin/contributors/{id}/promote/{listUsers}
+    defaults: { _controller: PHuNPlatformBundle:User:promoteUser }
+admin_reactivate_user:
+    path:   /admin/contributors/{id}/reactivate/{userId}
+    defaults: { _controller: PHuNPlatformBundle:User:reactivateUser }
+admin_save_css:
+    path:    /admin/css/save/
+    defaults: { _controller: PHuNPlatformBundle:User:adminSaveCSS }
+admin_view_transcriptions:
+    path:    /admin/transcriptions/view/{id}
+    defaults: { _controller: PHuNPlatformBundle:User:adminViewTranscriptions }
+admin_view_published_pages:
+    path:    /admin/published/all/{id}
+    defaults: { _controller: PHuNPlatformBundle:Page:viewPublished}
+admin_unpublish_page:
+    path:    /admin/published/unpublish/{id}
+    defaults: { _controller: PHuNPlatformBundle:Page:unpublishPage}
 xsl_generation:
     path:    /admin/xsl_generation
     defaults: { _controller: PHuNPlatformBundle:Plugin:generationXSL }
@@ -84,16 +220,19 @@ xsl_generation_html2xml:
     path:    /admin/html2xml
     defaults: { _controller: PHuNPlatformBundle:Plugin:createXSLTemplate_Html2Xml }
 
-
-
 test_parser:
     path: /admin/tparse/{idCorpus}/{filename}
     defaults: { _controller: PHuNPlatformBundle:dtdParser:parseDtdFile }
 
-
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
+user_profile_show:
+    path:     /profile/
+    defaults: { _controller: PHuNPlatformBundle:User:show }
+show_user_transcriptions:
+    path:     /profile/view
+    defaults: { _controller: PHuNPlatformBundle:User:showTranscriptions }
 fos_user_profile:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
     prefix: /profile
@@ -109,3 +248,14 @@ fos_user_resetting:
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
+
+phun_selectxml:
+    path:    /admin/xmlselect/{id}
+    defaults: { _controller: PHuNPlatformBundle:XML:selectXML }
+
+phun_testxml:
+    path:    /testxml/testxml/{id}
+    defaults: { _controller: PHuNPlatformBundle:XML:testXML }
+    requirements:
+        xmls: .+
+        doss: .+

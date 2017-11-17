@@ -1,0 +1,61 @@
+{# src/PHuN/PlatformBundle/Resources/views/Avatar/add_avatar.html.twig #}
+
+{% extends "PHuNPlatformBundle::layout.html.twig" %}
+
+
+{% block title %}
+  Changement d'image de profil - {{ parent() }}
+{% endblock %}
+
+{% block body %}    
+
+<div class="row">
+    <div class="col-md-10">
+        
+        <h3>
+            Changement d'image de profil
+        </h3>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+                {# Les erreurs générales du formulaire #}
+                {{ form_errors(form) }}
+
+                <div class="form-group">
+                    {{ form_label(form.filename, "Charger une image depuis mon ordinateur", {'label_attr': {'class': 'col-sm-5 control-label'}})}}
+                    <div class="col-sm-7">
+                        {{ form_widget(form.filename) }}
+                    </div>  
+                </div>
+
+
+
+
+                {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
+                <div class="form-group">
+                    <div class="col-sm-5"></div> 
+                    <div class="col-sm-5">
+                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                    </div>
+                </div>   
+                {{ form_rest(form) }}
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+</div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %} 

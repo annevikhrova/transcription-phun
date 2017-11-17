@@ -20,9 +20,12 @@ class ElementType extends AbstractType
                     'type'          =>  new PluginType(),
                     'allow_add'     => true,
                     'allow_delete'  => true,
+                    'label'         => 'Boutons'
                 )
             )
-            ->add('save',   'submit')
+            ->add('save',   'submit',
+                    array('label' => 'Sauvegarder')
+            )
         ;
     }
     

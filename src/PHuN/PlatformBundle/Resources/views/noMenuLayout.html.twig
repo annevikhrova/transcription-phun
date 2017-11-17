@@ -1,0 +1,157 @@
+{# src/PHuN/PlatformBundle/Resources/views/layout.html.twig #}
+
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}PHuN Plateforme{% endblock %}</title>
+
+    {% block stylesheets %}
+    <!-- Bootstrap -->
+    {#<link href="{{ asset('bundles/framework/css/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">#}
+    {# On charge bootstrap directement depuis le site #}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('bundles/framework/css/body.css') }}" type="text/css" />
+    {% endblock %}
+  </head>
+  <body>{# Début du navbar de navigation #}
+    
+  <div class="navbar-fixed-top">
+  <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display  style='background-color: #FF9933;' style='background-color: #CCCCCC;', #ffcc66-->
+    <div class="navbar-header" style='background-color: #ffcc66;'>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <img src="{{ asset('logo_5.png') }}"/>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="{{ path('phun_platform_home') }}">Accueil <span class="sr-only">(current)</span></a></li>
+
+      </ul>
+      <ul class="nav navbar-nav">
+        <li><a href="{{ path('phun_platform_how') }}">À Propos</a></li>
+      </ul>
+      {#<form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>#}
+      <ul class="nav navbar-nav navbar-right">
+            {% if is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ path('phun_platform_admin') }}">Admin</a></li>
+            {% endif %}  
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ path('phun_platform_home') }}">Participer à un projet existant</a></li>
+            <li><a href="{{ path('phun_platform_contact') }}">Prendre contact avec l'équipe</a></li>
+            {% if is_granted('ROLE_ADMIN') %}
+              <li><a href="{{ path('phun_platform_add_corpus') }}">Créer un projet</a></li>
+              {#<li><a href="{{ path('phun_platform_admin_dashboard') }}">Mon Dashboard</a></li>#}
+              {% else %}
+              {#<li><a href="{{ path('phun_platform_user_dashboard') }}">Mon Dashboard</a></li>#}
+
+            {% endif %}
+           {# <li role="separator" class="divider"></li>
+            <li><a href="#">Autre</a></li>#}
+          </ul> 
+        
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <li class="dropdown"><a href="{{ path('fos_user_profile_show') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ app.user.username }}<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{{ path('fos_user_profile_show') }}">Mon Profil</a></li>
+                    <li><a href="{{ path('show_user_transcriptions')}}">
+                          <i class="glyphicon glyphicon-edit"></i>
+                          Voir mes transcriptions
+                        </a>
+                    </li>
+                  </ul>
+                </li>
+                <li><a href="{{ path('fos_user_security_logout') }}"><i class="glyphicon glyphicon-log-out"></i>Déconnexion</a></li>
+            {% else %}
+                <li><a href="{{ path('fos_user_security_login') }}"><i class="glyphicon glyphicon-log-in"></i>Connexion</a></li>
+                <li><a href="{{ path('fos_user_registration_register') }}"><i class="glyphicon glyphicon-plus"></i>Inscription</a></li>
+            {% endif %}
+
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+</div>
+{# Fin du navbar de navigation #}
+
+  <div class="container">
+    <br/>
+    <br/>
+  	<div id="" class="page-header">
+      <h1>PHuN plateforme de transcription</h1>
+      {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+
+      {% if currentPath == path('phun_platform_home') %}
+        {% include "PHuNPlatformBundle:Page:header.html.twig" %}  
+      {% endif %}
+
+
+
+    </div>
+
+
+      <div id="content" class="col-md-12">
+    
+      <div id="row">	
+
+          {% block body %}
+          {# calls index sections #}
+    		  {% endblock %}
+       
+      </div>
+    </div>
+<div class="row"></div>
+<div class="row"></div>
+<div class="row">
+    <div class="footer">
+        <div class="disclaimer">
+          <p style='font-size:9pt;'>Projet open source pour les experts et amateurs de littérature </p>
+          <p>Anne Vikhrova &copy; {{ 'now'|date('Y') }}</p>
+          <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:5" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.</p>
+          <p>It was carried out with the aid of an <a href="http://www.arc5-cultures.rhonealpes.fr/theses-et-projets/les-theses-de-larc-5/theses-2014/">ARC 5 2014</a> research grant for the Rhône-Alpes region, France</p>
+        </div>  
+   </div>
+</div>    
+
+{% for flash_message in app.session.flashBag.get('notice') %}
+    <div class="flash-notice">
+        {{ flash_message }}
+    </div>
+{% endfor %}
+ 
+  {% block javascripts %}
+    {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  
+
+    <script>
+      $('.carousel').carousel({
+        interval: 2000
+      })
+    </script>
+  {% endblock %}  
+
+
+
+
+
+  
+  </body>
+</html>

@@ -19,8 +19,10 @@ class TranscriptionType extends AbstractType
             //->add('date',       'date')
             //->add('page',       'integer')
             //->add('user',       'text')
-            ->add('published',  'checkbox', array('required' => true))
-            ->add('save',       'submit')
+            //->add('published',  'checkbox', array('required' => true))
+            ->add('revision', 'checkbox', array('label' => 'Envoyer en relecture','required' => false))
+            ->add('save',       'submit', array('label' => 'Sauvegarder'))
+            ->add('save_exit',       'submit', array('label' => 'Enregistrer et Fermer'))
         ;
     }
     

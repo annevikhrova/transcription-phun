@@ -17,5 +17,179 @@ class User extends BaseUser
    * @ORM\GeneratedValue(strategy="AUTO")
    */
   protected $id;
+  
+  
+  /**
+   * @ORM\OneToOne(targetEntity="PHuN\PlatformBundle\Entity\Avatar", mappedBy="user")
+   */
+  private $avatar;
+  
+   /**
+     * @ORM\ManyToMany(targetEntity="PHuN\PlatformBundle\Entity\Corpus", inversedBy="users")
+     * @ORM\JoinTable(name="user_corpus")
+     */
+  private $corpora;
+  
+    
+//    /**
+//     * @ORM\ManyToOne(targetEntity="PHuN\PlatformBundle\Entity\Location")
+//     * @ORM\JoinColumn(nullable=true)
+//     */
+//    private $location;
+//    
+    
+//    /**
+//     * @ORM\Column(name="first_login", type="datetime")
+//     * 
+//     * @var \DateTime
+//     */
+//    private $firstLogin;
+  
 
+    /**
+     * Set avatar
+     *
+     * @param \PHuN\PlatformBundle\Entity\Avatar $avatar
+     *
+     * @return User
+     */
+    public function setAvatar(\PHuN\PlatformBundle\Entity\Avatar $avatar = null)
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get avatar
+     *
+     * @return \PHuN\PlatformBundle\Entity\Avatar
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+    
+//    /**
+//     * Set location
+//     *
+//     * @param \PHuN\PlatformBundle\Entity\Location $location
+//     *
+//     * @return User
+//     */
+//    public function setLocation(\PHuN\PlatformBundle\Entity\Location $location = null)
+//    {
+//        $this->location = $location;
+//
+//        return $this;
+//    }
+//    
+//    /**
+//     * Get location
+//     *
+//     * @return \PHuN\PlatformBundle\Entity\Location
+//     */
+//    public function getLocation()
+//    {
+//        return $this->location;
+//    }
+
+    /**
+     * Set corpus
+     *
+     * @param \PHuN\PlatformBundle\Entity\Corpus $corpus
+     *
+     * @return User
+     */
+    public function setCorpus(\PHuN\PlatformBundle\Entity\Corpus $corpus = null)
+    {
+        $this->corpus = $corpus;
+
+        return $this;
+    }
+
+    /**
+     * Get corpus
+     *
+     * @return \PHuN\PlatformBundle\Entity\Corpus
+     */
+    public function getCorpus()
+    {
+        return $this->corpus;
+    }
+
+    /**
+     * Add corpus
+     *
+     * @param \PHuN\PlatformBundle\Entity\Corpus $corpus
+     *
+     * @return User
+     */
+    public function addCorpus(\PHuN\PlatformBundle\Entity\Corpus $corpus)
+    {
+        $this->corpus[] = $corpus;
+
+        return $this;
+    }
+
+    /**
+     * Remove corpus
+     *
+     * @param \PHuN\PlatformBundle\Entity\Corpus $corpus
+     */
+    public function removeCorpus(\PHuN\PlatformBundle\Entity\Corpus $corpus)
+    {
+        $this->corpus->removeElement($corpus);
+    }
+
+    /**
+     * Add corpora
+     *
+     * @param \PHuN\PlatformBundle\Entity\Corpus $corpora
+     *
+     * @return User
+     */
+    public function addCorpora(\PHuN\PlatformBundle\Entity\Corpus $corpora)
+    {
+        $this->corpora[] = $corpora;
+
+        return $this;
+    }
+
+    /**
+     * Remove corpora
+     *
+     * @param \PHuN\PlatformBundle\Entity\Corpus $corpora
+     */
+    public function removeCorpora(\PHuN\PlatformBundle\Entity\Corpus $corpora)
+    {
+        $this->corpora->removeElement($corpora);
+    }
+
+    /**
+     * Get corpora
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCorpora()
+    {
+        return $this->corpora;
+    }
+    
+//    public function setFirstLogin(\DateTime $time = null)
+//    {
+//        $this->firstLogin = $time;
+//
+//        return $this;
+//    }
+//    
+//    /**
+//     * Gets the first login time.
+//     *
+//     * @return \DateTime
+//     */
+//    public function getFirstLogin()
+//    {
+//        return $this->firstLogin;
+//    }
 }

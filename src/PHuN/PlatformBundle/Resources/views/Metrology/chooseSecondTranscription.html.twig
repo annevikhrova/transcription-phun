@@ -1,0 +1,15 @@
+{% block body %}
+
+        
+           
+                {% for transcription in listTranscriptions %}
+                <li>
+                    <a href="{{ path('phun_platform_compare', {'id1': transcription1.id, 'id2': transcription.id}) }}">
+                        transcrit par {{ transcription.user.username }} le {{ transcription.date|date('Y-m-d') }}.
+                    </a>
+                </li>    
+                {% endfor %}
+         
+
+
+{% endblock %}

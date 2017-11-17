@@ -1,0 +1,11 @@
+{# empty Twig template #}
+
+{% block navtabs %}
+<ul class="nav nav-tabs nav-justified"> 
+    <li role="presentation"><a href="{{ path('page_browser_count', {'corpusId': corpusId }) }}">Catalogue</a></li>
+{#    <li role="presentation" class="active"><a href="{{ path('transcription_browser', {'id': corpusId }) }}">En cours de Transcription</a>#}
+    <li role="presentation"><a href="{{ path('transcriptions_in_revision', {'corpusId': corpusId }) }}">En cours de Révision</a>
+    <li role="presentation"><a href="{{ path('phun_project_description',{'id': corpusId }) }}">Description du projet</a>    
+    
+</ul>   
+{% endblock %}

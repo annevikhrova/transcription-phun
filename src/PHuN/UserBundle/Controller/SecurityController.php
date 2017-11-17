@@ -13,7 +13,11 @@ class SecurityController extends Controller
   {
     // Si le visiteur est déjà identifié, on le redirige vers l'accueil
     if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-      return $this->redirectToRoute('fos_user_profile_show');
+        $referer = $request->headers->get('referer');
+        
+        //return $this->redirectToRoute('user_profile_show');
+        return new RedirectResponse($referer);
+        $request->getSession()->get('_security.main.target_path');
     }
     
     // Le service authentication_utils permet de récupérer le nom d'utilisateur

@@ -1,0 +1,73 @@
+{# src/PHuN/PlatformBundle/Resources/views/Admin/transcriptions.html.twig #}
+
+{% extends "PHuNPlatformBundle:Admin:admin_layout.html.twig" %}
+
+
+{% block title %}
+  Affichage d'une page - {{ parent() }}
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    
+  <div id="section-content" class="row">
+        <div class="col-md-9">
+            <table class="table table-striped">
+               <thead>
+                <tr>
+                  <th>Page</th>
+                  <th>Fichier</th>
+                  <th>Utilisateur</th>
+                  <th>Date de transcription</th>
+                  <th>En révision ou non (nombre de révisions)</th>
+                  <th>Publié ou active</th>
+                </tr>
+              </thead>
+            {% if listTranscriptions is not null %}  
+                {% for transcription in listTranscriptions %}
+                <div class="col-md-9">
+                    <tr>
+                        <td>
+                          {% if transcription.page.thumb is not null %}
+                              <a href="{{ path('phun_platform_transcription_edit', {'id': transcription.page.id}) }}"><img src="{{ asset(transcription.page.thumb) }}"/></a>
+                          {% endif %}
+                        </td>
+                        <td>{{ transcription.page.fileName }}</td>
+                        <td>{{ transcription.user.username }}</td>
+                        <td>{{ transcription.date|date('d/m/y') }}</td>
+                        <td>
+                            {%if transcription.revision == 1 %}
+                                En révision <br/>
+                                ({{ transcription.nbRevisions }}) de révisions <br/>
+                            {%else %}
+                                Pas encore en révision
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transcription.published == 1 %}
+                                Transcription publié
+                            {% else %}
+                                Transcription active
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                </div>  
+
+                {% endfor %}
+            {% endif %}
+            </table> 
+        </div>
+  </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    
+    {{ parent() }}
+
+{% endblock %}
