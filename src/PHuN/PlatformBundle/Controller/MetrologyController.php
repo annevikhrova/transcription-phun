@@ -7,7 +7,7 @@ use PHuN\PlatformBundle\Entity\Corpus;
 use PHuN\PlatformBundle\Entity\Transcription;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse; //important use à déclarer pour l'utilisation de RedirectResponse
+use Symfony\Component\HttpFoundation\RedirectResponse; //important for RedirectResponse
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -15,6 +15,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class MetrologyController extends Controller
 {
+
+	/**
+     * Choose second transcription
+     * @param integer $id1
+     * @return twig chooseSecondTranscription
+     */
 	public function chooseSecondTranscriptionAction($id1)
 	{
 
@@ -37,6 +43,12 @@ class MetrologyController extends Controller
 
 	}
 	
+	/**
+     * Transcription comparison
+	 * @param integer $id1
+	 * @param integer $id2
+     * @return twig view
+     */
 	public function compareAction($id1, $id2)
 	{
 

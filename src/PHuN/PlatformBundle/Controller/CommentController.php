@@ -1,11 +1,5 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace PHuN\PlatformBundle\Controller;
 
 use PHuN\PlatformBundle\Entity\Comment;
@@ -26,6 +20,12 @@ class CommentController extends Controller
            $this->em = $em;
        }
     
+    
+    /**
+     * Recovery of individual comment, used by viewComments function
+     * @param integer $idComment
+     * @return twig show_comment
+     */   
     public function showCommentAction($idComment) {
         
         $comment = $this->em
@@ -49,6 +49,7 @@ class CommentController extends Controller
         );
     }
     
+
     public function showModalAction($listComments) {
         return $this->render('PHuNPlatformBundle:Comment:modal_comment.html.twig', 
             array(
@@ -120,59 +121,19 @@ class CommentController extends Controller
             ) ;
     }
     
+    /**
+     * Recovery of questionnaire
+     * @param Corpus $corpus
+     * @param User $user
+     * @return twig questionnaire
+     */ 
     public function viewQuestionnaireAction($corpus, $user) {
         $questionnaire = new Questionnaire();
         $formQ = $this->get('form.factory')->create(new QuestionnaireType(), $questionnaire);
         $formQ->handleRequest($request);
-//                if($formQ->get('save_submit')->isClicked()) {
-////                    $questionnaire = $this
-////                        ->getDoctrine()
-////                        ->getManager()
-////                        ->getRepository('PHuNPlatformBundle:Questionnaire')
-////                    ;
-//                    $data = $formQ->getData();
-//                    //return new Response ("Yooha !");
-//                    $em = $this->getDoctrine()->getManager();
-//                    $questionnaire = $em->getRepository('PHuNPlatformBundle:Questionnaire');
-//                    $questionnaire->setExperience($data->getExperience());
-//                    $questionnaire->setLastUse($data->getLastUse());
-//                    $questionnaire->setEditorExperience($data->getEditorExperience());
-//                    $questionnaire->setProfession($data->getProfession());
-//                    $questionnaire->setManuscriptDefinition($data->getManuscriptDefinition());
-//                    $questionnaire->setUser($user);
-//                    $questionnaire->setDate(new \DateTime());
-//                    $em->persist($questionnaire);
-//                    $em->flush();
-//
-//
-//                    //$form = $this->get('form.factory')->create(new TranscriptionType(), $transcription);
-//
-//                    return $this->render('PHuNPlatformBundle:Page:edit.html.twig',
-//                        array(  'page' => $page,
-//                                'corpus' => $corpus,
-//                                'form' => $form->createView(),
-//                                'tiny_conf' => $tiny_conf,
-//                                'stylesheet' => $stylesheet,
-//                                'nbPages'  => $nbPages,
-//                                'currentPage' => $currentPage
-//                        ));
-//                }
-
 
         if ($formQ->get('save_submit')->isClicked()) {
             $data = $formQ->getData();
-//                        $questionnaire = new Questionnaire(); 
-//                        $em = $this->getDoctrine()->getManager();
-//                        //$questionnaire = $em->getRepository('PHuNPlatformBundle:Questionnaire');
-//                        $questionnaire->setExperience($data->getExperience());
-//                        $questionnaire->setLastUse($data->getLastUse());
-//                        $questionnaire->setEditorExperience($data->getEditorExperience());
-//                        $questionnaire->setProfession($data->getProfession());
-//                        $questionnaire->setManuscriptDefinition($data->getManuscriptDefinition());
-//                        $questionnaire->setUser($user);
-//                        $questionnaire->setDate(new \DateTime());
-//                        $em->persist($questionnaire);
-//                        $em->flush();
 
             return new Response(var_dump($data));
         }

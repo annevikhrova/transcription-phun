@@ -26,10 +26,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PageBrowserController extends Controller
 {
-
-    
-    // Count the number of page in a corpus and make
-    // the appropriate browsing redirection
+ 
+    /**
+	 * Count the number of page in a corpus and make the appropriate browsing redirection
+     * @param integer $corpusId
+     * @param Request $request
+     */
     public function countAction(Request $request, $corpusId)
     {
         $repository = $this->getDoctrine()
@@ -49,14 +51,17 @@ class PageBrowserController extends Controller
             return $this->viewAllPagesAction($corpusId);
         }
         else{
-            //return $this->selectCatalogueAction($request, $corpusId);
             return $this->selectAction($corpusId);
         }
 
         return new Response("Positive");
     }
 
-    // Opens browser view for all pages for a corpus having max 30 pages
+    /**
+	 * Opens browser view for all pages for a corpus having max 30 pages
+     * @param integer $corpusId
+     * @return twig selectPage
+     */
     public function viewAllPagesAction($corpusId)
     {
         $em = $this->getDoctrine()->getManager();
@@ -82,9 +87,7 @@ class PageBrowserController extends Controller
             );
             if ($listTranscriptions != null ) {
                 $listLatestTranscriptions[] = $listTranscriptions[0];
-                //$transcription_date    = $transcription->getDate();
             } else {
-                //$listLatestTranscriptions = null;
                 $listFilteredPages[] = $page ;
             }
              
@@ -100,7 +103,11 @@ class PageBrowserController extends Controller
         ));
     }
     
-    // Redirects to selectPage.html.twig for corpus having >= 30 pages
+    /**
+	 * Redirects to select.html.twig for corpus having >= 30 pages
+     * @param integer $id for corpus
+     * @return twig select
+     */
     public function selectAction($id) {
         
         $em = $this->getDoctrine()->getManager();
@@ -151,7 +158,11 @@ class PageBrowserController extends Controller
             ));
     }
     
-    // Opens browser view for all pages using page selector : from selectAction()
+    /**
+	 * Opens browser view for all pages using page selector : from selectAction()
+     * @param integer $sousDossierId
+     * @return twig selectPage
+     */
     public function selectPagesAction($sousDossierId)
     {
         $repository = $this->getDoctrine()
@@ -177,9 +188,7 @@ class PageBrowserController extends Controller
             );
             if ($listTranscriptions != null ) {
                 $listLatestTranscriptions[] = $listTranscriptions[0];
-                //$transcription_date    = $transcription->getDate();
             } else {
-                //$listLatestTranscriptions = null;
                 $listFilteredPages[] = $page ;
             }
              
@@ -222,7 +231,6 @@ class PageBrowserController extends Controller
                     if ($pageId == $pageIdOfTranscription ) {
                         $newListTranscriptions[] = $transcription;
                     }
-    //                $listTranscriptions[] = $repository->findBy( array('page' => $page) );
                 }
             }
             
@@ -240,25 +248,25 @@ class PageBrowserController extends Controller
 
                     for ($i = 0; $i < count($uniqueListTranscriptions); $i++)
                     {
-                            // unique transcription
-                            $unique_transcription = $uniqueListTranscriptions[$i];
+                        // unique transcription
+                        $unique_transcription = $uniqueListTranscriptions[$i];
 
-                            // unique transcription page id
-                            $unique_transcription_page_id = $unique_transcription->getPage()->getId();
+                        // unique transcription page id
+                        $unique_transcription_page_id = $unique_transcription->getPage()->getId();
 
-                            // Check if current transcription is in unique transcription list
-                            if ($unique_transcription_page_id == $transcription_page_id) {
-                                    $is_in_unique++;
+                        // Check if current transcription is in unique transcription list
+                        if ($unique_transcription_page_id == $transcription_page_id) {
+                                $is_in_unique++;
 
-                                    if ($transcription_date > $unique_transcription->getDate()) {
-                                            $uniqueListTranscriptions[$i] = $transcription;
-                                    }
+                            if ($transcription_date > $unique_transcription->getDate()) {
+                                    $uniqueListTranscriptions[$i] = $transcription;
                             }
+                        }
                     }
 
                     if ($is_in_unique == 0)
                     {
-                            $uniqueListTranscriptions[] = $transcription;
+                        $uniqueListTranscriptions[] = $transcription;
                     }
                 }
             }
@@ -344,10 +352,6 @@ class PageBrowserController extends Controller
                 'associatedCatalogue'=> $associatedCatalogue,
                 'corpusId' => $id,
                 'corpus'   => $corpus
-//                'listCatalogue'     => $catalogueList,
-//                'listDossier'       => $listDossier,
-//                'listSousDossier'   => $listSousDossier 
-                //'listPages' => $listPages
             ));
     }
     
@@ -370,77 +374,66 @@ class PageBrowserController extends Controller
         
     }
     
+    /**
+	 * Returns a contributor list
+     * @param integer $id
+     * @return array uniqueListUsers
+     */
     public function viewContributors($id) {
             
-            $user = $this->getUser();
-            $repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Corpus')
-            ;
-            $corpus = $repository->findById($id);
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Corpus');
+        $corpus = $repository->findById($id);
+             
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Page');
+        $listPages = $repository->findBy(array('corpus' => $corpus));
             
-            
-            $repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Page') 
-            ;
-            $listPages = $repository->findBy(array('corpus' => $corpus));
-            
-            $repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Transcription') 
-                ;
-            $listTranscriptions = $repository->findAll();
-            $listUsers = array();
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Transcription');
+        $listTranscriptions = $repository->findAll();
+        $listUsers = array();
 
-            foreach($listTranscriptions as $transcription) {
-                //$listPagesOfTranscriptions[] = $transcription->getPage();
-                $page_id = $transcription->getPage()->getId();
+        foreach($listTranscriptions as $transcription) {
+            $page_id = $transcription->getPage()->getId();
                 
-                for($i=0 ; $i<count($listPages); $i++) {
-                if($page_id == $listPages[$i]->getId()) {
-                        $listUsers[] = $transcription->getUser();
-                    }
+            for($i=0 ; $i<count($listPages); $i++) {
+            if($page_id == $listPages[$i]->getId()) {
+                    $listUsers[] = $transcription->getUser();
                 }
             }
-            $uniqueListUsers = array();
-            if (count($listUsers) == 0) {
-                $uniqueListUsers = null;
-            } else {
-               foreach($listUsers as $user2check) {
+        }
+        $uniqueListUsers = array();
+        if (count($listUsers) == 0) {
+            $uniqueListUsers = null;
+        } else {
+           foreach($listUsers as $user2check) {
 
-                    $is_user_unique = true;
-                    foreach ( $uniqueListUsers as $uniqueUser){
-                        if( $user2check == $uniqueUser )
-                            $is_user_unique = false;
-                    }
+                $is_user_unique = true;
+                foreach ( $uniqueListUsers as $uniqueUser){
+                    if( $user2check == $uniqueUser )
+                        $is_user_unique = false;
+                }
 
-                    if( $is_user_unique ){
-                        $uniqueListUsers[] = $user2check;
-                    }
-                } 
-            }
-            
+                if( $is_user_unique ){
+                    $uniqueListUsers[] = $user2check;
+                }
+            } 
+        }    
         return $uniqueListUsers;    
     }
     
+    /**
+	 * Displays protocol for projet (Currently not dynamic as displays protocol for a single project only)
+     * @param integer $id for corpus
+     * @return twig protocol
+     */
     public function showProtocolAction($id) {
         
-        $repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Corpus')
-        ;
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Corpus');
         $corpus = $repository->findOneById($id);
-//        $corpusId = $corpus->getId();
         
         return $this->render('PHuNPlatformBundle:Admin:protocol.html.twig', 
             array(
                 'corpus' => $corpus
-//                'corpusId' => $corpusId
             )
         );
     }

@@ -22,7 +22,7 @@ use PHuN\PlatformBundle\Entity\Corpus;
 use PHuN\PlatformBundle\Entity\Transcription;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse; //important use à déclarer pour l'utilisation de RedirectResponse
+use Symfony\Component\HttpFoundation\RedirectResponse; //important use for RedirectResponse
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -30,124 +30,112 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class UserController extends Controller
 {
+    /**
+     * Displays user profile
+     * @return twig show_content
+     */
 	public function showAction()
 	{
 		$user = $this->getUser();
-
-		$repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Avatar')
-		;
-
+		$repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Avatar');
 		$avatar = $repository->findOneByUser($user); 
 
 		return $this->render('PHuNPlatformBundle:Profile:show_content.html.twig', array(
 		 	'user' => $user,
 		 	'avatar' => $avatar
    		));
-
-	}
-        
-        public function adminShowAction()
+    }
+    
+    /**
+     * Displays admin user profile
+     * @return twig show_content
+     */ 
+    public function adminShowAction()
 	{
 		$user = $this->getUser();
-
-		$repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Avatar')
-		;
-
+		$repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Avatar');
 		$avatar = $repository->findOneByUser($user); 
 
 		return $this->render('PHuNPlatformBundle:Admin:show_content.html.twig', array(
 		 	'user' => $user,
 		 	'avatar' => $avatar
    		));
-
 	}
-        
-        public function adminDashboardAction()
+     
+    /**
+     * Displays administrator dashboard
+     * @return twig admin_dashboard
+     */ 
+    public function adminDashboardAction()
 	{
-            $user = $this->getUser();
-
-            $repository = $this
-              ->getDoctrine()
-              ->getManager()
-              ->getRepository('PHuNPlatformBundle:Avatar')
-            ;
-
-            $avatar = $repository->findOneByUser($user); 
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Avatar');
+        $avatar = $repository->findOneByUser($user); 
             
-            $listCorpus = $user->getCorpora();
+        $listCorpus = $user->getCorpora();
 	    return $this->render('PHuNPlatformBundle:Admin:admin_dashboard.html.twig', array(
-                'user' => $user,
-		'avatar' => $avatar,
-                'listCorpus' =>$listCorpus
+            'user' => $user,
+		    'avatar' => $avatar,
+            'listCorpus' =>$listCorpus
 	    ));
 	}
-        
-        public function adminMenuAction()
+      
+    /**
+     * Displays administrator menu
+     * @return twig admin_menu
+     */ 
+    public function adminMenuAction()
 	{
-            $user = $this->getUser();
-            $repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Corpus')
-		;
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Corpus');
             
-            $listCorpus = $user->getCorpora();
+        $listCorpus = $user->getCorpora();
             
 	    return $this->render('PHuNPlatformBundle:Admin:admin_menu.html.twig', 
-                array( //'corpus' => $corpus,
-                        'user'  => $user,
-                        'listCorpus' => $listCorpus
-                    ));
+            array( 
+                'user'  => $user,
+                'listCorpus' => $listCorpus
+            ));
 	}
-        
-        public function adminViewCSSAction($id, Request $request) // $id : corpus id
+    
+    /**
+     * Displays CSS for admin verification and editing
+     * @param integer $id for corpus
+     * @param Request $request
+     * @return twig admin_view_css
+     */
+    public function adminViewCSSAction($id, Request $request) // $id : corpus id
 	{
-            //$user = $this->getUser();
-            $repository = $this
-              ->getDoctrine()
-              ->getManager()
-              ->getRepository('PHuNPlatformBundle:Corpus')
-            ;
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Corpus');
             
-            $corpus = $repository->findOneById($id);
-            $stylesheetId = $corpus->getStylesheet()->getId();
+        $corpus = $repository->findOneById($id);
+        $stylesheetId = $corpus->getStylesheet()->getId();
             
-            $repository = $this
-              ->getDoctrine()
-              ->getManager()
-              ->getRepository('PHuNPlatformBundle:Stylesheet') /** Code améliorations à venir **/
-            ;
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Stylesheet');
             
-            $stylesheet = $repository->findOneById($stylesheetId); 
-            $urlCSS     = $stylesheet->getUrl();
-            $contents = file_get_contents($urlCSS);
+        $stylesheet = $repository->findOneById($stylesheetId); 
+        $urlCSS     = $stylesheet->getUrl();
+        $contents = file_get_contents($urlCSS);
             
-            $data = array('contents' => $contents);
-            //$data[] = $contents;
+        $data = array('contents' => $contents);
             
-            $form = $this->createFormBuilder($data)
-                ->add('contents', 'textarea')
-                ->add('save',       'submit', ['label' => 'Sauvegarder'])
-            ->getForm();
+        $form = $this->createFormBuilder($data)
+            ->add('contents', 'textarea')
+            ->add('save',       'submit', ['label' => 'Sauvegarder'])
+        ->getForm();
             
-            if ($request->isMethod('POST')) {
-                $form->handleRequest($request);
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
                 
-                if ($form->isValid()) {
-                    // data is an array with "name", "email", and "message" keys
-                    $data = $form->getData();
+            if ($form->isValid()) {
+                // data is an array with "name", "email", and "message" keys
+                $data = $form->getData();
                     
-                    file_put_contents($urlCSS, $data['contents']);
-                    //return new Response (var_dump($data['contents']) );
-                    return $this->render('PHuNPlatformBundle:Admin:saved.html.twig', array('corpus' => $corpus ));
-                }
+                file_put_contents($urlCSS, $data['contents']);
+                //return new Response (var_dump($data['contents']) );
+                return $this->render('PHuNPlatformBundle:Admin:saved.html.twig', array('corpus' => $corpus ));
             }
+        }
             
 	    return $this->render('PHuNPlatformBundle:Admin:admin_view_css.html.twig', array(
                 'urlCSS' => $urlCSS,
@@ -155,35 +143,40 @@ class UserController extends Controller
                 'form' => $form->createView()
 	    ));
 	}
-        public function adminEditDescriptionAction($id, Request $request) {
-            $em = $this->getDoctrine()->getManager();
-            $repository = $em->getRepository('PHuNPlatformBundle:Corpus');
+    
+    /**
+     * Displays Projet Description for admin verification and editing
+     * @param integer $id for corpus
+     * @param Request $request
+     * @return twig admin_edit_description
+     */
+    public function adminEditDescriptionAction($id, Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('PHuNPlatformBundle:Corpus');
             
-            $corpus = $repository->findOneById($id);
-            $description = $corpus->getDescription();
+        $corpus = $repository->findOneById($id);
+        $description = $corpus->getDescription();
             
-            $data = array('description' => $description);
+        $data = array('description' => $description);
             
-            $form = $this->createFormBuilder($data)
-                ->add('description', 'textarea')
-                ->add('save',       'submit', ['label' => 'Sauvegarder'])
-            ->getForm();
+        $form = $this->createFormBuilder($data)
+            ->add('description', 'textarea')
+            ->add('save',       'submit', ['label' => 'Sauvegarder'])
+        ->getForm();
             
-            if ($request->isMethod('POST')) {
-                $form->handleRequest($request);
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
                 
-                if ($form->isValid()) {
-                    // data is an array with "name", "email", and "message" keys
-                    $data = $form->getData();
-                    $corpus->setDescription($data['description']);
+            if ($form->isValid()) {
+                // data is an array with "name", "email", and "message" keys
+                $data = $form->getData();
+                $corpus->setDescription($data['description']);
                     
-                    $em->persist($corpus);
-                    $em->flush();
-                    //file_put_contents($, $data['description']);
-                    //return new Response (var_dump($data['contents']) );
-                    return $this->render('PHuNPlatformBundle:Admin:saved.html.twig', array('corpus' => $corpus ));
-                }
+                $em->persist($corpus);
+                $em->flush();
+                return $this->render('PHuNPlatformBundle:Admin:saved.html.twig', array('corpus' => $corpus ));
             }
+        }
             
 	    return $this->render('PHuNPlatformBundle:Admin:admin_edit_description.html.twig', array(
                 'description' => $description,
@@ -191,114 +184,62 @@ class UserController extends Controller
                 'form' => $form->createView()
 	    ));
             
-        }
-        public function adminAddLogosAction($id, Request $request) {
-            $em = $this->getDoctrine()->getManager();
-            $repository = $em->getRepository('PHuNPlatformBundle:Corpus');
-            
-            $corpus = $repository->findOneById($id);
-            
-            $folder_name    = 'corpus/logos/';
-            $repository = $em->getRepository('PHuNPlatformBundle:Logo');
-            $listLogos = $repository->findBy(array('corpus' => $corpus));
-            
-            $logo = new Logo();
-            $form = $this->get('form.factory')->create(new LogoType(), $logo);
-            
-            // Create folder for new file if it doesn't already exist 
-            if (!file_exists($folder_name)) {
-                mkdir($folder_name, 0755, true);
-            }
-            
-            if ($request->isMethod('POST')) {
-                $form->handleRequest($request);
-                
-                if ($form->isValid()) {
-                    
-                    $logo->upload();
-                    $logo->setCorpus($corpus);
+    }
 
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($logo);
-                    $em->flush();
-                    
-                    
-                    return $this->render('PHuNPlatformBundle:Admin:saved.html.twig', array('corpus' => $corpus ));
-                }
-            }
+    /**
+     * Allows admins to add institutional logos
+     * @param integer $id for corpus
+     * @param Request $request
+     * @return twig admin_logos
+     */
+    public function adminAddLogosAction($id, Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('PHuNPlatformBundle:Corpus');
             
-            return $this->render('PHuNPlatformBundle:Admin:admin_logos.html.twig', array(
-                'listLogos' => $listLogos,
-                'corpus'    => $corpus,
-                'form' => $form->createView()
-	    ));
+        $corpus = $repository->findOneById($id);
+            
+        $folder_name    = 'corpus/logos/';
+        $repository = $em->getRepository('PHuNPlatformBundle:Logo');
+        $listLogos = $repository->findBy(array('corpus' => $corpus));
+            
+        $logo = new Logo();
+        $form = $this->get('form.factory')->create(new LogoType(), $logo);
+            
+        // Create folder for new file if it doesn't already exist 
+        if (!file_exists($folder_name)) {
+            mkdir($folder_name, 0755, true);
         }
+            
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+                
+            if ($form->isValid()) {
+                    
+                $logo->upload();
+                $logo->setCorpus($corpus);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($logo);
+                $em->flush();
+                    
+                    
+                return $this->render('PHuNPlatformBundle:Admin:saved.html.twig', array('corpus' => $corpus ));
+            }
+        }
+            
+        return $this->render('PHuNPlatformBundle:Admin:admin_logos.html.twig', array(
+            'listLogos' => $listLogos,
+            'corpus'    => $corpus,
+            'form' => $form->createView()
+	    ));
+    }
         
-//        public function adminSaveCSSAction(Request $request)
-//	{
-//            if (!$request->isMethod(Request::METHOD_POST)) {
-//                return;
-//            }
-//            
-//            if ($request->isMethod('POST')) {
-//                $form->handleRequest($request);
-//                
-//                if ($form->isValid()) {
-//                    // data is an array with "name", "email", and "message" keys
-//                    $data = $form->getData();
-//                    
-//                    echo $data;
-//                }
-//            }
-//            
-//	    return $this->render('PHuNPlatformBundle:Admin:admin_view_css.html.twig', array(
-//                'urlCSS' => $urlCSS,
-//                'contents' => $contents
-//	    ));
-//	}
-        
-//        public function adminViewContributorsAction($id) {
-//            
-//            $user = $this->getUser();
-//            $repository = $this
-//		  ->getDoctrine()
-//		  ->getManager()
-//		  ->getRepository('PHuNPlatformBundle:Corpus')
-//            ;
-//            $corpus = $repository->findById($id);
-//            
-//            
-//            $repository = $this
-//		  ->getDoctrine()
-//		  ->getManager()
-//		  ->getRepository('PHuNPlatformBundle:Page') 
-//            ;
-//            $listPages = $repository->findBy(array('corpus' => $corpus));
-//            $listUsers = [];
-//            $repository = $this
-//		  ->getDoctrine()
-//		  ->getManager()
-//		  ->getRepository('PHuNPlatformBundle:Transcription') 
-//                ;
-//            $listTranscriptions = $repository->findAll();
-//            foreach($listTranscriptions as $transcription) {
-//                //$listPagesOfTranscriptions[] = $transcription->getPage();
-//                $page_id = $transcription->getPage()->getId();
-//                
-//                for($i=0 ; $i<count($listPages); $i++) {
-//                if($page_id == $listPages[$i]->getId()) {
-//                        $listUsers[] = $transcription->getUser();
-//                    }
-//                }
-//            }
-//            return $this->render('PHuNPlatformBundle:Admin:contributors.html.twig', 
-//                array( 'corpus' => $corpus,
-//                       'listUsers'      => $listUsers
-//                       // 'listPages' => $pages_by_corpus
-//                    )
-//            );
-//        }
-        
+    /**
+     * Allows admins to view list of contributors for a project
+     * @param integer $id for corpus
+     * @param Request $request
+     * @return twig contributors
+     */    
     public function adminViewContributorsAction($id, Request $request) {
         $repository = $this->getDoctrine()
             ->getManager()
@@ -337,58 +278,35 @@ class UserController extends Controller
             }
         }
         
-        $repository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('PHuNPlatformBundle:Avatar')
-        ;
-        
-//        $form = $this->createFormBuilder()
-//            ->add('selection', 'checkbox', array('compound' => true))
-//            ->add('delete',       'submit', ['label' => 'Supprimer'])
-//            ->add('downgrade',       'submit', ['label' => 'Retrograder'])
-//            ->add('suspend',       'submit', ['label' => 'Suspendre'])
-//            ->add('promote',       'submit', ['label' => 'Promoter'])    
-//        ->getForm();
-        
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Avatar');
         
         return $this->render('PHuNPlatformBundle:Admin:contributors.html.twig',
             array(
                 'corpus'    => $corpus,
                 'corpusId'  => $id,
                 'listUsers' => $arrayUserContributions,
-//                'form'      => $form->createView()
-//                'listAvatars' => $listAvatars
             ));
     }
     
+    /**
+     * Auxiliary function used by adminViewContributorsAction to recover a list of contributors (without repetitions)
+     * @param integer $id for corpus
+     * @return array $uniqueListUsers
+     */ 
     public function getContributors($id) {
             
             $user = $this->getUser();
-            $repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Corpus')
-            ;
+            $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Corpus');
             $corpus = $repository->findById($id);
             
-            
-            $repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Page') 
-            ;
+            $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Page');
             $listPages = $repository->findBy(array('corpus' => $corpus));
             
-            $repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Transcription') 
-                ;
+            $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Transcription');
             $listTranscriptions = $repository->findAll();
             $listUsers = array();
 
             foreach($listTranscriptions as $transcription) {
-                //$listPagesOfTranscriptions[] = $transcription->getPage();
                 $page_id = $transcription->getPage()->getId();
                 
                 for($i=0 ; $i<count($listPages); $i++) {
@@ -420,28 +338,17 @@ class UserController extends Controller
         return $uniqueListUsers;    
     }
     
-//    public function deleteUserAction($id, $listUsers) {
-//        
-//        $listUsers = explode(",", $listUsers);
-//        $em = $this->getDoctrine()->getManager();
-//        //return new Response(var_dump($listUsers));
-//        foreach($listUsers as $userId) {
-//            $user = $em->getRepository('PHuNUserBundle:User')->findOneById($userId);
-//            $em->remove($user);
-//        }
-//        //return new Response(var_dump($listUsers));
-//        $em->flush();
-//        //return $this->adminViewContributorsAction(array($id));
-//        return $this->redirectToRoute('admin_view_contributors', array('id' => $id));    
-//    }
-    
+    /**
+     * Allows admins to demote users
+     * @param integer $id for corpus
+     * @param array $listUsers
+     */ 
     public function demoteUserAction($id, $listUsers) {
         $listUsers = explode(",", $listUsers);
         $em = $this->getDoctrine()->getManager();
         $corpus = $em->getRepository('PHuNPlatformBundle:Corpus')->findOneById($id);
         
         $request = $this->getRequest();
-        //return new Response(var_dump($listUsers));
         foreach($listUsers as $userId) {
             $user = $em->getRepository('PHuNUserBundle:User')->findOneById($userId);
             if($user->hasRole("ROLE_SUPER_ADMIN")) {
@@ -459,16 +366,19 @@ class UserController extends Controller
             
         }
         $em->flush();
-        //return $this->adminViewContributorsAction(array($id));
         return $this->redirectToRoute('admin_view_contributors', array('id' => $id));
     }
     
+    /**
+     * Allows admins to suspend users
+     * @param integer $id for corpus
+     * @param array $listUsers
+     */ 
     public function suspendUserAction($id, $listUsers) {
         $listUsers = explode(",", $listUsers);
         $em = $this->getDoctrine()->getManager();
         
         $request = $this->getRequest();
-        //return new Response(var_dump($listUsers));
         foreach($listUsers as $userId) {
             $user = $em->getRepository('PHuNUserBundle:User')->findOneById($userId);
             if($user->hasRole("ROLE_ADMIN") || $user->hasRole("ROLE_SUPER_ADMIN")) {
@@ -487,19 +397,21 @@ class UserController extends Controller
             // if user is super_admin he can suspend other simple admin users
             // ...
         }
-        //return new Response(var_dump($listUsers));
         $em->flush();
-        //return $this->adminViewContributorsAction(array($id));
         return $this->redirectToRoute('admin_view_contributors', array('id' => $id));
     }
     
+    /**
+     * Allows admins to promote users
+     * @param integer $id for corpus
+     * @param array $listUsers
+     */
     public function promoteUserAction($id, $listUsers) {
         $listUsers = explode(",", $listUsers);
         $em = $this->getDoctrine()->getManager();
         $corpus = $em->getRepository('PHuNPlatformBundle:Corpus')->findOneById($id);
         
         $request = $this->getRequest();
-        //return new Response(var_dump($listUsers));
         foreach($listUsers as $userId) {
             $user = $em->getRepository('PHuNUserBundle:User')->findOneById($userId);
             if($user->hasRole("ROLE_ADMIN") || $user->hasRole("ROLE_SUPER_ADMIN")) {
@@ -517,11 +429,15 @@ class UserController extends Controller
             
         }
         $em->flush();
-        //return $this->adminViewContributorsAction(array($id));
         return $this->redirectToRoute('admin_view_contributors', array('id' => $id));
         
     }
     
+    /**
+     * Allows admins to reactivate users
+     * @param integer $id for corpus
+     * @param integer $userId
+     */
     public function reactivateUserAction($id, $userId) {
         
         $em = $this->getDoctrine()
@@ -533,74 +449,125 @@ class UserController extends Controller
         $user->setLocked($nonLocked);
         $em->persist($user);
         $em->flush();
-        //return $this->forward(adminViewContributorsAction(array($id)));
         return $this->redirectToRoute('admin_view_contributors', array('id' => $id)); 
-        //return $this->adminViewContributorsAction(array($id, $this->getRequest()));
     }
-        
+     
+    /**
+     * Allows admins to view transcriptions
+     * @param integer $id for corpus
+     * @return twig transcriptions
+     */
     public function adminViewTranscriptionsAction($id) {
-            $user = $this->getUser();
-            $repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Corpus')
-            ;
-            $corpus = $repository->findById($id);
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Corpus');
+        $corpus = $repository->findById($id);
             
-            $repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Page') 
-            ;
-            $listPages = $repository->findBy(array('corpus' => $corpus));
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Page');
+        $listPages = $repository->findBy(array('corpus' => $corpus));
             
-            $repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Transcription') 
-                ;
-            $listTranscriptions = $repository->findAll();
-            foreach($listTranscriptions as $transcription) {
-                //$listPagesOfTranscriptions[] = $transcription->getPage();
-                $page_id = $transcription->getPage()->getId();
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Transcription');
+        $listTranscriptions = $repository->findAll();
+        foreach($listTranscriptions as $transcription) {
+            $page_id = $transcription->getPage()->getId();
                 
-                for($i=0 ; $i<count($listPages); $i++) {
-                if($page_id == $listPages[$i]->getId()) {
-                        $listTranscriptionsduProjet[] = $transcription;
-                    }
+            for($i=0 ; $i<count($listPages); $i++) {
+            if($page_id == $listPages[$i]->getId()) {
+                    $listTranscriptionsduProjet[] = $transcription;
                 }
             }
-            return $this->render('PHuNPlatformBundle:Admin:transcriptions.html.twig', 
-                array( 'corpus' => $corpus,
-                       'listTranscriptions'      => $listTranscriptionsduProjet
-                       // 'listPages' => $pages_by_corpus
-                    )
-            );
         }
-	
-        // Fonctions qui concerne l'utilisateur simple et non pas des utilisateurs admin
+        return $this->render('PHuNPlatformBundle:Admin:transcriptions.html.twig', 
+            array( 'corpus' => $corpus,
+                    'listTranscriptions' => $listTranscriptionsduProjet
+                )
+        );
+    }
+
+    /**
+     * Allows admins to view published transcriptions
+     * @param integer $id for corpus
+     * @param Request $request
+     * @return twig view_all_published
+     */
+    public function viewPublishedAction(Request $request, $id){
+        $repository = $this->getDoctrine()
+            ->getRepository('PHuNPlatformBundle:Page');
+    
+        //$myLimit = 30;
+        $listPages = $repository->findBy(
+              array('corpus' => $id,
+                    'published' => 1 )         
+        );
+    
+        $corpus = $this->getDoctrine()->getRepository('PHuNPlatformBundle:Corpus')->findOneById($id);
+    
+        return $this->render('PHuNPlatformBundle:Page:view_all_published.html.twig',
+            array(
+                'listPages' => $listPages,
+                'corpus'    => $corpus
+        ));
+    }
+    
+    /**
+     * Allows admins to unpublish transcriptions
+     * @param integer $id for page
+     */
+    public function unpublishPageAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('PHuNPlatformBundle:Page');
+    
+        $page = $repository->findOneBy(array('id' => $id));
+    
+        $corpus = $page->getCorpus();
+    
+        $transcriptionId = $page->getIdPublishedTranscription();
+        $repository = $em->getRepository('PHuNPlatformBundle:Transcription');
+        $transcription = $repository->findOneById($transcriptionId);
+    
+        $page->setPublished(0);
+        $page->setIdPublishedTranscription(NULL);
+    
+    
+        $transcription->setPublished(0);
+        $transcription->setRevision(1);
+        $transcription->setNbRevisions(0);
+        $transcription->setUserRevision1(NULL);
+        $transcription->setUserRevision2(NULL);
+        $transcription->setUserRevision3(NULL);
+    
+        $em->persist($page);
+        $em->flush();
+        $em->persist($transcription);
+        $em->flush();
+    
+        return $this->render('PHuNPlatformBundle:Admin:saved.html.twig', array('corpus' => $corpus ));
+    
+    }
+
+/********************************************************************************/    
+// Fonctions qui concernent l'utilisateur simple et non pas des utilisateurs admin
+/*********************************************************************************/
+    /**
+     * Allows users to change avatar/pic
+     * @param integer $id for corpus
+     * @param Request $request
+     */
 	public function changeAvatarAction($id, Request $request)
 	{
-		$repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Avatar')
-		;
-
+		$repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Avatar');
 		$avatar = $repository->findOneByUser($id);  
 
 		// Form creation for the transcription
-                $form = $this->get('form.factory')->create(new AvatarType(), $avatar);
+        $form = $this->get('form.factory')->create(new AvatarType(), $avatar);
 		
 		if ( $form->handleRequest($request)->isValid() )
-                {
-                    $avatar->upload();
-                    
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($avatar);
-                    $em->flush();
+        {
+            $avatar->upload();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($avatar);
+            $em->flush();
 
-                    return $this->redirect($this->generateUrl('user_profile_show'));
+            return $this->redirect($this->generateUrl('user_profile_show'));
 		}
 
 		return $this->render('PHuNPlatformBundle:Profile:change_avatar.html.twig', array(
@@ -609,35 +576,30 @@ class UserController extends Controller
 		
 	}
 
+    /**
+     * Allows users to view their transcriptions
+     * @return twig show_transcriptions
+     */
 	public function showTranscriptionsAction()
 	{
 		$user = $this->getUser();
 
-		$repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Avatar')
-		;
+		$repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Avatar');
 
 		$avatar = $repository->findOneByUser($user); 
 
-   		$repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('PHuNPlatformBundle:Transcription')
-		;
+   		$repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Transcription');
                 
-                // Search transcription table by user
+        // Search transcription table by user
 		$listTranscriptions = $repository->findByUser($user);
 		
 		$uniqueListTranscriptions = array();
 
 		foreach ($listTranscriptions as $transcription) {
 
-                    $transcription_page_id = $transcription->getPage()->getId();
-                    $transcription_date    = $transcription->getDate();
+            $transcription_page_id = $transcription->getPage()->getId();
+            $transcription_date    = $transcription->getDate();
       
-
 			$is_in_unique = 0;
 
 			for ($i = 0; $i < count($uniqueListTranscriptions); $i++)
@@ -651,7 +613,7 @@ class UserController extends Controller
 				// Check if current transcription is in unique transcription list
 				if ($unique_transcription_page_id == $transcription_page_id) {
 					$is_in_unique++;
-                                        // if multiple transcription exist for this page, add only the most recently dated transcription
+                    // if multiple transcriptions exist for this page, add only the most recently dated transcription
 					if ($transcription_date > $unique_transcription->getDate()) {
                                             $uniqueListTranscriptions[$i] = $transcription;
                                              
@@ -661,7 +623,7 @@ class UserController extends Controller
 				}
 			}
                         
-                        // if no other transcriptions exist for this page, add this transcription
+            // if no other transcriptions exists for this page, add this transcription
 			if ($is_in_unique == 0)
 			{
 				$uniqueListTranscriptions[] = $transcription;
@@ -669,23 +631,23 @@ class UserController extends Controller
                         
 		}
                 
-                // Find the very last transcription linked to page transcription
-                for( $i = 0; $i < count($uniqueListTranscriptions); $i++ )
-                {
-                    $userTranscription_page_id	= $uniqueListTranscriptions[$i]->getPage()->getId();
-                    //$userTranscription_date     = $uniqueListTranscriptions[$i]->getDate();
+        // Find the very last transcription linked to page transcription
+        for( $i = 0; $i < count($uniqueListTranscriptions); $i++ )
+        {
+            $userTranscription_page_id	= $uniqueListTranscriptions[$i]->getPage()->getId();
+            //$userTranscription_date     = $uniqueListTranscriptions[$i]->getDate();
 
-                    // Find transcription with same Page Id
-                            $corresponding_transcriptions = $repository->findByPage($userTranscription_page_id);
+            // Find transcription with same Page Id
+            $corresponding_transcriptions = $repository->findByPage($userTranscription_page_id);
 
-                    // Find the last transcription made for this page
-                    foreach( $corresponding_transcriptions as $t_to_test){
-                        if ( $uniqueListTranscriptions[$i]->getDate() < $t_to_test->getDate()) {  //if $t_to_test is greater than $i, we keep $t_to_test
-                            $uniqueListTranscriptions[$i] = $t_to_test;
-                        }
-                    }    
-                }  
-                /* end of main filter */
+            // Find the last transcription for this page
+            foreach( $corresponding_transcriptions as $t_to_test){
+                if ( $uniqueListTranscriptions[$i]->getDate() < $t_to_test->getDate()) {  //if $t_to_test is greater than $i, we keep $t_to_test
+                    $uniqueListTranscriptions[$i] = $t_to_test;
+                }
+            }    
+        }  
+        /* end of main filter */
 		$array_all_dates = array();
 
 		foreach ($listTranscriptions as $unique_tcp)
@@ -715,12 +677,10 @@ class UserController extends Controller
 						$alreadyDetected_date = $list_date_tcp[$j];
 						$alreadyDetected_date = new \DateTime( $alreadyDetected_date->format("Y-m-d") );
 
-						// echo "<div>".var_dump($current_date)."</div>";
-						// echo "<div>".var_dump($alreadyDetected_date)."</div>";
-
+						
 						if( $current_date == $alreadyDetected_date )
 						{
-						// echo "<div> IT HAS DETECTED</div>";
+						
 							$list_date_nb_revision[$j]++;
 							$is_date_in_list++;
 
@@ -729,7 +689,6 @@ class UserController extends Controller
 
 							break;
 						}
-						// echo "<div> </div>";
 					}
 
 					if( $is_date_in_list == 0 )
@@ -745,7 +704,6 @@ class UserController extends Controller
 			}
 
 
-
 			$tcp_graph = array();
 			for ($p = 0; $p < count($list_date_tcp); $p++){
 				$newSerie = array( "date" => $list_date_tcp[$p], "nb" => $list_date_nb_revision[$p] );
@@ -757,13 +715,6 @@ class UserController extends Controller
 			if( count($tcp_graph) > 0 )
 				$array_all_dates[] = array("name" => $unique_tcp->getPage()->getAlt(), "graph" => $tcp_graph);
 		} 
-
-		
-
-		// $listTranscriptions = $repository->findByUser($user);
-
-			// return new Response(var_dump($array_all_dates));
-
 
 		return $this->render('PHuNPlatformBundle:Profile:show_transcriptions.html.twig', array(
 		 	'user' => $user,

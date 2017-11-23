@@ -9,96 +9,11 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('mb-tooltip/css/mbTooltip.css') }}" title="style1"  media="screen">
-
+    <link rel="stylesheet" href="{{ asset('bundles/framework/css/page_styles.css') }}" type="text/css" />
 {% endblock %}
 
 {% block body %}
-<style>
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 50%; /* Full width */
-    height: 100%; /* height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
 
-/* Modal Content */
-.modal-content {
-    /*background-color: #CFDAE5;*/
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    height: 400px;
-    overflow-y: scroll !important;
-}
-
-/* The Close Button */
-.close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.comment-content {
-}
-
-.comment-box {
-  padding: 15px;
-  border-bottom: 1px solid #ddd ;
-}
-.comment-user {
-  display: block;
-  font-weight: bold;
-}
-.comment-datetime {
-  display: block;
-  font-style: italic;
-  font-size: 0.8em;
-}
-.comment-text {
-  display: block;
-}
-.comment-text p {
-  width: 80%;
-  margin: 0 auto 1em auto;
-  padding-bottom: 1em;
-}
-
-.comment-time-ago {
-  display: block;
-  font-style: italic;
-  font-size: 0.9em;
-  color: #0DA3EE;
-  float: right;
-
-}
-
-.comment-form {
-}
-
-{#.comment-user-profile > img {
-    border-radius: 50% !important;
-}#}
-
-</style>
     {{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}
     
     {% if page.sousDossier.name is same as("unnamed")  %}

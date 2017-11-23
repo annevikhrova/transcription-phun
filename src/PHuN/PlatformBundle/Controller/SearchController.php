@@ -29,8 +29,7 @@ class SearchController extends Controller
 		$em = $this->getDoctrine()->getManager();
 
 		// Search on all page
-		$listPages = $em->getRepository('PHuNPlatformBundle:Page')
-						->findAll();
+		$listPages = $em->getRepository('PHuNPlatformBundle:Page')->findAll();
 
 		$retrievedList = array();
 		$str_length = count($searchStr);
@@ -42,7 +41,7 @@ class SearchController extends Controller
 			$xml_content = $this->ReformatXml($page->getUrlXml());
 
 			// Find occurence of search string
-                        $begin = strpos($xml_content, $searchStr, 0);
+            $begin = strpos($xml_content, $searchStr, 0);
 			while( $begin !== false )
 			{
 				$context = substr($xml_content, $begin-30, $str_length + 60);
@@ -63,7 +62,7 @@ class SearchController extends Controller
 
 
 	/**
-	 * @function ReformartXml
+	 * @function ReformatXml
 	 * Reformat a XML file
 	 *
 	 * @param	urlXml 	XML, defined by its url
@@ -83,37 +82,9 @@ class SearchController extends Controller
 		}        
                         
 		else
-                    $xmlContent = "";
+            $xmlContent = "";
                 
 
 		return $xmlContent;
 	}
 }
-
-
-
-
-
-        // $securityContext = $this->container->get('security.authorization_checker');
-        // if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-        //     $user = $this->getUser();
-        
-	    // $repository = $this->getDoctrine()
-		//  	->getManager()
-		//  	->getRepository('PHuNPlatformBundle:Transcription')
-		//  ;
-
-	    // $listTranscriptions = $repository->findBy(
-        //         array('user' => $user), // Critere
-        //         array('date' => 'desc'),        // Tri
-        //         5,                              // Limite
-        //         0                               // Offset
-        //       );
-        //     } else {
-        //         $listTranscriptions = null;
-        //     }
-
-	    // return $this->render('PHuNPlatformBundle:Page:menu.html.twig', array(
-	    //   'listTranscriptions' => $listTranscriptions
-	    // ));
-            

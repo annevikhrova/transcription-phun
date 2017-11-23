@@ -43,7 +43,7 @@
             {#<li role="presentation"><a href="#"><i class="glyphicon glyphicon-envelope"></i>Messages</a></li>#}
             <li class="secondary-admin-menu-item"><a href="{{ path('admin_view_published_pages', {'id': corpus.id })}}"><i class="glyphicon glyphicon-signal"></i>Pages Publiées</a></li>
             {% if is_granted("ROLE_SUPER_ADMIN") %}
-                <li class="secondary-admin-menu-item"><a href="{{ path('phun_selectxml', {'id': corpus.id }) }}"><i class="glyphicon glyphicon-star"></i>XML Sources</a></li>
+                
             {% endif %}
         </ul> 
     {% endfor %} 

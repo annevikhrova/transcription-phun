@@ -15,7 +15,7 @@ use PHuN\PlatformBundle\Entity\Plugin;
 use PHuN\PlatformBundle\Entity\Transcription;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse; //important use à déclarer pour l'utilisation de RedirectResponse
+use Symfony\Component\HttpFoundation\RedirectResponse; //important use for RedirectResponse
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -23,39 +23,42 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class TranscriptionController extends Controller
 {
-    // Fonction permettant de faire une transcription de la page $id
+    /**
+     * Opens editor allowing to edit a selected transcription by $id
+     * @param integer $id Unique id of the page to be transcribed
+     * @param Request $request
+     * @return twig containing editor interface and view of a page
+     */
     public function editAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        // Repository de la table page
+        // Transcription repository
         $repository = $em->getRepository('PHuNPlatformBundle:Transcription');
 
-        // On récupère la page correspondante à l'id $id
+        // Recovery of transcription by $id
         $transcription = $repository->find($id);
         $page = $transcription->getPage();
         $corpusId = $page->getCorpus()->getId();
 
         $this->denyAccessUnlessGranted('ROLE_AUTEUR');
-        // On récupére l'utilisateur qui transcrit
+        // Get user
         $user = $this->getUser();
 
         $url_xml = $transcription->getUrlXml(); 
-            if (is_file($url_xml) == null) {
-                    $contenu_xml = simplexml_load_file("transcriptionMinimal.xml");
-            }
-            else {
-                $contenu_xml = simplexml_load_file($url_xml);
-            }        
-
+        if (is_file($url_xml) == null) {
+                $contenu_xml = simplexml_load_file("transcriptionMinimal.xml");
+        }
+        else {
+            $contenu_xml = simplexml_load_file($url_xml);
+        }        
 
         $contenu = $contenu_xml->contenu;
         $xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 
-        // on tranforme et on enregistre dans un nouveau document XML
+        // Transform and save into a new XML file
         $contenu =  $contenu->asXML();
         $contenu = str_replace("<contenu>", "", $contenu);
         $contenu = str_replace("</contenu>", "", $contenu);
-        //$contenu = $xml.$contenu;
 
         // The transcription content is set to be seen in the form
         $transcription->setContent( $contenu ); // Ici, remplacement du $content_xml integral par $contenu (fichier sans descriptif)
@@ -63,16 +66,11 @@ class TranscriptionController extends Controller
         // Form creation for the transcription
         $form = $this->get('form.factory')->create(new TranscriptionType(), $transcription);
 
+        // Recover corpus by $id
+        $corpus = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Corpus')->find($corpusId);
 
-        // On récupère le corpus $id
-        $corpus = $this->getDoctrine()
-                    ->getManager()->getRepository('PHuNPlatformBundle:Corpus')->find($corpusId);
-
-        $containerList = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('PHuNPlatformBundle:Container')
-            ->findAll();    
-        //Chargement de l'éditeur paramétré :
+        $containerList = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Container')->findAll();    
+        // Editor configuration
         $listPlugins = $corpus->getPlugins();
         $stylesheet  = $corpus->getStylesheet()->getUrl();
         $editConfig = new EditorConfig($listPlugins, $stylesheet, $containerList);
@@ -93,7 +91,7 @@ class TranscriptionController extends Controller
                 return $this->saveAndExit( $page, $user, $transcription, $corpus, $stylesheet, $form );
 
             }
-            // If user saves transcription to continue working 
+            // If user saves transcription to continues working 
             else if($form->get('save')->isClicked()) {
 
                 return $this->simpleSave ( $page, $user, $transcription, $corpus, $stylesheet, $form, $tiny_conf, $commentArray );
@@ -116,129 +114,66 @@ class TranscriptionController extends Controller
             'stylesheet' => $stylesheet
 
         ));
-       //return new Response(var_dump($contenu_xml));
 
     }
 
-    // Fonction permettant de voir la page ayant comme id $id
-    public function listAction($id)
-    {
-            $id1 = "";
-            $id2 = "";
 
-
-             $repository = $this->getDoctrine()
-                    ->getManager()
-                    ->getRepository('PHuNPlatformBundle:Page')
-             ;
-
-             //On récupère l'entité correspondante à l'id $id
-             $page = $repository->find($id);
-             $pageId = $page->getId();
-
-              $repository = $this->getDoctrine()
-                    ->getManager()
-                    ->getRepository('PHuNPlatformBundle:Transcription')
-             ;
-
-             //$transcription = $repository->find($user->get)
-             $listTranscriptions = $repository->findBy(
-              array('page' => $pageId)                              // Offset
-            );	
-
-
-
-            // La page est affichée
-            return $this->render('PHuNPlatformBundle:Transcription:list.html.twig', array(
-                    'page' => $page, 
-                    'listTranscriptions' => $listTranscriptions,
-                    'id1' => $id1, 
-                    'id2' => $id2
-            ));
-    }
-
-    public function selectAction($id1, $id2)
-    {
-        return new Response($id1, $id2);
-    }
-
-    // Fonction permettant de voir la page ayant comme id $id
+    /**
+     * Displays view of transcription corresponding to $id
+     * @param integer $id
+     * @return twig view of selected transcription
+     */
     public function viewAction($id)
     {
 
-             // $repository = $this->getDoctrine()
-             // 	->getManager()
-             // 	->getRepository('PHuNPlatformBundle:Transcription')
-             // ;
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Transcription');
 
-             // //On récupère l'entité correspondante à l'id $id
-             // $page = $repository->find($id);
-             // $pageId = $page->getId();
-             // $pageOriginal = $page->getPageId();
+        $transcription = $repository->find($id);
+        $page = $transcription->getPage();
+        $corpus = $page->getCorpus();
+        $stylesheet = $corpus->getStylesheet();
+        $urlCSS = $stylesheet->getUrl();
 
-             //  $repository = $this->getDoctrine()
-             // 	->getManager()
-             // 	->getRepository('PHuNPlatformBundle:Page')
-             // ;
+        $listUsers = array();
+        $listTranscriptions = $repository->findByPage($page);
 
-             // $corpusId = $repository->find($pageOriginal)->getCorpusId();
+        foreach( $listTranscriptions as $tr ) {
+            $listUsers[] = $tr->getUser();
+        }
+        $listUsers = array_unique($listUsers);
+        $em = $this->getDoctrine()->getManager();
+        $UserRepository = $em->getRepository('PHuNUserBundle:User');
+        foreach( $listTranscriptions as $tr ) {
+            $rId1 = $tr->getUserRevision1();
+            $rId2 = $tr->getUserRevision2();
+            $rId3 = $tr->getUserRevision3();
 
+            $r1 = $UserRepository->findOneById($rId1);
+            $r2 = $UserRepository->findOneById($rId2);
+            $r3 = $UserRepository->findOneById($rId3);
+        }
 
-              $repository = $this->getDoctrine()
-                    ->getManager()
-                    ->getRepository('PHuNPlatformBundle:Transcription')
-             ;
-
-             $transcription = $repository->find($id);
-             $page = $transcription->getPage();
-             $corpus = $page->getCorpus();
-
-             $stylesheet = $corpus->getStylesheet();
-
-             $urlCSS = $stylesheet->getUrl();
-
-             // $repository = $this->getDoctrine()
-             // 	->getManager()
-             // 	->getRepository('PHuNPlatformBundle:Page')
-             // ;
-
-             // $page = $repository->find($pageId);
-
-             //$content_xml = $transcription->getContent();
-
-             $listUsers = array();
-             $listTranscriptions = $repository->findByPage($page);
-
-             foreach( $listTranscriptions as $tr ) {
-                 $listUsers[] = $tr->getUser();
-             }
-             $listUsers = array_unique($listUsers);
-             $em = $this->getDoctrine()->getManager();
-            $UserRepository = $em->getRepository('PHuNUserBundle:User');
-            foreach( $listTranscriptions as $tr ) {
-                 $rId1 = $tr->getUserRevision1();
-                 $rId2 = $tr->getUserRevision2();
-                 $rId3 = $tr->getUserRevision3();
-
-                 $r1 = $UserRepository->findOneById($rId1);
-                 $r2 = $UserRepository->findOneById($rId2);
-                 $r3 = $UserRepository->findOneById($rId3);
-
-             }
-
-
-            return $this->render('PHuNPlatformBundle:Transcription:view.html.twig', array(
-                    'page' => $page,
-                    'corpus' => $corpus,
-                    'transcription' => $transcription,
-                    'urlCSS' => $urlCSS,
-                    'listUsers' => $listUsers,
-                    'r1'        => $r1,
-                    'r2'        => $r2,
-                    'r3'        => $r3
-            ));
+        return $this->render('PHuNPlatformBundle:Transcription:view.html.twig', array(
+            'page' => $page,
+            'corpus' => $corpus,
+            'transcription' => $transcription,
+            'urlCSS' => $urlCSS,
+            'listUsers' => $listUsers,
+            'r1'        => $r1,
+            'r2'        => $r2,
+            'r3'        => $r3
+        ));
     }
 
+    /**
+     * Save and exit function. One of two types of save functions
+     * @param Page $page
+     * @param User $user
+     * @param Transcription $transcription
+     * @param Corpus $corpus
+     * @param Stylesheet $stylesheet
+     * @param Form $form
+     */
     public function saveAndExit( $page, $user, $transcription, $corpus, $stylesheet, $form ) {
         // Redirect to view the newly saved page
         $pageName       = $page->getFileName();
@@ -249,31 +184,28 @@ class TranscriptionController extends Controller
 
         $newTranscription = $transcription;
         $newTranscription->setDate(new \Datetime());
-                $newTranscription->setPage( $transcription->getPage() );
-                $newTranscription->setUser( $user );
-                $newTranscription->setContent( $transcription->getContent() );
+        $newTranscription->setPage( $transcription->getPage() );
+        $newTranscription->setUser( $user );
+        $newTranscription->setContent( $transcription->getContent() );
         $newTranscription->setUrlXml("NULL");
         $newTranscription->setPublished(false);
 
-        //$newTranscription->setNbRevisions(-1);
-
         if ($form['revision']->getData() == false) {
-                $newTranscription->setNbRevisions(-1);
-                $newTranscription->setPublished(false);
+            $newTranscription->setNbRevisions(-1);
+            $newTranscription->setPublished(false);
         }
 
         if ($form['revision']->getData() == true) {
-                $nbRevisions = $newTranscription->getNbRevisions()+ 1;
-                //$nbRevisions = $nbRevisions + 1;
-                $transcription->setRevision(true);
-                $newTranscription->setNbRevisions($nbRevisions); 
-                $newTranscription->setPublished(false);
+            $nbRevisions = $newTranscription->getNbRevisions()+ 1;
+            $transcription->setRevision(true);
+            $newTranscription->setNbRevisions($nbRevisions); 
+            $newTranscription->setPublished(false);
 
 
-                if ($form['revision']->getData() == true && $newTranscription->getNbRevisions() == 3) {
-                        $newTranscription->setPublished(true);
-                        $newTranscription->setRevision(false);
-                }
+            if ($form['revision']->getData() == true && $newTranscription->getNbRevisions() == 3) {
+                $newTranscription->setPublished(true);
+                $newTranscription->setRevision(false);
+            }
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -308,8 +240,19 @@ class TranscriptionController extends Controller
                 'transcription' =>$transcription,
                 'stylesheet' => $stylesheet
         )));
-   }
+    }
 
+    /**
+     * Simple save function. User does not leave the page with this type of save
+     * @param Page $page
+     * @param User $user
+     * @param Transcription $transcription
+     * @param Corpus $corpus
+     * @param Stylesheet $stylesheet
+     * @param Form $form
+     * @param string $tiny_conf
+     * @param array $commentArray
+     */
     public function simpleSave( $page, $user, $transcription, $corpus, $stylesheet, $form, $tiny_conf, $commentArray ) {
         // Persist transcription
         $newTranscription = $transcription;
@@ -331,31 +274,27 @@ class TranscriptionController extends Controller
     }
 
     // Fonction permettant de voir la liste de toutes les transcriptions existantes pour un projet
+    /**
+     * Displays all transcriptions for corpus
+     * @param integer $corpusId
+     * @param integer $userId
+     * @return twig listAll
+     */
     public function listAllTranscriptionsAction($corpusId, $userId)
     {
 
-        //$userId = $id;
-        $repository = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('PHuNUserBundle:User')
-        ;
-
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNUserBundle:User');
         $user = $repository->find($userId);
-        //$userStatus = $user->getStatus(); 
 
+        // Transcription repository
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Transcription');
 
-        // Doctrine accède à la table Transcription
-        $repository = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('PHuNPlatformBundle:Transcription')
-        ;
-
-        // On récupère toutes les enregistrements de la table
+        // Recover all listings in table
         $listTranscriptions = $repository->findAll();
-        // On récupère les pages (.JPG) sources pour chacune des transcriptions
+        // Recover all associated pages for transcription list
         foreach ($listTranscriptions as $transcription) {
                 $page = $transcription->getPage();
-                // On récupère le corpus
+                // Recover corpus id
                 $currentCorpusId = $page->getCorpus()->getId();
 
                 if ($currentCorpusId == $corpusId) {
@@ -367,17 +306,20 @@ class TranscriptionController extends Controller
         ));			 
     }
 
-    // Fonction permettant de voir toutes les transcriptions en relecture
+    /**
+     * Displays all transcriptions in revision
+     * @param integer $corpusId
+     * @return twig listRevisions
+     */
     public function listAllRevisionsAction($corpusId)
     {
-
         $user = $this->getUser();
-        // Doctrine accède à la table Transcription
+        // Transcription repository
         $em = $this->getDoctrine()->getManager();	
         $repository = $em->getRepository('PHuNPlatformBundle:Transcription');
         $corpus = $em->getRepository('PHuNPlatformBundle:Corpus')->findOneById($corpusId);
 
-        // On récupère toutes les enregistrements de la table
+        // Recover all listings
         $listRevisions = $repository->findBy(
             array('revision' => true),
             array('date' => 'ASC')
@@ -386,7 +328,7 @@ class TranscriptionController extends Controller
             $listRevisionsDuCorpus = null;
         }
         else {
-            // On récupère les pages (.JPG) sources pour chacune des transcriptions
+            // Recover all associated pages for revision list
             foreach ($listRevisions as $revision) {
                     $page = $revision->getPage();
                     // On récupère le corpus
@@ -414,7 +356,6 @@ class TranscriptionController extends Controller
                     ));
 
     }
-	
 
 
 }	

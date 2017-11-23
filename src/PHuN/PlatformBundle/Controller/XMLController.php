@@ -1,11 +1,5 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace PHuN\PlatformBundle\Controller;
 
 use PHuN\PlatformBundle\Form\SousDossierType;
@@ -34,19 +28,16 @@ use diffMatchPatch\src\DiffMatchPatch;
 class XMLController extends Controller
 {
     /**
-     * Function that select a thing and to thing with it
-     * @param number $id Unique id of a given corpus.
+     * test select XML function
+     * @param integer $id for corpus
      */
     public function selectXMLAction($id) {
         
         $em = $this->getDoctrine()->getManager();
         
-        $catalogueList = $em->getRepository('PHuNPlatformBundle:Catalogue')
-            ->findByCorpus($id);
-        $corpus = $em->getRepository('PHuNPlatformBundle:Corpus')
-            ->findOneById($id);   
+        $catalogueList = $em->getRepository('PHuNPlatformBundle:Catalogue')->findByCorpus($id);
+        $corpus = $em->getRepository('PHuNPlatformBundle:Corpus')->findOneById($id);   
         $corpusId = $corpus->getId();
-        //$associatedCatalogue;// = array( "catalogue", array("dossier", array("sousDossier") ) ) ;
         
         $corpusName = $corpus->getName() .'_'. $corpus->getId();
         
@@ -56,7 +47,6 @@ class XMLController extends Controller
         $listTranscriptionDir = array();
         foreach ($dir as $fileinfo) {
             if ($fileinfo->isDir() && !$fileinfo->isDot()) {
-                //echo $fileinfo->getFilename().'<br>';
                 $listTranscriptionDir[] = $path . $fileinfo->getFilename() . '/';
             }
         }
@@ -74,7 +64,6 @@ class XMLController extends Controller
                     $name = $transcriptionDir . $fileinfo->getFilename();
                     $listFullPathTranscriptionFile[] = array("name" => $name);
                     
-                    //$listXmlFiles[] = $name;
                 }
             }
             $associatedDossier[] = array( "dossier" => $transcriptionDir, "dossname" => $dossname, "associatedFile" => $listFullPathTranscriptionFile);
@@ -92,26 +81,14 @@ class XMLController extends Controller
             ));
     }
     
-//    public function viewXMLAction($xml) {
-//        //return new Response($xml); 
-//        $file = file_get_contents($xml);
-//        
-//        return new Response($file);
-//        
-//    }
-//    
-//    public function downloadXMLAction($xml) {
-//        //return new Response($xml); 
-//        $file = file_get_contents($xml);
-//        
-//        return new Response($file);
-//        
-//    }
-    
+    /**
+     * test analyse XML function
+     * @param integer $id for corpus
+     * @param string $doss
+     * @param array $xmls
+     */
     public function analyseXMLAction($xmls, $doss, $id) {
-        //return new Response($xml); 
-        
-        
+       
         $em = $this->getDoctrine()->getManager();
         $corpus = $em->getRepository('PHuNPlatformBundle:Corpus')
             ->findOneById($id);
@@ -125,7 +102,6 @@ class XMLController extends Controller
         foreach ($xmls as $xml) {
             $file = file_get_contents($xml);
             
-            //clean file from encoding to retain text (file.v)
             $v = strip_tags($file);
             $subpath = $path.$doss.'.v';
             file_put_contents($subpath, $v);
@@ -133,10 +109,13 @@ class XMLController extends Controller
             
         }
         
-        
-        
+       
     }
     
+    /**
+     * test XML function
+     * @param integer $id for corpus
+     */
     public function testXMLAction($id) { //parameters to add : $xmls, $doss, $id(corpus id)
         //return new Response($xml); 
         $xmls = array('corpus/Benoîte Groult_5/transcriptions/31AF19001_03_009/31AF19001_03_009_93.xml', 'corpus/Benoîte Groult_5/transcriptions/31AF19001_03_009/31AF19001_03_009_94.xml');
@@ -145,7 +124,6 @@ class XMLController extends Controller
         $corpus = $em->getRepository('PHuNPlatformBundle:Corpus')
             ->findOneById($id);
         $corpusName = $corpus->getName(). '_' . $corpus->getId();
-        //$path = 'corpus/' . $corpusName . '/transcriptions/'. $doss . '/vfiles/';
         $path = $corpusName . '/transcriptions/'. $doss . '/vfiles/';
         
         if(!file_exists($path)) {
@@ -217,7 +195,6 @@ class XMLController extends Controller
         file_put_contents($csv_path, $distanceMatrixStr);
         
         return new Response($csv_path);
-        
         
         
     }

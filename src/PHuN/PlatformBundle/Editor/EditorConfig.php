@@ -1,11 +1,5 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace PHuN\PlatformBundle\Editor;
 
 class EditorConfig 
@@ -47,10 +41,6 @@ class EditorConfig
     {
         //Chargement de l'éditeur paramétré :
             		 	
-        // Les plugins associés déjà au corpus
-        //$this->listPlugins = $corpus->getPlugins();
-
-
         for( $i = 0; $i < count( $this->containerList ); $i ++ )
             $menuList[] = "";
 

@@ -1,0 +1,12 @@
+# Time ago in words - Twig Extension
+less than %seconds seconds ago: moins de %seconds secondes
+half a minute ago: une minute et demi
+less than a minute ago: moins de 1 minute
+1 minute ago: il y a 1 minute
+%minutes minutes ago: il y a %minutes minutes
+about 1 hour ago: appx. 1 heure
+about %hours hours ago: appx. %hours heures
+1 day ago: appx. 1 jour
+%days days ago: appx. %days jours
+"{1} 1 month ago |]1,Inf[ %months months ago": "{1} un mois |]1,Inf[ il y a %months mois"
+"{1} 1 year ago |]1,Inf[ %years years ago":  "appx. un an |]1,Inf[ il y a %years ans"

@@ -46,22 +46,17 @@ class CorpusController extends Controller
      */
     public function AddCorpusAction(Request $request)
     {
-            // Vérification du statut d'admin de l'utilisateur accédant à la page
+        // Verification of user's admin status 
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-          // Sinon on déclenche une exception « Accès interdit »
-          throw new AccessDeniedException('Accès limité aux administrateurs d\'un projet.');
+            // Exception « Accès interdit »
+            throw new AccessDeniedException('Accès limité aux administrateurs d\'un projet.');
         }
 
-        $repository = $this->getDoctrine()
-                    ->getManager()
-                    ->getRepository('PHuNPlatformBundle:Corpus')
-             ;
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Corpus');
 
         //$corpus = $repository->findOneById(5);  // Utilisé en cas de tests au lieu de new Corpus();
-
         $corpus = new Corpus();
         $form = $this->get('form.factory')->create(new CorpusType(), $corpus);
-
         $corpus->setPluginList('');
         $user = $this->getUser();
 
@@ -80,13 +75,11 @@ class CorpusController extends Controller
             $dtdFile = $corpus->getDtd()->getUrl();
             $this->forward('phun.dtd_controller:parseDtdFileAction', array('dtdFile' => $dtdFile, 'idCorpus' => $corpusId));
 
-            //Traitement du fichier CSS
+            //CSS parse action
             $cssFile = $corpus->getStylesheet()->getUrl();
             $this->forward( 'phun.css_controller:parseCssFileAction', 
                 array('cssFile' => $cssFile, 'idCorpus' => $corpusId )
             );
-
-
 
             $phun_structure = 'corpus/'.$corpus->getName().'_'.$corpus->getId();
 
@@ -111,7 +104,12 @@ class CorpusController extends Controller
 
     }
     
-    
+    /**
+     * Displays custom corpus header
+     * @param integer $id
+     * @param Request $request
+     * @return twig corpus_header
+     */
     public function HeaderAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -121,6 +119,11 @@ class CorpusController extends Controller
         return $this->render('PHuNPlatformBundle:Corpus:corpus_header.html.twig', [ 'corpus' => $corpus, 'routeName' => $routeName ]);
     }
     
+    /**
+     * Displays corpus navtabs
+     * @param integer $id
+     * @return twig corpus_navtabs
+     */
      public function NavTabsAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -131,6 +134,11 @@ class CorpusController extends Controller
         
     }
     
+    /**
+     * Displays custom corpus footer with associated institutional logos
+     * @param integer $id
+     * @return twig corpus_footer
+     */
     public function FooterAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -142,14 +150,14 @@ class CorpusController extends Controller
         
     }
     
+    /**
+     * Displays corpus description
+     * @param integer $id
+     * @return twig description
+     */
     public function viewDescriptionAction($id) {
-        $repository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('PHuNPlatformBundle:Corpus')
-        ;
-            
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Corpus');        
         $corpus = $repository->findOneById($id);
-        
         $listUsers = $this->getContributors($id);
         
         return $this->render('PHuNPlatformBundle:Corpus:description.html.twig',
@@ -161,6 +169,12 @@ class CorpusController extends Controller
         
     }
     
+    /**
+     * Displays corpus contributors. This function needs to be completed using Location entity.
+     * Further work required.
+     * @param integer $id
+     * @return twig contributors
+     */
     public function viewContributorsAction($id) {
         
         // Create display map for contributors
@@ -176,19 +190,14 @@ class CorpusController extends Controller
         $map->setStylesheetOption('height', '100%');
         
         
-        $repository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('PHuNPlatformBundle:Corpus')
-        ;
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Corpus');
             
         $corpus = $repository->findOneById($id);
         
         $listUsers = $this->getContributors($id);
         $arrayUserContributions = [];
         foreach ($listUsers as $user) {
-            $repository = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('PHuNPlatformBundle:Transcription');
+            $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Transcription');
             
             $listTranscriptionsByUser = $repository->findByUser($user);        
             $nbTranscriptionsByUser = count($listTranscriptionsByUser);
@@ -255,10 +264,7 @@ class CorpusController extends Controller
         
       
         
-        $repository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('PHuNPlatformBundle:Avatar')
-        ;
+        $repository = $this->getDoctrine()->getManager()->getRepository('PHuNPlatformBundle:Avatar');
         
         
         
@@ -315,12 +321,15 @@ class CorpusController extends Controller
                 'listUsers' => $arrayUserContributions,
                 'map'       => $map,
                 'listPositions' => $listPositions,
-                'listCountries' => $listCountries
-                
-//                'listAvatars' => $listAvatars
+                'listCountries' => $listCountries          
             ));
     }
     
+    /**
+     * Filters contributor list to retain unique entries. Used by viewContributorsAction
+     * @param integer $id
+     * @return array of unique contributors $uniqueListUsers
+     */
     public function getContributors($id) {
             
             $user = $this->getUser();

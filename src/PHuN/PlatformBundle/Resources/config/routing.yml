@@ -18,6 +18,12 @@ page_browser_count:
     path:    /browser/{corpusId}
     defaults: { _controller: PHuNPlatformBundle:PageBrowser:count}
 
+phun_platform_transcription_list:
+    path:     /transcription/list/{id}
+    defaults: { _controller: PHuNPlatformBundle:Transcription:list }
+    requirements: 
+        id: \d+ 
+
 page_browser_small_corpus:
     path:    /browser/test/{corpusId}
     defaults: { _controller: PHuNPlatformBundle:PageBrowser:viewAllPages}
@@ -70,12 +76,6 @@ phun_platform_how:
 phun_platform_view:
     path:     /page/{id}
     defaults: { _controller: PHuNPlatformBundle:Page:view }
-
-phun_platform_transcription_list:
-    path:     /transcription/list/{id}
-    defaults: { _controller: PHuNPlatformBundle:Transcription:list }
-    requirements: 
-        id: \d+ 
 
 phun_platform_transcription_view:
     path:     /transcription/{id}
@@ -131,9 +131,6 @@ phun_revision_status:
     defaults: { _controller: PHuNPlatformBundle:Revision:status }
     requirements: 
         id: \d+
-phun_platform_view_plugins:
-    path:    /admin/view_plugins/{id}
-    defaults: { _controller: PHuNPlatformBundle:Page:view_plugins }
 
 phun_platform_view_editor:
     path:    /admin/view_editor/{id}
@@ -142,10 +139,6 @@ phun_platform_view_editor:
 phun_platform_plugin_creation:
     path:    /admin/create_plugin/{id}
     defaults: { _controller: PHuNPlatformBundle:Plugin:PluginCreation }
-
-phun_platform_p_plugin:
-    path:    /admin/p_plugin/{id}
-    defaults: { _controller: PHuNPlatformBundle:Page:p_plugin }
 
 phun_platform_saved:
     path:    /admin/saved
@@ -204,10 +197,10 @@ admin_view_transcriptions:
     defaults: { _controller: PHuNPlatformBundle:User:adminViewTranscriptions }
 admin_view_published_pages:
     path:    /admin/published/all/{id}
-    defaults: { _controller: PHuNPlatformBundle:Page:viewPublished}
+    defaults: { _controller: PHuNPlatformBundle:User:viewPublished}
 admin_unpublish_page:
     path:    /admin/published/unpublish/{id}
-    defaults: { _controller: PHuNPlatformBundle:Page:unpublishPage}
+    defaults: { _controller: PHuNPlatformBundle:User:unpublishPage}
 xsl_generation:
     path:    /admin/xsl_generation
     defaults: { _controller: PHuNPlatformBundle:Plugin:generationXSL }

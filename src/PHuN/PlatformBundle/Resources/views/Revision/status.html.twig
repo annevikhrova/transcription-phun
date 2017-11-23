@@ -10,67 +10,13 @@
 
 {% block stylesheets %}
     {{ parent() }}
-   {# <link rel="stylesheet" href="{{ asset(urlCSS) }}" type="text/css" />#}
+   <link rel="stylesheet" href="{{ asset('bundles/framework/css/page_styles.css') }}" type="text/css" />
 {% endblock %}
 
 {% block body %}
 
-{#{{ render(controller("PHuNPlatformBundle:Corpus:Header", { 'id': corpus.id } )) }}#}
-
 {% block navigation %}
-    <style>
-        
-        .page-header-canvas {
-            background-color:#333;
-            height: 261px;
-            margin: 0;
-            
-        }
-       
-        .page-header {
-            background-image: url({{ asset('header/img/manuscript-2.jpg') }});
-            font: normal 230% 'Futura', Times, sans-serif;
-            letter-spacing: 0.1em;
-            margin: 0;
-            padding: 15px 10px 15px 60px;
-            opacity: 1;
-            filter: alpha(opacity=50); /* For IE8 and earlier */
-        }
-        
-        {#.page-header:hover {
-            opacity: 0.8;
-        }#}
-       
-        h1 {
-            font-size: 72px;
-            color: #fff;
-            position: relative;
-            z-index: 2;
-        }
-        .project-img {
-            height: 230px;
-            width: 230px;
-            background-image: url( {{ asset(corpus.image.url) }} );
-            background-position:center;
-            {#opacity: 0.6;#}
-            box-shadow:  -15px 15px 5px #333;
-            
-           
-        }
-        
-        .project-img-canvas {
-            {#border: 3px solid white;#}
-            background-color:#FFF;
-            width: 230px;
-            height: 230px;
-            
-        }
-        
-        .navbar navbar-default {
-            padding-top: 0;
-        }
-    </style>
-         
+ 
         <div class="page-header-canvas">
             <div class="page-header">
                 <div class="row">

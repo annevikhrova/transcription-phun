@@ -22,12 +22,10 @@ use PHuN\PlatformBundle\Entity\Corpus;
 use PHuN\PlatformBundle\Entity\Transcription;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse; //important use à déclarer pour l'utilisation de RedirectResponse
+use Symfony\Component\HttpFoundation\RedirectResponse; //important use for RedirectResponse
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
-// use Symfony\Component\HttpFoundation\Session\Session;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -115,12 +113,9 @@ class PageController extends Controller
         if (is_file($url_xml) == null){
             $contenu_xml = simplexml_load_file("transcriptionMinimal.xml");
             $contenu = $contenu_xml->contenu;
-           // $init = '<table id="page-layout" style="background-color:#fff;" width="560" height="400"><tbody><tr><td width="17%"></td><td width="66%"></td><td width="17%"></td></tr></tbody></table>';
             $contenu = $contenu->asXML();
             $contenu = str_replace("<contenu>", "", $contenu);
             $contenu = str_replace("</contenu>", "", $contenu);
-            //$contenu = $xml.$init.$contenu;
-            //$contenu = $xml.$contenu;
         }        
 
         else {
@@ -131,7 +126,6 @@ class PageController extends Controller
             $contenu = $contenu->asXML();
             $contenu = str_replace("<contenu>", "", $contenu);
             $contenu = str_replace("</contenu>", "", $contenu);
-            //$contenu = $xml.$init1.$contenu.$init2;
         }     
 
         $transcription = new Transcription();
@@ -169,8 +163,7 @@ class PageController extends Controller
 
     } 		
 
-
-    /**    END OF EDIT PAGE FORM CREATION AND HANDLING				**/
+    /**    END OF EDIT PAGE FORM CREATION AND HANDLING		**/
     /********************************************************/
 
     // Displays editor and view of chosen page along with associated resources
@@ -304,121 +297,12 @@ class PageController extends Controller
 
     }
 
-
-    public function view_pluginsAction($id, Request $request)
-    {
-            // Vérification du statut d'admin de l'utilisateur accédant à la page
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-          // Sinon on déclenche une exception « Accès interdit »
-          throw new AccessDeniedException('Accès limité aux administrateurs d\'un projet.');
-        }
-
-
-        $em = $this->getDoctrine()->getManager();
-
-        // On récupère le corpus $id
-        $corpus = $em->getRepository('PHuNPlatformBundle:Corpus')->find($id);
-        $form = $this->get('form.factory')->create(new CorpusSetPluginsType(), $corpus);
-
-        // Les plugins associés déjà au corpus
-        $arrayPlugins = $corpus->getPlugins();
-
-        // La méthode findAll retourne toutes les catégories de la base de données
-        $listPlugins = $em->getRepository('PHuNPlatformBundle:Plugin')->findAll();
-
-        if ($form->handleRequest($request)->isValid()) {
-
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($corpus);
-            $em->flush();
-            $corpusId = $corpus->getId();
-
-            $request->getSession()->getFlashBag()->add('notice', 'L\'éditeur pour ce projet a été créé.');
-
-            return $this->redirect($this->generateUrl('phun_platform_view_editor', array('id' => $corpusId )));
-        }
-
-        $em->flush();
-
-
-        return $this->render('PHuNPlatformBundle:Plugin:view_plugins.html.twig', array(
-          'id' => $id, 'arrayPlugins' => $arrayPlugins, 'listPlugins' => $listPlugins, 'form' => $form->createView()
-        ));
-    }
-
-    // Fonction permettant de voir la page ayant comme id $id
-    public function viewEditorAction($id)
-    {
-
-             $repository = $this->getDoctrine()
-                    ->getManager()
-                    ->getRepository('PHuNPlatformBundle:Page')
-             ;
-
-             //On récupère l'entité correspondante à l'id $id
-             $page = $repository->find($id);
-
-
-
-            // La page est affichée
-            return $this->render('PHuNPlatformBundle:Page:view.html.twig', array('page' => $page));
-    }
-
-
-    public function p_pluginAction($id, Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        // On récupère le corpus $id
-        $corpus = $em->getRepository('PHuNPlatformBundle:Corpus')->find($id);
-
-        if (null === $corpus) {
-          throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
-        }
-
-        // La méthode findAll retourne toutes les catégories de la base de données
-        $listPlugins = $em->getRepository('PHuNPlatformBundle:Plugin')->findAll();
-
-        // // On boucle sur les plugins pour les lier au corpus
-        // foreach ($listPlugins as $plugin) {
-        //   $corpus->addPlugin($plugin);
-        // }
-
-        // $em->flush();
-
-        return $this->redirect($this->generateUrl('phun_platform_view_plugins', array('id' => $id, 'listPlugins' => $listPlugins )));
-
-    }
-
-            // Fonction permettant de voir la page ayant comme id $id
-    public function AdminDashboardAction($id)
-    {
-
-        $repository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('PHuNPlatformBundle:User')
-        ;
-
-        //On récupère l'entité correspondante à l'id $id
-        $user = $repository->find($id);
-
-        // Script temporaire pour récupérer l'id du Corpus 1 : à changer pour récupérer l'id du corpus en cours
-        $repository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('PHuNPlatformBundle:Corpus')
-            ->findOneById(1);
-        ;
-
-        $corpus =  $repository;
-        $corpusId = $repository->getId();
-        ////////////////////////////////// End script temporaire
-
-        // La page est affichée
-        return $this->render('PHuNPlatformBundle:Page:admin_dashboard.html.twig', array('id' => $id, 'corpusId' => $corpusId ));
-    }
-
-
+    /**
+     * Creates new user comment
+     * @param integer $id for page
+     * @param Request $request
+     * @return twig newComment
+     */
     public function newCommentAction($id, Request $request)
     {
         // On récupére l'utilisateur qui écrit le commentaire
@@ -451,6 +335,15 @@ class PageController extends Controller
 
     }
     
+    /**
+     * Save and exit function. One of two types of save functions
+     * @param Page $page
+     * @param User $user
+     * @param Transcription $transcription
+     * @param Corpus $corpus
+     * @param Stylesheet $stylesheet
+     * @param Form $form
+     */
     public function saveAndExit( $page, $user, $transcription, $corpus, $stylesheet, $form ) {
         // Redirect to view the newly saved page
         $pageName       = $page->getFileName();
@@ -482,7 +375,6 @@ class PageController extends Controller
                     $transcription->setRevision(false);
             }
         }
-
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($transcription);
@@ -516,6 +408,17 @@ class PageController extends Controller
         )));
     }
     
+    /**
+     * Simple save function. User does not leave the page with this type of save
+     * @param Page $page
+     * @param User $user
+     * @param Transcription $transcription
+     * @param Corpus $corpus
+     * @param Stylesheet $stylesheet
+     * @param Form $form
+     * @param string $tiny_conf
+     * @param array $commentArray
+     */
     public function simpleSave( $page, $user, $transcription, $corpus, $stylesheet, $form, $tiny_conf, $commentArray ) {
         // Persist transcription
         $em = $this->getDoctrine()->getManager();
@@ -542,60 +445,4 @@ class PageController extends Controller
         ));
     }
 
-    // Controlleur permettant de voir un ensemble de pages publiées
-    public function viewPublishedAction(Request $request, $id)
-    {
-        $repository = $this->getDoctrine()
-            ->getRepository('PHuNPlatformBundle:Page');
-
-        //$myLimit = 30;
-        $listPages = $repository->findBy(
-              array('corpus' => $id,
-                    'published' => 1 )         
-        );
-
-
-        $corpus = $this->getDoctrine()
-        ->getRepository('PHuNPlatformBundle:Corpus')
-        ->findOneById($id);
-
-
-        return $this->render('PHuNPlatformBundle:Page:view_all_published.html.twig',
-            array(
-                'listPages' => $listPages,
-                'corpus'    => $corpus
-        ));
-    }
-
-    public function unpublishPageAction($id) {
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('PHuNPlatformBundle:Page');
-
-        $page = $repository->findOneBy(array('id' => $id));
-
-        $corpus = $page->getCorpus();
-
-        $transcriptionId = $page->getIdPublishedTranscription();
-        $repository = $em->getRepository('PHuNPlatformBundle:Transcription');
-        $transcription = $repository->findOneById($transcriptionId);
-
-        $page->setPublished(0);
-        $page->setIdPublishedTranscription(NULL);
-
-
-        $transcription->setPublished(0);
-        $transcription->setRevision(1);
-        $transcription->setNbRevisions(0);
-        $transcription->setUserRevision1(NULL);
-        $transcription->setUserRevision2(NULL);
-        $transcription->setUserRevision3(NULL);
-
-        $em->persist($page);
-        $em->flush();
-        $em->persist($transcription);
-        $em->flush();
-
-        return $this->render('PHuNPlatformBundle:Admin:saved.html.twig', array('corpus' => $corpus ));
-
-    }
 }
