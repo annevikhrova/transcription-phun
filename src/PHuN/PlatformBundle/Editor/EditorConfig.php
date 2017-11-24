@@ -66,7 +66,8 @@ class EditorConfig
 
             $configPluginsList = $configPluginsList . ' ' . $plugin->getName();
             $custom_elementList = $custom_elementList . ',' . $plugin->getName();
-            $valid_childrenList = $valid_childrenList . ',+p[' . $plugin->getName() . ']';
+            $valid_childrenList = $valid_childrenList . ',+p[' . $plugin->getName() . ']' .',+label['. $plugin->getName() .']' . ',' .$plugin->getName().'[label]';
+            
         }
         
 
